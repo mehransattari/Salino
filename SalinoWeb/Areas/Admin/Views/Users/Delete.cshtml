@@ -1,0 +1,144 @@
+﻿@model Salino.Models.User
+@using Salino.DataLayer;
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    SalinoContext db = new SalinoContext();
+}
+
+
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        کاربران
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active">      <a href="/Admin/GroupProducts/Index">کاربران</a></li>
+        <li class="active">حذف کاربر @Model.Mobile</li>
+    </ol>
+</section>
+<div class="box box-info container">
+
+
+    <h3>آیا  ازحذف کاربر @Model.Mobile مطمئن هستید؟ </h3>
+    <div>
+
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Roles.RoleName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Roles.RoleTitle)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.UserName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UserName)
+            </dd>
+
+            <hr />
+
+
+
+            <dt>
+                استان
+            </dt>
+
+            <dd>
+                @db.Ostans.Find(Model.OstanId).ostanname
+            </dd>
+            <hr />
+            <dt>
+                شهر
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.cityname)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.PostalCode)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PostalCode)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.StreetAddress)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.StreetAddress)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Mobile)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Mobile)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </dt>
+
+            <dd>
+                @if (Model.IsActive == true)
+                {
+                    <p>فعال</p>
+                }
+                else
+                {
+                    <p>غیرفعال</p>
+                }
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Createdate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Createdate)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.CodeActivate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CodeActivate)
+            </dd>
+            <hr />
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+
+                        <button class="btn btn-social btn-success" type="submit">
+                            <i class="fa fa-save"></i> حذف
+                        </button>
+                        <a class="btn btn-social btn-pinterest" href="/Admin/Users/index">
+                            <i class="fa fa-backward"></i> بازگشت
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

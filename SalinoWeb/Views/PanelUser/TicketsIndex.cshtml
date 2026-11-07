@@ -1,0 +1,241 @@
+﻿
+@model X.PagedList.IPagedList<Salino.Models.Ticket>
+@using X.PagedList.Mvc.Core
+@using Salino.DataLayer;
+@{
+    ViewBag.Title = "TicketsIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int counter = Convert.ToInt32(ViewBag.pagecurrent);
+
+
+
+    SalinoContext db = new SalinoContext();
+}
+
+
+<div class="container" style="direction: rtl;">
+    <div style="margin-top:70px;">
+
+
+        <nav aria-label="breadcrumb" style="direction:rtl;font-family: IRANSans;text-align-last:center ; text-align-last: center;
+                   box-shadow: 0 0 11px 0 #131212; background: #f89721e6;  box-shadow: 0 0 19px 0 #ed2124 inset;  ">
+            <ol class="breadcrumb" style="background: none;    display: block;">
+                <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+                <li class="breadcrumb-item"><a href="/PanelUser/Index">پنل کاربری</a></li>
+                <li class="breadcrumb-item active" aria-current="page" style="color: #212529;">تیکت ها</li>
+
+            </ol>
+        </nav>
+        <div class="row personInfoD" style="margin-top:50px;padding: 17px;">
+            @await Html.PartialAsync("_HeaderPanelUser")            
+            <div class="col-sm-9 scrollspy-example" data-spy="scroll" data-target="#spy" style="">
+                <div style="border:1px solid;height: 497px;padding:25px;" class="personInfo shDesktop">
+
+                    <section class="content-header">
+                        <h1 style="margin-bottom:15px;text-align:center;font-family: IRANSans;">
+                            تیکت ها
+                            <a href="/PanelUser/TicketsCreate" class="btn btn-primary" style="font-size: 12px;    float: right;">
+                                تیکت جدید
+                            </a>
+                        </h1>
+
+                    </section>
+                    <table class="table table-hover  ">
+                        <tbody>
+                            <tr>
+                                <th>شماره</th>
+                                <th>
+                                    موضوع
+                                </th>
+
+                                <th>
+                                    تاریخ ایجاد
+                                </th>
+
+                                <th>عملیات</th>
+                                <th></th>
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr role="row" class="table-striped table-hover">
+                                    <td class="sorting_1">@counter</td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TitleTicket)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Createdate)
+                                    </td>
+
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown" style="font-size:12px">عملیات</button>
+                                            <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li>@Html.ActionLink("ویرایش", "TicketsEdit", new { id = item.Id }, new { @class = "btn btn-block btn-danger btn-flat", @style = "color:white;font-size:12px" })</li>
+                                                <li>@Html.ActionLink("جزئیات", "TicketDetails", new { id = item.Id }, new { @class = "btn btn-block btn-info btn-flat", @style = "color:white;font-size:12px" })</li>
+
+
+
+                                            </ul>
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        @if (db.Ticket.Where(x => x.ParentId == item.Id).FirstOrDefault() != null)
+                                        {
+                                            <button type="button" class="collapsible-@item.Id btn btn-outline-primary" style="font-size: 12px;"> مشاهده پاسخ مدیریت</button>
+
+                                            <div class="content">
+                                                <textarea style="font-family: IRANSans;width: 241px;"rows="3"readonly>
+                                                    @db.Ticket.Where(x => x.ParentId == item.Id).FirstOrDefault().TextTicket
+                                                </textarea>
+
+                                            </div>
+                                            <script>
+                                                var coll = document.getElementsByClassName("collapsible-@item.Id");
+                                                var i;
+
+                                                for (i = 0; i < coll.length; i++) {
+                                                    coll[i].addEventListener("click", function () {
+                                                        this.classList.toggle("active");
+                                                        var content = this.nextElementSibling;
+                                                        if (content.style.display === "block") {
+                                                            content.style.display = "none";
+                                                        } else {
+                                                            content.style.display = "block";
+                                                        }
+                                                    });
+                                                }
+                                            </script>
+                                        }
+                                    </td>
+                                </tr>
+
+
+
+
+
+
+
+
+
+                                counter++;
+                            }
+
+                        </tbody>
+                    </table>
+
+                    <div class="container">
+                        @Html.PagedListPager(Model, page => Url.Action("TicketsIndex", new { page }))
+                    </div>
+                </div>
+
+                <div style="border:1px solid;height: 399px;padding:25px;" class="personInfo shMobile">
+
+                    <section class="content-header">
+                        <h1 style="margin-bottom:15px;text-align:center;font-family: IRANSans;">
+                            تیکت ها
+                            <a href="/PanelUser/TicketsCreate" class="btn btn-primary" style="font-size: 12px;    float: right;">
+                                تیکت جدید
+                            </a>
+                        </h1>
+
+                    </section>
+                    <table class="table table-hover table-responsive " style="height: 288px;">
+                        <tbody>
+                            <tr>
+                                <th>شماره</th>
+                                <th>
+                                    موضوع
+                                </th>
+
+                                <th>
+                                    تاریخ ایجاد
+                                </th>
+
+                                <th>عملیات</th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+
+                                <tr role="row" class="table-striped table-hover">
+                                    <td class="sorting_1">@counter</td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TitleTicket)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Createdate)
+                                    </td>
+
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown" style="font-size:12px">عملیات</button>
+                                            <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li>@Html.ActionLink("ویرایش", "TicketsEdit", new { id = item.Id }, new { @class = "btn btn-block btn-danger btn-flat", @style = "color:white;font-size:12px;width: 83px;" })</li>
+                                                <li>@Html.ActionLink("جزئیات", "TicketDetails", new { id = item.Id }, new { @class = "btn btn-block btn-info btn-flat", @style = "color:white;font-size:12px;width: 83px;" })</li>
+
+
+                                            </ul>
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        @if (db.Ticket.Where(x => x.ParentId == item.Id).FirstOrDefault() != null)
+                                        {
+                                            <button type="button" class="collapsible-@item.Id-mob btn btn-outline-primary" style="font-size: 12px;"> مشاهده پاسخ مدیریت</button>
+
+                                            <div class="content">
+                                                <textarea style="font-family: IRANSans;width: 241px;"rows="3">
+                                                    @db.Ticket.Where(x => x.ParentId == item.Id).FirstOrDefault().TextTicket
+                                                </textarea>                                          
+                                            </div>
+                                            <script>
+                                                var coll = document.getElementsByClassName("collapsible-@item.Id-mob");
+                                                var i;
+
+                                                for (i = 0; i < coll.length; i++) {
+                                                    coll[i].addEventListener("click", function () {
+                                                        this.classList.toggle("active");
+                                                        var content = this.nextElementSibling;
+                                                        if (content.style.display === "block") {
+                                                            content.style.display = "none";
+                                                        } else {
+                                                            content.style.display = "block";
+                                                        }
+                                                    });
+                                                }
+                                            </script>
+                                        }
+                                    </td>
+                                </tr>
+                           
+
+
+                                counter++;
+
+
+
+                            }
+
+                        </tbody>
+                    </table>
+
+                    <div class="container">
+                        @Html.PagedListPager(Model, page => Url.Action("TicketsIndex", new { page }))
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

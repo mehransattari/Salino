@@ -1,0 +1,373 @@
+﻿@model Salino.Models.Product
+@using Salino.DataLayer;
+@using Salino.ViewModels;
+@{
+    ViewBag.Title = "DetailProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    SalinoContext db = new SalinoContext();
+
+    var offerdetail = db.OfferPrices.OrderByDescending(x => x.Createdate).FirstOrDefault();
+    var FarbicProducts = db.FarbicTypeProducts.Where(x => x.ProductId == Model.Id).ToList();
+    var FarbicTypes = db.FarbicTypes;
+    int selectedfarbictype = 0;
+    int countAll = 0;
+
+    if (Session["AllShopCart"] != null)
+    {
+
+        countAll = ViewBag.CountAll;
+    }
+    int firstId = 0;
+
+}
+<style>
+
+
+    .swal-text {
+        text-align: right;
+    }
+
+    .countscart {
+        border: 1px solid;
+        margin: 5px;
+        font-size: 19px;
+        width: 22px;
+        height: 22px;
+        font-size: 19px;
+    }
+
+    .caption {
+        display: none;
+    }
+
+    .thumbnails li {
+        width: 20%;
+    }
+
+
+    @@media screen and (max-width: 767px) {
+        .thumbnails li {
+            width: 32%;
+            padding: 3px;
+        }
+
+        .preview {
+            margin-bottom: 2px;
+        }
+    }
+</style>
+<div class="container reg " style="font-family: IRANSans;">
+    <nav aria-label="breadcrumb" style="direction:rtl;font-family: IRANSans;text-align-last:center ; text-align-last: center;
+    box-shadow: 0 0 11px 0 #131212; background: #f89721e6;  box-shadow: 0 0 19px 0 #ed2124 inset;  ">
+        <ol class="breadcrumb" style="background: none;    display: block;">
+            <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+            @if (Model != null)
+            {
+                <li class="breadcrumb-item"> <a href="/Product/ListProducts/@Model.GroupId">@db.groupProducts.Find(Model.GroupId).GroupTitle</a></li>
+
+            }
+            <li class="breadcrumb-item active" aria-current="page" style="color: #212529;"> @Model.CodeKala </li>
+        </ol>
+    </nav>
+    <div class="DetailProduct" id="detailpro" v-cloak>
+        <div class="container" style="padding-top: 20px;">
+            <div class="card">
+                <div class="">
+                    <div class="wrapper row">
+                        <!-----------تصویر--------------->
+
+
+                        <div class="preview col-md-9  ">
+                            <div class="">
+
+                                <div class="container">
+                                    <div class="sample1  ">
+                                        <!-----------درصورت بودن گالری--------------->
+                                        @if (db.Galleries.Where(x => x.ProductId == Model.Id).Count() != 0)
+                                        {
+
+                                            <div class="carousel" style="margin-top: 27px;">
+                                                <div class="preview-pic tab-content">
+                                                    <div class="tab-pane active" id="pic-1">
+                                                        <ul>
+                                                            <li class="current ">
+                                                                <img src="~/Content/imgpro/@Model.Imgdetail" data-zoom-image="/Content/imgpro/@Model.Imgdetail" alt="" class="detailproImg" />
+                                                                <img src="~/Content/imgpro/@Model.ImgdetailMob" data-zoom-image="/Content/imgpro/@Model.Imgdetail" alt="" class="detailproMobImg" />
+
+                                                            </li>
+
+                                                            @foreach (var item in db.Galleries.Where(x => x.ProductId == Model.Id).Take(4).ToList())
+                                                            {
+                                                                <li class="">
+                                                                    <img src="~/Content/ImgGallery/@item.ImgPath" data-zoom-image="/Content/ImgGallery/@item.ImgPath" alt="" class="detailproImg" />
+                                                                    <img src="~/Content/ImgGallery/@item.ImgPath" data-zoom-image="/Content/ImgGallery/@item.ImgPath" alt="" class="detailproMobImg" />
+                                                                </li>
+
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="thumbnails ">
+                                                <ul>
+                                                    <li class="selected  ">
+                                                        <div style="width: 100px; height: 100px;" class="detailproImg">
+                                                            <img src="~/Content/imgpro/@Model.Imgdetail" style="width: 100px; height: 100px;" />
+                                                        </div>
+                                                        <div style="width: 50px; height: 50px;" class="detailproMobImg">
+                                                            <img src="~/Content/imgpro/@Model.ImgdetailMob" style="width: 50px; height: 50px;" />
+                                                        </div>
+                                                    </li>
+
+                                                    @foreach (var item in db.Galleries.Where(x => x.ProductId == Model.Id).Take(4).ToList())
+                                                    {
+                                                        <li class="">
+                                                            <div style="width: 100px; height: 100px;" class="detailproImg">
+                                                                <img src="~/Content/ImgGallery/@item.ImgPath" style="width: 100px; height: 100px;" />
+                                                            </div>
+                                                            <div style="width: 50px; height: 50px;" class="detailproMobImg">
+                                                                <img src="~/Content/ImgGallery/@item.ImgPath" style="width: 50px; height: 50px;" />
+                                                            </div>
+                                                        </li>
+
+                                                    }
+                                                </ul>
+                                            </div>
+
+                                        }
+                                        else
+                                        {
+                                            <div class="carousel" style="margin-top: 27px;">
+                                                <div class="preview-pic tab-content">
+                                                    <div class="tab-pane active" id="pic-1">
+                                                        <ul>
+                                                            <li class="current ">
+                                                                <img src="~/Content/imgpro/@Model.Imgdetail" data-zoom-image="/Content/imgpro/@Model.Imgdetail" alt="" class="detailproImg" />
+                                                                <img src="~/Content/imgpro/@Model.ImgdetailMob" data-zoom-image="/Content/imgpro/@Model.Imgdetail" alt="" class="detailproMobImg" />
+
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="thumbnails">
+                                                <ul>
+                                                    <li class="selected  ">
+                                                        <div style="width: 100px; height: 100px;" class="detailproImg">
+                                                            <img src="~/Content/imgpro/@Model.ImgMainMob" style="width: 100px; height: 100px;" />
+                                                        </div>
+                                                        <div style="width: 50px; height: 50px;" class="detailproMobImg">
+                                                            <img src="~/Content/imgpro/@Model.ImgdetailMob" style="width: 50px; height: 50px;" />
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <input hidden value="@Model.ImgMain" id="imgpath" />
+                        </div>
+
+
+
+                        <div class="details col-md-3">
+
+                            <div class="rating">
+
+                              
+
+                            </div>
+                            <form action="/Product/AddShopCart/" method="post">
+
+
+
+                                <input hidden name="ImagPath" value="@Model.ImgMain" />
+                                <input hidden name="GroupId" value="@Model.GroupId" />
+                                <input hidden name="CodeKala" value="@Model.CodeKala" />
+                                <input hidden name="proid" value="@Model.Id" />
+                                <input hidden name="id" value="@Model.Id" />
+                                <div class="rating typefarbic">
+                                    انتخاب نوع پارچه
+                                    <hr />
+                                    <div class="form-group col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                        <div class="col-md-12 ">
+                                            @if (db.FarbicTypeProducts.Where(x => x.ProductId == Model.Id) != null)
+                                            {
+
+                                                foreach (var item1 in db.FarbicTypeProducts.Where(x => x.ProductId == Model.Id).ToList())
+                                                {
+                                                    foreach (var item in db.FarbicTypes.Where(x => x.Id == item1.FarbicTypeId && x.IsShow == true).ToList())
+                                                    {
+                                                        if (firstId == 0)
+                                                        {
+                                                            firstId = item.Id;
+                                                            <div class="form-check-inline " style="">
+                                                                <div class="farbictype " style="margin-bottom:12px;">
+
+                                                                    <input type="radio" id="1" @((firstId != 0) ? "checked" : "")
+                                                                           value="@item.Id"name="FarbictypeId"
+                                                                           style="height: 20px;">
+                                                                    <label for="huey">@item.tiltle : @item.PriceMain.ToString("#,0تومان")</label>
+                                                                 
+
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="form-check-inline " style="">
+                                                                <div class="farbictype " style="margin-bottom:12px;">
+
+                                                                    <input type="radio" id="1"
+                                                                           value="@item.Id"name="FarbictypeId"
+                                                                           style="height: 20px;">
+                                                                    <label for="huey">@item.tiltle : @item.PriceMain.ToString("#,0تومان")</label>
+                                                                 
+
+                                                                </div>
+                                                            </div>
+                                                        }
+
+
+                                                    }
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="rating cartDetailPro">
+                                    <div class="col-md-12">
+
+                                        <input type="number" Value="1" name="countproduct" id="countproduct" min="1" style=" width: 84px; text-align: center; " />
+
+                                    </div>
+                                    <br />        <br />
+                                    @{
+                                        List<ShopCartItem> shopcartMajor = Session["shopcartMajor"] as List<ShopCartItem>;
+                                    }
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        if (db.users.Where(x => x.Mobile == User.Identity.Name).FirstOrDefault() != null)
+                                        {
+                                            <button type="submit" style="        border-radius: 6px;
+                                        font-size: large;
+                                        background: #f89721b0;
+                                        box-shadow: 0 0 19px 0 #ed212494 inset;
+                                        padding: 7px;
+                                        font-size: 12px ">
+
+                                                ثبت در سبد خرید
+                                            </button>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <button type="button">
+                                            لطقا وارد شوید
+                                        </button>
+
+                                    }
+
+                                    <p>
+
+                                </div>
+
+                            </form>
+                            <hr />
+                            @*<input type="submit" value="ادامه خرید" class="btn   btnregister" />*@
+
+                            <a href="/Product/ShopCart" class="btn   btnregister">
+                                <p style="margin-top: 6px;">ادامه خرید</p>
+                            </a>
+
+                            @if (Session["shopcart"] == null)
+                            {
+                                if (db.MajorShops.Count() != 0 && User.Identity.IsAuthenticated)
+                                {
+                                    if (db.users.Where(x => x.Mobile == User.Identity.Name).FirstOrDefault().RoleId == 4 ||
+                                        db.users.Where(x => x.Mobile == User.Identity.Name).FirstOrDefault().RoleId == 5)
+                                    {
+                                        <a href="/Product/Majorshopping" class="btn   btnregister">
+                                            <p style="margin-top: 6px;">خریدعمده</p>
+                                        </a>
+                                    }
+
+                                }
+
+                            }
+                            else
+                            {
+                                if (User.Identity.IsAuthenticated)
+                                {
+                                    if (db.MajorShops.Count() != 0 && db.users.Where(x => x.Mobile == User.Identity.Name).FirstOrDefault().RoleId == 4 ||
+                                        db.users.Where(x => x.Mobile == User.Identity.Name).FirstOrDefault().RoleId == 5)
+                                    {
+                                        <a href="/Product/Majorshopping" class="btn   btnregister"><p style="margin-top: 6px;">خریدعمده</p></a>
+                                    }
+                                }
+                            }
+                            <a v-on:click="AddCompare(@Model.Id)" class="btn   btnregister"><p style="margin-top: 6px;">ثبت در علاقه مندی ها</p></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3" style="direction: rtl;">
+
+            <br>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#home" style="font-family: IRANSans">توضیحات</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#menu1" style="font-family: IRANSans">نظرات</a>
+                </li>
+
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div id="home" class="container tab-pane active" style="text-align: right;">
+                    <br>
+                    <div class="row bootstrap snippets">
+                        <div class="col-md-12  col-sm-12">
+                            <div class="comment-wrapper">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                        <h3 style="font-family: IRANSans">توضیحات</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p style="font-family: IRANSans">@Html.Raw(Model.Description)</p>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div id="menu1" class="container tab-pane fade" style="text-align: right;">
+                    <br>
+
+                    @*-----comments----------*@
+
+                    @await Component.InvokeAsync("Comment", new { id = Model.Id })
+
+
+                    @*-----End-comments----------*@
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+

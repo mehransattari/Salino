@@ -1,0 +1,21 @@
+﻿@model IEnumerable< Salino.Models.Social>
+
+<div class="row ">
+
+    <!-- Single Widget Area -->
+    <div class="col-12 col-md-12">
+        <div class="single_widget_area" style="text-align :center;">
+            <div class="footer_social_area container">
+                <a href="https://pezeshknab.ir/Products/DetailsProduct/7" title="فشارسنج امرن m3" style="background-color: rgba(255,255,255,.15);">
+                    <i class="fa fa-link"></i> 
+		
+                </a>
+
+                @foreach (var item in Model)
+                {
+                    <a href=@item.SocialLink data-toggle="tooltip" data-placement="top" title="@item.SocialName" style="background-color: rgba(255,255,255,.15);"><img src="~/Content/imgsocial/@item.SocialIcon" class="img-circle" style="height:30px;width:30px;border-radius:50%;" /></a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

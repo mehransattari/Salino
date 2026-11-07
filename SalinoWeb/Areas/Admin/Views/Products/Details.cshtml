@@ -1,0 +1,150 @@
+﻿@model Salino.Models.Product
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+      int currentPage = Convert.ToInt32(ViewBag.currentPage);
+}
+
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        گروه بندی محصولات
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"><a href="/Admin/Products/Index"> محصولات</a></li>
+        <li class="active">جزئیات محصول @Model.Name</li>
+    </ol>
+</section>
+<div class="box box-info container">
+
+    <div>
+        <h4>جزئیات محصول @Model.Name</h4>
+        <hr />
+        <dl class="dl-horizontal">
+           
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.GroupProduct.GroupTitle)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.GroupProduct.GroupTitle)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.CodeKala)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CodeKala)
+            </dd>
+            <hr />
+            <dt>
+              رنگ
+            </dt>
+
+            <dd>
+               @foreach (var item in    ViewBag.colors)
+               {
+                   <p>
+                       @item
+                   </p>
+               }
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Imgdetail)
+            </dt>
+
+            <dd>
+                <img src="~/Content/imgpro/@Model.Imgdetail" alt="@Model.Imgdetail " class="img-responsive img-thumbnail" style="border:1px solid ;width:120px;height:120px;" />
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.ImgdetailMob)
+            </dt>
+
+            <dd>
+                <img src="~/Content/imgpro/@Model.ImgdetailMob" alt="@Model.ImgdetailMob " class="img-responsive img-thumbnail" style="border:1px solid ;width:120px;height:120px;" />
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.ImgMain)
+            </dt>
+
+            <dd>
+                <img src="~/Content/imgpro/@Model.ImgMain" alt="@Model.ImgMain " class="img-responsive img-thumbnail" style="border:1px solid ;width:120px;height:120px;" />
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.ImgMainMob)
+            </dt>
+
+            <dd>
+                <img src="~/Content/imgpro/@Model.ImgMainMob" alt="@Model.ImgMainMob " class="img-responsive img-thumbnail" style="border:1px solid ;width:120px;height:120px;" />
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+            @Html.Raw(Model.Description)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Seen)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Seen)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.CreateDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreateDate)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.CreateTime)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreateTime)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.IsShow)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IsShow)
+            </dd>
+            <hr />
+        </dl>
+    </div>
+
+    <p>
+       
+        <a class="btn btn-social btn-danger" href="/Admin/Products/Edit/@Model.Id">
+            <i class="fa fa-backward"></i> ویرایش
+        </a>
+        <a class="btn btn-social btn-pinterest" href="/Admin/Products/index?page=@currentPage">
+            <i class="fa fa-backward"></i> بازگشت
+        </a>
+    </p>
+</div>

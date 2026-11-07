@@ -1,0 +1,70 @@
+﻿@model Salino.Models.OfferNumberShop
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        تخفیف مشتری وفادار
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"> <a href="/Admin/OfferNumberShops/Index">          تخفیف مشتری وفادار</a></li>
+        <li class="active">حذف  تخفیف مشتری وفادار @Model.PriceDiscount</li>
+    </ol>
+</section>
+
+
+<div class="box box-info container">
+
+
+    <h3>آیا  ازحذف      تخفیف مشتری وفادار @Model.PriceDiscount  مطمئن هستید؟ </h3>
+    <div>
+
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ToNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ToNumber)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.PriceDiscount)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PriceDiscount)
+            </dd>
+
+            <hr />
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+
+                        <button class="btn btn-social btn-success" type="submit">
+                            <i class="fa fa-save"></i> حذف
+                        </button>
+                        <a class="btn btn-social btn-pinterest" href="/Admin/OfferNumberShops/index">
+                            <i class="fa fa-backward"></i> بازگشت
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

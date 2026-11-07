@@ -1,0 +1,64 @@
+﻿@model Salino.Models.Setting
+@{
+    ViewBag.Title = "سوالات-متداول";
+    ViewData["Des"] = "salinotbz.سوالات متداول سایت فروشگاه سالینو ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .cover {
+        padding: 0 1.5rem;
+        text-align: right;
+        font-family: IRANSans;
+    }
+
+        .cover .btn-lg {
+            padding: .75rem 1.25rem;
+            font-weight: 700;
+        }
+
+    .lead {
+        font-size: 2.25rem;
+        font-weight: 300;
+    }
+</style>
+<div class="container reg " style="font-family: IRANSans;    ">
+    <nav aria-label="breadcrumb" style="direction:rtl;font-family: IRANSans;text-align-last:center ; text-align-last: center;
+    box-shadow: 0 0 11px 0 #131212; background: #f89721e6;  box-shadow: 0 0 19px 0 #ed2124 inset;  ">
+        <ol class="breadcrumb" style="background: none;    display: block;">
+            <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+            <li class="breadcrumb-item active" aria-current="page" style="color: #212529;">سوالات متداول</li>
+        </ol>
+
+    </nav>
+    <div class="register" style="direction:rtl">
+
+
+        <main role="main" class="inner cover">
+
+            <div style="font-family: IRANSans">
+
+                <p class="lead">
+@if (Model != null)
+{
+                    @Html.Raw(Model.Questions)
+}
+                </p>
+                <p class="lead">
+                    <a href="/" class="btn btn-block  btnregister">شروع کنید</a>
+
+                </p>
+            </div>
+
+        </main>
+
+
+
+
+
+
+    </div>
+
+</div>
+
+

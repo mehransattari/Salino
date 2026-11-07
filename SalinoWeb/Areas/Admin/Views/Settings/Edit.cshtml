@@ -1,0 +1,177 @@
+﻿@model Salino.Models.Setting
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+
+<section class="content-header">
+    <h1>
+        تنظیمات
+     
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"><a href="/Admin/Settings/Index">  تنظیمات</a></li>
+        <li class="active">ویرایش تنظیمات </li>
+    </ol>
+</section>
+<div class="box box-info container">
+
+
+    @using (Html.BeginForm("Edit", "Settings", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>ویرایش تنظیمات</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.imageSrc)
+            @Html.HiddenFor(model => model.imageSrcMain)
+            <div class="form-group">
+                @Html.LabelFor(model => model.imageSrc, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                      تصویرجاری:   <img src="~/Content/imgsetting/@Model.imageSrc" alt="@Model.imageSrc " class="img-responsive img-thumbnail" style="border:1px solid ;width:120px;height:120px;" />
+                    <input class="input-lg" type="file" name="file" onchange="func(this);" />
+                    <img id="imageSrc" src="~/Content/tn_WallpaperGram.IR_1561882027_z90271.jpg" alt="your image" style="height:auto;width:auto;" class="img-responsive img-thumbnail" />
+                    <script>
+                        function func(input) {
+                            if (input.files && input.files[0]) {
+                                var reader = new FileReader();
+
+                                reader.onload = function (e) {
+                                    $('#imageSrc')
+                                        .attr('src', e.target.result);
+                                };
+
+                                reader.readAsDataURL(input.files[0]);
+                            }
+                        }
+                    </script>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.imageSrcMain, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    تصویرجاری:   <img src="~/Content/imgsetting/@Model.imageSrcMain" alt="@Model.imageSrcMain " class="img-responsive img-thumbnail" style="border:1px solid ;width:120px;height:120px;" />
+                    <input class="input-lg" type="file" name="file1" onchange="func1(this);" />
+                    <img id="imageSrcMain" src="~/Content/tn_WallpaperGram.IR_1561882027_z90271.jpg" alt="your image" style="height:auto;width:auto;" class="img-responsive img-thumbnail" />
+                    <script>
+                        function func1(input) {
+                            if (input.files && input.files[0]) {
+                                var reader = new FileReader();
+
+                                reader.onload = function (e) {
+                                    $('#imageSrcMain')
+                                        .attr('src', e.target.result);
+                                };
+
+                                reader.readAsDataURL(input.files[0]);
+                            }
+                        }
+                    </script>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.DecAboutMe, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DecAboutMe, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DecAboutMe, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr />
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DecContactUs, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.DecContactUs, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DecContactUs, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Questions, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Questions, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Questions, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Tell, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Tell, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Tell, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button class="btn btn-social btn-success" type="submit">
+                        <i class="fa fa-save"></i> ویرایش
+                    </button>
+                    <a class="btn btn-social btn-pinterest" href="/Admin/Settings/index">
+                        <i class="fa fa-backward"></i> بازگشت
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+
+</div>
+@section scripts{
+
+    <script src="~/Areas/Admin/content/bower_components/ckeditor/ckeditor.js"></script>
+    <script src="~/Areas/Admin/content/bower_components/ckeditor/adapters/jquery.js"></script>
+
+
+    <script>
+        $(function () {
+            $('#DecAboutMe').ckeditor();
+        });
+    </script>
+<script>
+        $(function () {
+            $('#DecContactUs').ckeditor();
+        });
+
+</script>
+<script>
+        $(function () {
+            $('#Questions').ckeditor();
+        });
+</script>
+}

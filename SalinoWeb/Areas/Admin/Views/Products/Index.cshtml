@@ -1,0 +1,232 @@
+﻿  
+
+@model X.PagedList.IPagedList<Salino.Models.Product>
+@using X.PagedList.Mvc.Core
+@using Salino.DataLayer;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    int counter = @ViewBag.counter;
+    SalinoContext db = new SalinoContext();
+}
+
+<script src="~/Content/sweetalert/sweetalert.js"></script>
+
+<section class="content-header">
+    <h1>
+        محصولات
+        <a class="btn btn-app" href="/Admin/Products/Create">
+            <i class="fa fa-hand-pointer-o"></i> محصول جدید
+        </a>
+        <a class="btn btn-app" href="/Admin/Products/Index">
+            <i class="fa fa-repeat"></i> به روزرسانی
+        </a>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"><a href="/Admin/Products/Index"> محصولات</a></li>
+    </ol>
+</section>
+
+<section class="content  "id="applistMonasebat">
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box box-info">
+
+                <div class="box-header">
+                    <h3 class="box-title"> محصولات</h3>
+
+                    <div class="box-tools">
+                        @using (Html.BeginForm("Index", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <div class="input-group input-group-sm" style="width: 150px;">
+
+                                <input type="text" name="search" class="form-control pull-right" placeholder="جستجو">
+
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+                    <div class="">
+                        @Html.PagedListPager(Model, page => Url.Action("index", new { page }))
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr>
+                                <th></th>
+                                <th>شماره</th>
+                                <th>کدکالا</th>
+                                <th>رنگ زمینه</th>
+                                <th>گروه</th>
+                                <th>تصویر</th>
+                                <th>وضعیت نمایش</th>
+
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr role="row" class="table-striped table-hover">
+                                    <td>
+                                        <input type="checkbox" id="@item.Id" value="@item.Id" v-model="checkedNames">
+                                    
+                                    </td>
+                                    <td class="sorting_1">@counter</td>
+                                    <td>
+                                        @item.CodeKala
+                                    </td>
+                                    <td>
+                                        @(  (item.Color )!=null? item.Color.color: "_")
+                                    </td>
+                                    <td>
+                                    
+                                        @(  (item.GroupProduct) !=null? item.GroupProduct.GroupTitle : "_")
+                                    </td>
+
+                                    <td>
+                                        <img src="~/Content/imgpro/@item.ImgMainMob" alt="@item.ImgMainMob " class="img-thumbnail" style="border:1px solid ;width:120px;height:120px;" />
+                                    </td>
+                                    <td>
+                                        @if (item.IsShow == true)
+                                        {
+                                            <p>بله</p>
+                                        }
+                                        else
+                                        {
+                                            <p>خیر</p>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown">عملیات</button>
+                                            <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                               <li>@Html.ActionLink("ویرایش", "Edit", new { id = item.Id }, new { @class = "btn btn-block btn-danger btn-flat", @style = "color:white" })</li>
+                                                <li>@Html.ActionLink("جزئیات", "Details", new { id = item.Id }, new { @class = "btn btn-block btn-info btn-flat", @style = "color:white" })</li>
+                                                <li>
+                                                   @Html.ActionLink("حذف", "Delete", new { id = item.Id }, new { @class = "btn btn-block btn-warning btn-flat", @style = "color:white" })
+                                                   
+                                                </li>
+                                                <li>
+                                                    @Html.ActionLink("گالری تصاویر", "Index", "Galleries", new { id = item.Id }, new { @class = "btn btn-block btn-primary btn-flat", @style = "color:white" })
+
+                                                </li>
+
+                                            </ul>
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                                counter++;
+                            }
+
+                        </tbody>
+                    </table>
+
+                 
+                </div>
+
+                <div class="box-footer no-padding">
+                    <div class="mailbox-controls">
+                        <!-- Check all button -->
+                        <div class="pull-right">
+                            @if (db.Monasebats.Count() != 0)
+                            {
+                                foreach (var item in db.Monasebats)
+                                {
+                                    <button v-bind:disabled="isDisabled" v-on:click="AddToMonasebat(@item.Id)" type="button" class="btn btn-success btn-sm checkbox-toggle">
+                                        افزودن به مناسبت @item.MonasebatTitle  <i class="fa   fa-plus-square"></i>
+                                    </button>
+                                    <input hidden v-model="TitleMonasebat" value="@item.MonasebatTitle" />
+
+                                }
+                            }
+
+                   
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+          <div class="container">
+              @Html.PagedListPager(Model, page => Url.Action("index", new { page }))
+          </div>
+                 
+           
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+
+</section>
+
+@section scripts{
+    <script src="~/Scripts/vue.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script>
+        var applist1 = new Vue({
+
+            el: "#applistMonasebat",
+
+            data: {
+                checkedNames: [],
+                
+            },
+            // متدها
+            methods: {
+                //____________________________________________________________________
+                AddToMonasebat(id) {
+                    vm = this;
+                    $.ajax({
+                        url: "/Admin/Products/AddToMonasebat",
+                        type: "Post",
+                        data:
+                        {
+                            checkedNames: vm.checkedNames,
+                            id: id
+                        }
+                    }).done(function () {
+                        swal("موفق", "کالاهای مورد نظر با موفقیت  ثبت شد.", "success");
+                    });
+
+                },
+                //____________________________________________________________________
+            
+            },
+
+            computed: {
+                //____________________________________________________________________
+                //خاموش کردن دکمه ها تا زمانی کهچک باکس انتخاب شود
+                   isDisabled: function () {
+                       debugger
+                    if(this.checkedNames=="")
+                    {
+                        return true
+                    }
+                    else {
+                        return false;
+                    }
+
+                    }
+
+
+                //____________________________________________________________________
+
+
+            }
+
+        });
+
+    </script>
+
+
+}

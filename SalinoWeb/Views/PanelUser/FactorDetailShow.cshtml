@@ -1,0 +1,163 @@
+﻿
+@model X.PagedList.IPagedList<Salino.Models.FactorDetail>
+@using X.PagedList.Mvc.Core
+@using Salino.DataLayer;
+@{
+
+    SalinoContext db = new SalinoContext();
+    ViewBag.Title = "جزویات-فاکتور";
+    ViewData["Des"] = "salinotbz.جزئیات فاکتور کاربری سایت فروشگاه سالینو ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int counter = Convert.ToInt32(ViewBag.pagecurrent);
+}
+
+
+
+
+
+
+<div class="container" style="direction: rtl;">
+    <div style="margin-top:70px;" class="personInfo">
+
+
+        <nav aria-label="breadcrumb" style="direction:rtl;font-family: IRANSans;text-align-last:center ; text-align-last: center;
+                   box-shadow: 0 0 11px 0 #131212; background: #f89721e6;  box-shadow: 0 0 19px 0 #ed2124 inset;  ">
+            <ol class="breadcrumb" style="background: none;    display: block;">
+                <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+                <li class="breadcrumb-item"><a href="/PanelUser/Index">پنل کاربری</a></li>
+                <li class="breadcrumb-item active" aria-current="page" style="color: #212529;">  @ViewBag.ShomareFactor  جزئیات سفارش</li>
+
+            </ol>
+        </nav>
+        <div class="row personInfoD" style="margin-top:50px;padding: 17px;">
+            @await Html.PartialAsync("_HeaderPanelUser")
+            
+            <div class="col-sm-9 scrollspy-example" data-spy="scroll" data-target="#spy" style="">
+                <div style="border:1px solid;height: 394px;padding-top: 34px;padding-left: 62px;" class="personInfoEdit">
+                    <section class="content-header">                  
+                        
+                            <a class="btn btn-social btn-danger "style="font-size:12px;" href="/PanelUser/FactorMainShow/Create">
+                                <i class="fa fa-hand-pointer-o"></i>   بازگشت
+                            </a>                          
+                    
+                   
+                    </section>
+
+                    <section class="content  ">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="alert alert-danger text-center">
+                                    مشتری گرامی درهنگام ویرایش آدرس دقت فرمایید  آدرسی که برای فاکتور قبلی درج شده قابل ویرایش نمی باشد
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="box box box-info">
+                                    <div class="box-header">
+                                        <h3 class="box-title" style="text-align:center;margin-bottom:20px;font-family: IRANSans;">     جزئیات فاکتور @ViewBag.ShomareFactor </h3>
+
+                                        <div class="box-tools">
+
+                                        </div>
+
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body table-responsive no-padding">
+                                        <table class="table table-hover">
+                                            <tbody>
+                                                <tr>
+                                                    <th>شماره</th>
+                                                    <th>
+                                                        وضعیت پرداخت
+                                                    </th>
+                                                    <th>
+                                                        کدکالا
+                                                    </th>
+                                                    <th>
+                                                        گروه
+                                                    </th>
+                                                    <th>
+                                                        نام محصول
+                                                    </th>
+
+                                                    <th>
+                                                        جنس
+                                                    </th>
+                                                    <th>
+                                                        تعداد
+                                                    </th>
+                                                    <th>
+                                                        قیمت واحد
+                                                    </th>
+                                                    <th>
+                                                        قیمت کل
+                                                    </th>
+                                                </tr>
+                                                @foreach (var item in Model)
+                                                {
+                                                    var product = db.Products.FirstOrDefault(x=>x.Id==item.ProductId);
+                                                    <tr role="row" class="table-striped table-hover">
+                                                        <td class="sorting_1">@counter</td>
+                                                        <td>
+                                                            @if (item.FactorMain.Paymentstatus == "100")
+                                                            {
+                                                                <p style="border: 1px solid; background: green;color: white; text-align: center; width: 105px;    border-radius: 6px; box-shadow: 0 0 5px 0 #333;">پرداخت شده</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p style="border: 1px solid; background: red;color: white; text-align: center; width: 105px;border-radius: 6px; box-shadow: 0 0 5px 0 #333;">پرداخت نشده</p>
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            @db.Products.Find(item.ProductId).CodeKala
+                                                        </td>
+                                                        <td>
+                                                            @if (db.groupProducts.FirstOrDefault(x => x.Id == product.GroupId) != null)
+                                                            {
+                                                                <p> @db.groupProducts.FirstOrDefault(x => x.Id == product.GroupId).GroupTitle</p>
+                                                            }
+
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.ProductName)
+                                                        </td>
+
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.FarbicTypeName)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.DetailCount)
+                                                        </td>
+                                                        <td>
+                                                            @item.DetailPrice.ToString("#,0تومان")
+                                                        </td>
+                                                        <td>
+                                                            @item.SumPrice.ToString("#,0تومان")
+                                                        </td>
+
+
+                                                    </tr>
+                                                    counter++;
+                                                }
+
+                                            </tbody>
+
+                                        </table>
+                                        <div class="container">
+                                            @Html.PagedListPager(Model, page => Url.Action("FactorDetailShow", new { page }))
+                                        </div>
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+                                <!-- /.box -->
+                            </div>
+                        </div>
+
+                    </section>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

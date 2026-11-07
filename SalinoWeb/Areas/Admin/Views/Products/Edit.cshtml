@@ -1,0 +1,327 @@
+﻿@model Salino.Models.Product
+@using Salino.DataLayer;
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    int currentPage = Convert.ToInt32(ViewBag.currentPage);
+    SalinoContext db = new SalinoContext();
+}
+
+<!-- iCheck for checkboxes and radio inputs -->
+<link rel="stylesheet" href="~/Areas/Admin/content/plugins/iCheck/all.css">
+<script src="~/Content/sweetalert/sweetalert.js"></script>
+<link href="~/Content/alertifyjs/alertify.min.css" rel="stylesheet" />
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        محصولات
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active">   <a href="/Admin/Products/Index"> محصولات</a></li>
+        <li class="active">ویرایش محصول @Model.Name</li>
+    </ol>
+</section>
+<div class="box box-info container" id="Editproduct">
+
+
+    @using (Html.BeginForm("Edit", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(x => x.Imgdetail)
+        @Html.HiddenFor(x => x.ImgdetailMob)
+        @Html.HiddenFor(x => x.ImgMain)
+        @Html.HiddenFor(x => x.ImgMainMob)
+        @Html.HiddenFor(x => x.CreateDateEnglish)
+        <input hidden name="CreateDateEnglish"value="@DateTime.Now"/>
+        <div class="form-horizontal">
+            <h4>ویرایش محصول @Model.Name</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.GroupId, "گروه", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("GroupId", null, htmlAttributes: new { @class = "form-control", @style = "height: 35px;" })
+                    @Html.ValidationMessageFor(model => model.GroupId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr />
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CodeKala, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CodeKala, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CodeKala, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.ColorId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+
+
+                    رنگ های از قبل انتخاب شده :
+                    @foreach (var item in ViewBag.listColorschecked as List<Salino.Models.Color>)
+                    {
+
+                        <label style="box-shadow: 0 0 5px 0; padding: 3px; border-radius: 9px;background: red;">
+                            <input type="checkbox" class="flat-red" id="@item.Id" value="@item.Id" v-model="colorsSelectedNew" checked />
+                            <i class="fa fa-check"></i>  @item.color
+                        </label>
+                    }
+                    <button class="btn btn-social btn-danger" type="button" v-on:click="DeleteColor()">
+                        <i class="fa fa-refresh"></i> حذف رنگ ها
+                    </button>
+                    <br />
+                    <br />
+                    @foreach (var item in ViewBag.listColorsNoChecked as List<Salino.Models.Color>)
+                    {
+                        <label style="box-shadow: 0 0 5px 0; padding: 3px; border-radius: 9px;">
+                            <input type="checkbox" class="flat-red" id="@item.Id" value="@item.Id" v-model="colorsSelectedNew" />
+                            @item.color
+                        </label>
+                    }
+
+                    <br />
+                    <button class="btn btn-social btn-success" type="button" v-on:click="AddColor()">
+                        <i class="fa fa-refresh"></i> افزودن رنگ ها
+                    </button>
+
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr />
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Seen, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Seen, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.Seen, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.CreateDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CreateDate, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.CreateDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.CreateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CreateTime, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.CreateTime, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsShow, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.IsShow)
+                        @Html.ValidationMessageFor(model => model.IsShow, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.Imgdetail, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    تصویرجاری:   <img src="~/Content/imgpro/@Model.Imgdetail" alt="@Model.Imgdetail " class="img-responsive img-thumbnail" style="border:1px solid ;width:120px;height:120px;" />
+                    <input class="input-lg" type="file" name="filedetail" onchange="readURL(this);" />
+                    <img id="filedetail" src="~/Content/tn_WallpaperGram.IR_1561882027_z90271.jpg" alt="your image" style="height:auto;width:auto;" class="img-responsive img-thumbnail" />
+                    <script>
+                        function readURL(input) {
+                            if (input.files && input.files[0]) {
+                                var reader = new FileReader();
+
+                                reader.onload = function (e) {
+                                    $('#filedetail')
+                                        .attr('src', e.target.result);
+                                };
+
+                                reader.readAsDataURL(input.files[0]);
+                            }
+                        }
+                    </script>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.ImgdetailMob, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    تصویرجاری:   <img src="~/Content/imgpro/@Model.ImgdetailMob" alt="@Model.ImgdetailMob " class="img-responsive img-thumbnail" style="border:1px solid ;width:120px;height:120px;" />
+                    <input class="input-lg" type="file" name="filedetailmob" onchange="readURLdetailMob(this);" />
+                    <img id="detailMob" src="~/Content/tn_WallpaperGram.IR_1561882027_z90271.jpg" alt="your image" style="height:auto;width:auto;" class="img-responsive img-thumbnail" />
+                    <script>
+                        function readURLdetailMob(input) {
+                            if (input.files && input.files[0]) {
+                                var reader = new FileReader();
+
+                                reader.onload = function (e) {
+                                    $('#detailMob')
+                                        .attr('src', e.target.result);
+                                };
+
+                                reader.readAsDataURL(input.files[0]);
+                            }
+                        }
+                    </script>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.ImgMain, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    تصویرجاری:    <img src="~/Content/imgpro/@Model.ImgMain" alt="@Model.ImgMain " class="img-responsive img-thumbnail" style="border:1px solid ;width:120px;height:120px;" />
+                    <input class="input-lg" type="file" name="filemain" onchange="readURL2(this);" />
+                    <img id="filemain" src="~/Content/tn_WallpaperGram.IR_1561882027_z90271.jpg" alt="your image" style="height:auto;width:auto;" class="img-responsive img-thumbnail" />
+                    <script>
+                        function readURL2(input) {
+                            if (input.files && input.files[0]) {
+                                var reader = new FileReader();
+
+                                reader.onload = function (e) {
+                                    $('#filemain')
+                                        .attr('src', e.target.result);
+                                };
+
+                                reader.readAsDataURL(input.files[0]);
+                            }
+                        }
+                    </script>
+                </div>
+            </div>
+            <hr />
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ImgMainMob, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    تصویرجاری:   <img src="~/Content/imgpro/@Model.ImgMainMob" alt="@Model.ImgMainMob " class="img-responsive img-thumbnail" style="border:1px solid ;width:120px;height:120px;" />
+                    <input class="input-lg" type="file" name="filemob" onchange="readURL3(this);" />
+                    <img id="filemob" src="~/Content/tn_WallpaperGram.IR_1561882027_z90271.jpg" alt="your image" style="height:auto;width:auto;" class="img-responsive img-thumbnail" />
+                    <script>
+                        function readURL3(input) {
+                            if (input.files && input.files[0]) {
+                                var reader = new FileReader();
+
+                                reader.onload = function (e) {
+                                    $('#filemob')
+                                        .attr('src', e.target.result);
+                                };
+
+                                reader.readAsDataURL(input.files[0]);
+                            }
+                        }
+                    </script>
+                </div>
+            </div>
+            <hr />
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button class="btn btn-social btn-success" type="submit">
+                        <i class="fa fa-save"></i> ویرایش
+                    </button>
+                    <a class="btn btn-social btn-pinterest" href="/Admin/Products/index?page=@currentPage">
+                        <i class="fa fa-backward"></i> بازگشت
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+
+
+
+
+@section scripts{
+    <script src="~/Scripts/vue.js"></script>
+
+    <script src="~/Areas/Admin/content/bower_components/ckeditor/ckeditor.js"></script>
+    <script src="~/Areas/Admin/content/bower_components/ckeditor/adapters/jquery.js"></script>
+
+    <script>
+        var applist12 = new Vue({
+            el: "#Editproduct",
+            data: {
+              
+                 colorsSelectedNew:[]
+             },
+            // متدها
+            methods: {
+                //____________________________________________________________________
+                AddColor() {
+                    vm = this;
+                    $.ajax({
+                        url: "/Admin/Products/AddColorsProduct",
+                        type: "Post",
+                        data:
+                        {
+                            colorsSelected: vm.colorsSelectedNew
+
+                        }
+                    }).done(function () {
+
+                        alertify.success("رنگ های مورد نظر با موفقیت  ثبت شد.");
+                    });
+
+                },
+                //____________________________________________________________________
+                DeleteColor() {
+                    vm = this;
+                    $.ajax({
+                        url: "/Admin/Products/DeleteColorProduct",
+                        type: "Post",
+                        data:
+                        {
+                            colorsSelected: vm.colorsSelectedNew
+
+                        }
+                    }).done(function () {
+
+                        alertify.success("رنگ های مورد نظر با موفقیت  حذف شد.");
+                    });
+                }
+
+            },
+
+
+
+        });
+
+        $(function () {
+            $('#Description').ckeditor();
+        });
+
+    </script>
+
+}

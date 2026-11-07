@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "Khadamat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container reg " style="font-family: IRANSans;">
+    <nav aria-label="breadcrumb" style="direction:rtl;font-family: IRANSans;text-align-last:center ; text-align-last: center;
+    box-shadow: 0 0 11px 0 #131212; background: #f89721e6;  box-shadow: 0 0 19px 0 #ed2124 inset;  ">
+        <ol class="breadcrumb" style="background: none;    display: block;">
+            <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+            <li class="breadcrumb-item active" aria-current="page" style="color: #212529;">لیست خدمات ومجوزها</li>
+        </ol>
+
+    </nav>
+    <h2 style="font-family:IranSans;margin-top:50px;text-align:center ;  direction: rtl;">لیست خدمات ومجوزها</h2>
+    <hr />
+    @if (Model != null)
+    {
+        <div class="" style="padding: 20px; box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02); -webkit-border-radius: 5px; border-radius: 5px;-moz-border-radius: 5px; background-clip: padding-box; margin-bottom: 20px; background-color: #ffffff;margin-top:100px;">
+            <div class="">
+
+                <section class="about-content-area">
+
+                    <div class="">
+                        <div class="row">
+                            <div class="col-lg-12 remove-col-padding">
+                                <div class="right-content-area rubik gray-bg"style="margin-top:20px;text-align:center">
+                                    @*<span class="subtitle"style="font-family:IranSans;   direction: rtl;">خدمات فروشگاه سالینو</span>
+                                    <hr />*@
+                                    <div style="font-family:IranSans;margin-top:10px;text-align:right;    direction: rtl;">
+
+                                        @Html.Raw(Model.ListKhadamat)
+
+
+                                    </div>
+                                    <div class="btn-wrapper">
+                                        <a href="/" class="boxed-btn"style="font-family:IranSans;margin-top:10px;text-align:center">هم اکنون شروع کنید</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-lg-12 remove-col-padding">
+                                <div class="left-content-area left-content-bg">
+                                    @if (Model.Img1 != null)
+                                    {
+                                        <img id="zoom_01" src="~/Content/imgMojavez/@Model.Img1" class="img-responsive" style="color: black;   BORDER-RADIUS: 30PX;  font-size: -webkit-xxx-large; border: 1px solid; box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .8);  position: relative; background: inherit;  overflow: hidden;  height:100% ;width: 100%;margin-top:5px" />
+
+                                    }
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </section>
+
+                <section class="about-bottom-content-area">
+                    <div class="">
+                        <div class="row">
+                            @if (Model.Img2 != null)
+                            {
+                                <div class="col-lg-6">
+                                    <div class="single-about-bottom-item">
+                                        <!-- single about bottom item -->
+                                        <div class="thumb">
+                                            <img id="zoom_02" src="~/Content/imgMojavez/@Model.Img2" alt="" class="img-responsive" style="color: black;   BORDER-RADIUS: 30PX;font-size: -webkit-xxx-large; border: 1px solid; box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .8);  position: relative; background: inherit;  overflow: hidden;  margin-top:27px;width:500px;height:415px;" />
+                                        </div>
+
+                                    </div><!-- //.single about bottom item -->
+                                </div>
+                            }
+
+                            @if (Model.Img3 != null)
+                            {
+                                <div class="col-lg-6">
+                                    <div class="single-about-bottom-item">
+                                        <!-- single about bottom item -->
+                                        <div class="thumb">
+                                            <img id="zoom_03" src="~/Content/imgMojavez/@Model.Img3" alt="" class="img-responsive" style="color: black;   BORDER-RADIUS: 30PX;font-size: -webkit-xxx-large; border: 1px solid; box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .8);  position: relative; background: inherit;  overflow: hidden;  margin-top:27px;width:500px;height:415px;" />
+                                        </div>
+
+                                    </div><!-- //.single about bottom item -->
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    }
+
+
+
+ </div>
+

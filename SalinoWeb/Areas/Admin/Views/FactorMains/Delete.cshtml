@@ -1,0 +1,197 @@
+﻿@model Salino.Models.FactorMain
+@using Salino.ToShamsi
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+      فاکتوراصلی
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"> <a href="/Admin/FactorMains/Index">    فاکتوراصلی</a></li>
+        <li class="active">حذف     فاکتوراصلی @Model.PaymentNumber _  @Model.UserMobile</li>
+    </ol>
+</section>
+
+
+<div class="box box-info container">
+
+
+    <h3>آیا  ازحذف     فاکتوراصلی @Model.PaymentNumber _  @Model.UserMobile مطمئن هستید؟ </h3>
+    <div>
+
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.FactorNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FactorNumber)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.TypeSendPostName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TypeSendPostName)
+            </dd>
+       <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.CodeGenerator)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CodeGenerator)
+            </dd>
+         
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.PaymentNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PaymentNumber)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Paymentstatus)
+            </dt>
+
+            <dd>
+                @if (Model.Paymentstatus == "100")
+                {
+                    <p>پرداخت شده</p>
+                }
+                else
+                {
+                    <p>پرداخت نشده</p>
+                }
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.SaleReferenceId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SaleReferenceId)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Amount)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Amount)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Discount)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Discount)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.SumAllPrice)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SumAllPrice)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.IsPay)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IsPay)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.UserId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UserId)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Username)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Username)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.UserMobile)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UserMobile)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.AddressUser)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AddressUser)
+            </dd>
+            <hr />
+            <dt>
+                @Model.DateCreate
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DateCreate)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Time)
+            </dt>
+
+            <dd>
+                @Model.Time
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Deliverytime)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Deliverytime)
+            </dd>
+            <hr />
+         
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+
+                        <button class="btn btn-social btn-success" type="submit">
+                            <i class="fa fa-save"></i> حذف
+                        </button>
+                        <a class="btn btn-social btn-pinterest" href="/Admin/FactorMains/index">
+                            <i class="fa fa-backward"></i> بازگشت
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

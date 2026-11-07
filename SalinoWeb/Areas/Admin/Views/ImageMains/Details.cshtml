@@ -1,0 +1,57 @@
+﻿@model Salino.Models.ImageMain
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        تصویراصلی
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active">تصویراصلی</li>
+        <li class="active"> @Model.SliderTitle جزئیات </li>
+    </ol>
+</section>
+<div class="box box-info container">
+    <div>
+        <h4> @Model.SliderTitle  جزئیات</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.SliderTitle)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SliderTitle)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.SliderIMG)
+            </dt>
+
+            <dd>
+                <img src="~/Content/imgmain/@Model.SliderIMG" alt="@Model.SliderTitle " style="height:auto;width:auto;" class="img-responsive img-thumbnail" />
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.SliderIMGMob)
+            </dt>
+
+            <dd>
+                <img src="~/Content/imgmain/@Model.SliderIMGMob" alt="@Model.SliderIMGMob " style="height:auto;width:auto;" class="img-responsive img-thumbnail" ;" />
+            </dd>
+        </dl>
+    </div>
+    <p>
+        <a class="btn btn-social btn-pinterest" href="/Admin/ImageMains/Edit/@Model.Id">
+            <i class="fa fa-backward"></i> ویرایش
+        </a>
+        <a class="btn btn-social btn-pinterest" href="/Admin/ImageMains/index">
+            <i class="fa fa-backward"></i> بازگشت
+        </a>
+    </p>
+</div>

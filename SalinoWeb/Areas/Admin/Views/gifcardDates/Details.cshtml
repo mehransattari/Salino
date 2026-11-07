@@ -1,0 +1,68 @@
+﻿@model Salino.Models.gifcardDate
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        کدهای تخفیف زمان دار
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"><a href="/Admin/gifcardDates/Index">       کدهای تخفیف زمان دار</a></li>
+        <li class="active">جزئیات تخفیف @Model.Code</li>
+    </ol>
+</section>
+<div class="box box-info container">
+
+    <div>
+        <h4>جزئیات تخفیف @Model.Code</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Code)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Code)
+            </dd>
+            <hr />
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Amount)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Amount)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.NumberUse)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.NumberUse)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.ExpirationDateShamsi)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ExpirationDateShamsi)
+            </dd>
+            <hr />
+
+
+        </dl>
+    </div>
+
+    <p>
+        <a class="btn btn-social btn-danger" href="/Admin/gifcardDates/Edit/@Model.Id">
+            <i class="fa fa-backward"></i> ویرایش
+        </a>
+        <a class="btn btn-social btn-pinterest" href="/Admin/gifcardDates/index">
+            <i class="fa fa-backward"></i> بازگشت
+        </a>
+    </p>
+</div>

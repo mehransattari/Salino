@@ -1,0 +1,88 @@
+﻿@model Salino.Models.Comments
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        نظرات
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"> <a href="/Admin/GroupProducts/Index">     نظرات</a></li>
+        <li class="active"> ویرایش نظر : @Model.Name</li>
+    </ol>
+</section>
+<div class="box box-info container">
+
+
+    @using (Html.BeginForm("Edit", "Comments", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+     
+        <div class="form-horizontal" >
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.ParentId)
+            @Html.HiddenFor(model => model.ProductId)
+            @Html.HiddenFor(model => model.OkAnswer)
+            <div class="form-group">
+                @Html.LabelFor(model => model.product.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10" style="margin-top:8px;">
+                    @ViewBag.ProNmae
+                </div>
+            </div>
+
+        
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TextComment, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TextComment, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.TextComment, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Createdate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Createdate, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Createdate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsShow, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.IsShow)
+                        @Html.ValidationMessageFor(model => model.IsShow, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="ذخیره" class="btn btn-success btn-block" />
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+</div>

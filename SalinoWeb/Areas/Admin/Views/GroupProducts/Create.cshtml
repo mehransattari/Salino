@@ -1,0 +1,99 @@
+﻿
+
+
+@model Salino.Models.GroupProduct
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        گروه بندی محصولات
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"><a href="/Admin/GroupProducts/Index">     گروه بندی محصولات</a></li>
+        <li class="active">گروه جدید</li>
+    </ol>
+</section>
+<div class="box box-info container">
+
+
+    @using (Html.BeginForm("Create", "GroupProducts", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>گروه جدید</h4>
+
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.GroupTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.GroupTitle, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.GroupTitle, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr />
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.GroupNotShow, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+
+                    @Html.EditorFor(model => model.GroupNotShow)
+                    @Html.ValidationMessageFor(model => model.GroupNotShow, "", new { @class = "text-danger" })
+
+
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.imagepath, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">       
+                  
+                    <input class="input-lg" type="file" name="filedesk" onchange="readURL(this);"/>
+                    <img id="blah" src="~/Content/tn_WallpaperGram.IR_1561882027_z90271.jpg" alt="your image"  style="height:auto;width:auto;" class="img-responsive img-thumbnail" />
+                    <script>
+                        function readURL(input) {
+                            if (input.files && input.files[0]) {
+                                var reader = new FileReader();
+
+                                reader.onload = function (e) {
+                                    $('#blah')
+                                        .attr('src', e.target.result);
+                                };
+
+                                reader.readAsDataURL(input.files[0]);
+                            }
+                        }
+                    </script>
+                </div>
+            </div>
+            <hr />
+    
+            <hr />
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+
+                    <button class="btn btn-social btn-success" type="submit">
+                        <i class="fa fa-save"></i> ذخیره
+                    </button>
+                    <a class="btn btn-social btn-pinterest" href="/Admin/GroupProducts/index">
+                        <i class="fa fa-backward"></i> بازگشت
+                    </a>
+
+                </div>
+            </div>
+
+
+         
+        </div>
+
+    }
+
+</div>

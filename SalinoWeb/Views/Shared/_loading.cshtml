@@ -1,0 +1,175 @@
+﻿<style>
+    .loading {
+        width: 231px;
+        height: 46px;
+        line-height: 46px;
+        text-align: center;
+        position: fixed;
+        left: 50% !important;
+        right: 50% !important;
+        top: 50% !important;
+        bottom: 50% !important;
+        transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        font-family: helvetica, arial, sans-serif;
+        /*    text-transform: uppercase;*/
+        font-weight: 900;
+        font-size: 17px;
+        color: rgb(206,66,51);
+        letter-spacing: 0.2em;
+        z-index: 999;
+        background: white !important;
+    }
+
+        .loading::before, .loading::after {
+            content: "";
+            display: block;
+            width: 14px;
+            height: 14px;
+            background: rgb(206,66,51);
+            position: absolute;
+            animation: cssload-load 1.12s infinite alternate ease-in-out;
+            -o-animation: cssload-load 1.12s infinite alternate ease-in-out;
+            -ms-animation: cssload-load 1.12s infinite alternate ease-in-out;
+            -webkit-animation: cssload-load 1.12s infinite alternate ease-in-out;
+            -moz-animation: cssload-load 1.12s infinite alternate ease-in-out;
+        }
+
+        .loading::before {
+            top: 0;
+        }
+
+        .loading::after {
+            bottom: 0;
+        }
+
+
+
+    @@keyframes cssload-load {
+        0% {
+            left: 0;
+            height: 28px;
+            width: 14px;
+        }
+
+        50% {
+            height: 7px;
+            width: 37px;
+        }
+
+        100% {
+            left: 217px;
+            height: 28px;
+            width: 14px;
+        }
+    }
+
+    @@-o-keyframes cssload-load {
+        0% {
+            left: 0;
+            height: 28px;
+            width: 14px;
+        }
+
+        50% {
+            height: 7px;
+            width: 37px;
+        }
+
+        100% {
+            left: 217px;
+            height: 28px;
+            width: 14px;
+        }
+    }
+
+    @@-ms-keyframes cssload-load {
+        0% {
+            left: 0;
+            height: 28px;
+            width: 14px;
+        }
+
+        50% {
+            height: 7px;
+            width: 37px;
+        }
+
+        100% {
+            left: 217px;
+            height: 28px;
+            width: 14px;
+        }
+    }
+
+    @@-webkit-keyframes cssload-load {
+        0% {
+            left: 0;
+            height: 28px;
+            width: 14px;
+        }
+
+        50% {
+            height: 7px;
+            width: 37px;
+        }
+
+        100% {
+            left: 217px;
+            height: 28px;
+            width: 14px;
+        }
+    }
+
+    @@-moz-keyframes cssload-load {
+        0% {
+            left: 0;
+            height: 28px;
+            width: 14px;
+        }
+
+        50% {
+            height: 7px;
+            width: 37px;
+        }
+
+        100% {
+            left: 217px;
+            height: 28px;
+            width: 14px;
+        }
+    }
+</style>
+<div class="loading">Salino....</div>
+<!-- Keep the Page Content Here.-->
+<script type="text/javascript">
+        var modal, loading;
+        function ShowProgress() {
+            modal = document.createElement("DIV");
+            modal.className = "modal";
+            document.body.appendChild(modal);
+            loading = document.getElementsByClassName("loading")[0];
+            loading.style.display = "block";
+            var top = Math.max(window.innerHeight / 2 - loading.offsetHeight / 2, 0);
+            var left = Math.max(window.innerWidth / 2 - loading.offsetWidth / 2, 0);
+            loading.style.top = top + "px";
+            loading.style.left = left + "px";
+        };
+        ShowProgress();
+
+</script>
+<script type="text/javascript">
+        window.onload = function () {
+            setTimeout(function () {
+                document.body.removeChild(modal);
+                loading.style.display = "none";
+            }, 200); //Delay just used for example and must be set to 0.
+        };
+
+</script>
+
+
+

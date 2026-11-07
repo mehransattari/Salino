@@ -1,0 +1,85 @@
+﻿@using Salino.DataLayer;
+@{
+
+    SalinoContext db = new SalinoContext();
+
+}
+
+<div style="margin-top: 299px;" class="container lastProDesktop">
+
+    <!------ Include the above in your HEAD tag ---------->
+    <div class="container" style="width: 830px;">
+        <div class="row" style="text-align: right; margin: 24px;">
+            <div class="col-12">
+                <h3 style="font-family: IRANSans;">آخرین محصولات</h3>
+            </div>
+        </div>
+        <hr />
+        <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,700' rel='stylesheet' type='text/css'>
+        <div class="owl-carousel testimonial-carousel">
+            @if (db.Products.Count() != 0)
+            {
+                foreach (var item in db.Products.OrderByDescending(x => x.CreateDateEnglish).Take(12).ToList())
+                {
+           
+                <div class="single-testimonial" style="margin: 15px;"onclick="window.location.href='/Product/DetailProduct/'+@item.Id">
+                    <img src="~/Content/imgpro/@item.ImgMain">
+                    <div class="testimonials-person-info">
+                        <p><b>@item.CodeKala</b><br />@item.GroupProduct.GroupTitle</p>
+                    </div>
+                
+                </div>
+                }
+
+            }
+        </div>
+    </div>
+
+
+
+</div>
+
+<!------ Last Products ---------->
+<div style="" class="container lastProMob">
+
+    <div class="container" style="">
+        <div class="row" style="text-align: right; margin: 24px;">
+            <div class="col-12">
+                <h3 style="font-family: IRANSans;">آخرین محصولات</h3>
+            </div>
+        </div>
+        <hr />
+        <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,700' rel='stylesheet' type='text/css'>
+        <div class="owl-carousel testimonial-carousel">
+            @if (db.Products.Count() != 0)
+            {
+                foreach (var item in db.Products.OrderByDescending(x => x.CreateDateEnglish).Take(12).ToList())
+                {
+                    
+                    <div class="single-testimonial" style="margin: 15px;"onclick="window.location.href='/Product/DetailProduct/'+@item.Id">
+                        <img src="~/Content/imgpro/@item.ImgMain">
+                        <div class="testimonials-person-info">
+
+                            <p>
+                                <b>@item.CodeKala</b><br />
+
+                                @item.GroupProduct.GroupTitle
+
+                            </p>
+
+                        </div>
+                    
+                    </div>
+
+                }
+            }
+
+            </div>
+    </div>
+
+</div>
+
+
+
+
+

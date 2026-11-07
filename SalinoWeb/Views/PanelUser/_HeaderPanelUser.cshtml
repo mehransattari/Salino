@@ -1,0 +1,87 @@
+﻿<style>
+    .scrollspy-example {
+        position: relative;
+        height: 575px;
+        overflow: auto;
+    }
+
+    .form-control {
+        display: block;
+        width: 100%;
+        padding: .375rem .75rem;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+
+    label {
+        display: inline-block;
+        margin-bottom: .5rem;
+        float: right;
+    }
+
+    table td {
+        font-size: 15px;
+        text-align: center;
+    }
+
+    table th {
+        font-size: 15px;
+        text-align: center;
+    }
+
+    @@media screen and (max-width: 746px) {
+        .personInfo {
+            border: 1px solid !important;
+            height: auto !important;
+            padding: 25px !important;
+            margin-top: 13px !important;
+        }
+
+        .personInfoD {
+            margin-bottom: 200px;
+        }
+
+        #spy {
+            height: 307px !important;
+        }
+    }
+</style>
+<div class="col-md-3 col-sm-12 col-xs-12" id="spy" style="box-shadow:0 0 5px 0 black; padding: 12px; border-radius: 6px;     height: 394px;border: 1px solid;">
+
+    <ul class="list-inline" style="text-align: center;">
+
+        <li>
+            <a style="border: 1px solid;padding: 9px;border-radius: 8px;background:#f5e27d;" href="/User/Signout"><span class="fa fa-sign-out fa-2x" data-toggle="tooltip" data-placement="bottom" title="خروج از حساب"></span>خروج از حساب</a>
+            /
+        </li>
+
+
+        <li>
+            <a style="border: 1px solid;padding: 9px;border-radius: 8px;background:#f5e27d;" href="/PanelUser/ChangePassword">
+                <span class="fa fa-key fa-2x" data-toggle="tooltip" data-placement="bottom" title="تغییر رمزعبور">
+                </span>تغییر رمزعبور
+            </a>
+        </li>
+
+
+    </ul>
+
+    <ul class="nav nav-pills flex-column" style="text-align :right;">
+        <hr />
+        <li class="nav-item"><a class="nav-link " style="font-size: medium;" href="/PanelUser/Index">  <i class="fa fa-dashboard"></i>  داشبورد</a></li>
+        <hr />
+        <li class="nav-item"><a class="nav-link " style="font-size: medium;" href="/PanelUser/PersonalInformation"> <i class="fa fa-user"></i>  اطلاعات شخصی </a></li>
+        <hr />
+        <li class="nav-item"><a class="nav-link" style="font-size: medium;" href="/PanelUser/FactorMainShow"> <i class="fa fa-cart-plus"></i>   سفارش ها    </a></li>
+        <hr />
+        <li class="nav-item"><a class="nav-link" style="font-size: medium;" href="/PanelUser/TicketsIndex">  <i class="fa fa-comment"></i>   ارسال تیکت</a></li>
+        <hr />
+
+    </ul>
+</div>

@@ -1,0 +1,72 @@
+﻿@model Salino.Models.Ticket
+
+@{
+
+    ViewBag.Title = "گزارش-فاکتور";
+    ViewData["Des"] = "salinotbz. گزارش فاکتور-کاربری سایت فروشگاه سالینو ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+
+<div class="container" style="direction: rtl;">
+    <div style="margin-top:70px;">
+
+
+        <nav aria-label="breadcrumb" style="direction:rtl;font-family: IRANSans;text-align-last:center ; text-align-last: center;
+                   box-shadow: 0 0 11px 0 #131212; background: #f89721e6;  box-shadow: 0 0 19px 0 #ed2124 inset;  ">
+            <ol class="breadcrumb" style="background: none;    display: block;">
+                <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+                <li class="breadcrumb-item"><a href="/PanelUser/Index">پنل کاربری</a></li>
+                <li class="breadcrumb-item active" aria-current="page" style="color: #212529;"> @Model.TitleTicket  جزئیات تیکت</li>
+
+            </ol>
+        </nav>
+        <div class="row personInfoD" style="margin-top:50px;padding: 17px;">
+            @await Html.PartialAsync("_HeaderPanelUser")
+            
+            <div class="col-sm-9 scrollspy-example" data-spy="scroll" data-target="#spy" style="">
+                <div style="border:1px solid;height: 399px;padding:25px;" class="personInfo">
+                    <a class="btn btn-social btn-danger " style="font-size:12px;    float: right;" href="/PanelUser/TicketsIndex">
+                        <i class="fa fa-hand-pointer-o"></i>   بازگشت
+                    </a>  
+                    <br /><br /><br />
+                    <div>
+                    
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.TitleTicket)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.TitleTicket)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.TextTicket)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.TextTicket)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Createdate)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Createdate)
+                            </dd>
+
+                        </dl>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,353 @@
+﻿@using Salino.DataLayer;
+@using Salino.ToShamsi
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    SalinoContext db = new SalinoContext();
+    int counter = 1;
+}
+
+<section class="content">
+
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <a href="/Admin/Users/Index">
+                    <span class="info-box-icon bg-aqua"><i class="ion ion-ios-people-outline"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">کاربران</span>
+                        <span class="info-box-number">@db.users.Count()<small>نفر</small></span>
+                    </div>
+                </a>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <a href="/Admin/Products/Index">
+                    <span class="info-box-icon bg-red"><i class="fa fa-product-hunt"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">محصولات</span>
+                        <span class="info-box-number">@db.Products.Count()</span>
+                    </div>
+                </a>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <!-- fix for small devices only -->
+        <div class="clearfix visible-sm-block"></div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <a href="/Admin/FactorMains/Index">
+                    <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">فروش</span>
+                        <span class="info-box-number">@db.FactorMains.Where(x => x.Paymentstatus == "100").Count()</span>
+                    </div>
+                </a>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <a href="/Admin/Monasebats/Index">
+                    <span class="info-box-icon bg-yellow"><i class="fa fa-diamond"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">مناسبت ها</span>
+                        <span class="info-box-number">@db.Monasebats.Count()</span>
+                    </div>
+                </a>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    @*@*گزارشات فروش*@
+   <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title"> گزارشات فروش </h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+
+
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+
+                        <!-- /.col -->
+                        <div class="col-md-6" style="border-left: 1px solid;">
+                            <p class="text-center">
+                                <strong>مشتریان عادی</strong>
+                            </p>
+
+
+           
+                            <div class="progress-group">
+                                <span class="progress-text">سفارش مشتریان عادی در ماه گذشته</span>
+                                <span class="progress-number"><b>@Session["OrdinaryNormalCustomerMonth"].ToString()</b>/500</span>
+                                @{
+                                    int Month = Convert.ToInt32(@Session["OrdinaryNormalCustomerMonth"].ToString());
+                                    float i =(float) Month / 500;
+                                    float darsadMonth =(float)(i * 100);
+                                }
+                                <div class="progress sm">
+                                    <div class="progress-bar progress-bar-aqua" style="width: @Month%"></div>
+                                </div>
+                            </div>
+                   
+                            <div class="progress-group">
+                                <span class="progress-text">سفارش مشتریان عادی در هفته گذشته</span>
+                                <span class="progress-number"><b>@Session["OrdinaryNormalCustomerWeek"].ToString()</b>/250</span>
+                                @{
+                                    int Week = Convert.ToInt32(@Session["OrdinaryNormalCustomerWeek"].ToString());
+                                    float i1 = (float)Week / 250;
+                                    float darsadWeek = (float)(i1 * 100);
+                                }
+                                <div class="progress sm">
+                                    <div class="progress-bar progress-bar-red" style="width: @darsadWeek%"></div>
+                                </div>
+                            </div>
+             
+                            <div class="progress-group">
+                                <span class="progress-text">سفارش مشتریان عادی در روز گذشته</span>
+                                <span class="progress-number"><b>@Session["OrdinaryNormalCustomerDay"].ToString()</b>/100</span>
+                                @{
+                                    int Day = Convert.ToInt32(@Session["OrdinaryNormalCustomerDay"].ToString());
+                                 
+                                }
+                                <div class="progress sm">
+                                    <div class="progress-bar progress-bar-green" style="width: @Day%"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6" >
+                            <p class="text-center">
+                                <strong>مشتریان عمده</strong>
+                            </p>
+
+
+                            <!-- /.progress-group -->
+                            <div class="progress-group">
+                                <span class="progress-text">سفارش مشتریان عمده در ماه گذشته</span>
+                                <span class="progress-number"><b>@Session["OrdinaryOmdehCustomerMonth"].ToString()</b>/500</span>
+                                @{
+                                    int Month1 = Convert.ToInt32(@Session["OrdinaryOmdehCustomerMonth"].ToString());
+                                    float i13 = (float)Month1 / 500;
+                                    float darsadMonth1 = (float)(i13 * 100);
+
+                                }
+                                <div class="progress sm">
+                                    <div class="progress-bar progress-bar-aqua" style="width: @darsadMonth1%"></div>
+                                </div>
+                            </div>
+                            <!-- /.progress-group -->
+                            <div class="progress-group">
+                                <span class="progress-text">سفارش مشتریان عمده در هفته گذشته</span>
+                                <span class="progress-number"><b>@Session["OrdinaryOmdehCustomerWeek"].ToString()</b>/250</span>
+                                @{
+                                    int Week1 = Convert.ToInt32(@Session["OrdinaryOmdehCustomerWeek"].ToString());
+                                    float i12 = (float)Week1 / 250;
+                                    float darsadWeek1 = (float)(i12 * 100);
+                                }
+                                <div class="progress sm">
+                                    <div class="progress-bar progress-bar-red" style="width: @darsadWeek1%"></div>
+                                </div>
+                            </div>
+                            <!-- /.progress-group -->
+                            <div class="progress-group">
+                                <span class="progress-text">سفارش مشتریان عمده در روز گذشته</span>
+                                <span class="progress-number"><b>@Session["OrdinaryOmdehCustomerDay"].ToString()</b>/100</span>
+                                @{
+                                    int Day2 = Convert.ToInt32(@Session["OrdinaryOmdehCustomerDay"].ToString());
+
+                                }
+                                <div class="progress sm">
+                                    <div class="progress-bar progress-bar-green" style="width: @Day2%"></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+
+
+    <div class="row">
+        <!-- Left col -->
+        <div class="col-md-8">
+
+            <!-- TABLE: LATEST ORDERS -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">آخرین سفارشات</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin">
+                            <thead>
+                                <tr>
+                                    <th>شماره</th>
+                                    <th>شماره فاکتور</th>
+                                    <th>نوع مشتری</th>
+                              
+                                    <th>شماره پرداخت</th>
+                                    <th>وضعیت پرداخت</th>
+
+                                    <th>مبلغ نهایی</th>
+
+                                    <th>تاریخ خرید</th>
+                                    <th>شماره تماس گیرنده</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in db.FactorMains.Where(x=> x.Paymentstatus == "100").OrderByDescending(x => x.DateCreateDatetime).Take(5))
+                                {
+                                    <tr>
+                                        <td class="sorting_1">@counter</td>
+                                        <td class="sorting_1">@item.FactorNumber</td>
+                                        <td>
+                                            @if(item.RoleId != 0)
+                                            {
+
+                                          
+                                            @db.roles.Where(x => x.Id == item.RoleId).FirstOrDefault().RoleTitle
+                                            }
+                                        </td>
+                                        @*<td>
+                                            @Html.DisplayFor(modelItem => item.PaymentNumber)
+                                        </td>*@
+                                        <td>
+                                            @item.RRN
+                                        </td>
+                                        <td>
+                                            @if (item.Paymentstatus == "100" && db.FactorDetails.Where(x => x.FactorMainId == item.Id).FirstOrDefault() != null)
+                                            {
+                                                <p style="border: 1px solid; background: green;color: white; text-align: center; width: 105px;    border-radius: 6px; box-shadow: 0 0 5px 0 #333;">پرداخت شده</p>
+                                            }
+                                            else
+                                            {
+                                                <p style="border: 1px solid; background: red;color: white; text-align: center; width: 105px;border-radius: 6px; box-shadow: 0 0 5px 0 #333;">پرداخت نشده</p>
+                                            }
+
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SumAllPrice)
+                                        </td>
+
+                                        <td>
+                                            @item.DateCreate
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.UserMobile)
+                                        </td>
+                                    </tr>           counter++;
+                                }
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer clearfix">
+
+                    <a href="/Admin/FactorMains/Index" class="btn btn-sm btn-default btn-flat pull-right">نمایش همه</a>
+                </div>
+                <!-- /.box-footer -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+
+        <div class="col-md-4">
+
+            <!-- PRODUCT LIST -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">آخرین محصولات</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <ul class="products-list product-list-in-box">
+                        @foreach (var item in db.Products.OrderByDescending(x => x.CreateDate).Take(4))
+                        {
+                            <li class="item">
+
+                                <div class="product-img">
+                                    <img src="~/Content/imgpro/@item.ImgMainMob">
+                                </div>
+
+                                <div class="product-info">
+                                    <a href="javascript:void(0)" class="product-title">
+                                        @item.GroupProduct.GroupTitle , تاریخ ایجاد : @item.CreateDate
+                                        <span class="label label-warning pull-left">@item.Seen بازدید</span>
+                                    </a>
+                                    <span class="product-description">
+                                        کدکالا: @item.CodeKala
+                                    </span>
+                                </div>
+
+                            </li>
+                        }
+
+
+
+                    </ul>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer text-center">
+                    <a href="/Admin/Products/Index" class="uppercase">نمایش همه</a>
+                </div>
+                <!-- /.box-footer -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+
+</section>

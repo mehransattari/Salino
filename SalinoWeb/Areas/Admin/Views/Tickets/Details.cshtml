@@ -1,0 +1,73 @@
+﻿@model Salino.Models.Ticket
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+تیکت ها
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"> <a href="/Admin/Tickets/Index">تیکت ها</a></li>
+        <li class="active">جزئیات تیکت  @Model.TitleTicket</li>
+    </ol>
+</section>
+
+<div class="box box-info container">
+    <div>
+        <h4>جزئیات تیکت @Model.TitleTicket</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Parent.TitleTicket)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Parent.TitleTicket)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.User.UserName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.User.UserName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TitleTicket)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TitleTicket)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TextTicket)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TextTicket)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Createdate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Createdate)
+            </dd>
+        </dl>
+    </div>
+    <p>
+        <a class="btn btn-social btn-danger" href="/Admin/Tickets/Edit/@Model.Id">
+            <i class="fa fa-backward"></i> ویرایش
+        </a>
+        <a class="btn btn-social btn-pinterest" href="/Admin/Tickets/index">
+            <i class="fa fa-backward"></i> بازگشت
+        </a>
+    </p>
+</div>

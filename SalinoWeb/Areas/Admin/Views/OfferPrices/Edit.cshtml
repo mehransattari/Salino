@@ -1,0 +1,66 @@
+﻿@model Salino.Models.OfferPrice
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        تخفیف چندمی به بعد
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"> <a href="/Admin/OfferPrices/Index">            تخفیف چندمی به بعد</a></li>
+        <li class="active">ویرایش   تخفیف  @Model.Price</</li>
+    </ol>
+</section>
+
+<div class="box box-info container">
+
+
+    @using (Html.BeginForm("Edit", "OfferPrices"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(x => x.Id)
+        <div class="form-horizontal">
+            <h4>ویرایش   تخفیف @Model.Price</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.AsNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.AsNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.AsNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <hr />
+            <hr />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button class="btn btn-social btn-success" type="submit">
+                        <i class="fa fa-save"></i> ویرایش
+                    </button>
+                    <a class="btn btn-social btn-pinterest" href="/Admin/OfferPrices/index">
+                        <i class="fa fa-backward"></i> بازگشت
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+</div>

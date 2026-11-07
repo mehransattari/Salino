@@ -1,0 +1,109 @@
+﻿@model Salino.Models.Setting
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        تنظیمات
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"><a href="/Admin/Products/Index"> تنظیمات</a></li>
+        <li class="active">جزئیات تنظیمات </li>
+    </ol>
+</section>
+<div class="box box-info container">
+
+    <div>
+        <h4>جزئیات تنظیمات </h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.imageSrc)
+            </dt>
+
+            <dd>
+                <img src="~/Content/imgsetting/@Model.imageSrc" alt="@Model.imageSrc " class="img-responsive img-thumbnail" style="border:1px solid ;width:120px;height:120px;" />
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.imageSrcMain)
+            </dt>
+
+            <dd>
+                <img src="~/Content/imgsetting/@Model.imageSrcMain" alt="@Model.imageSrcMain " class="img-responsive img-thumbnail" style="border:1px solid ;width:120px;height:120px;" />
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.DecAboutMe)
+            </dt>
+
+            <dd>
+                @Html.Raw(Model.DecAboutMe)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.DecContactUs)
+            </dt>
+
+            <dd>
+                @Html.Raw(Model.DecContactUs)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Questions)
+            </dt>
+
+            <dd>
+                @Html.Raw(Model.Questions)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+
+            <dd>
+                @Html.Raw(Model.Address)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Tell)
+            </dt>
+
+            <dd>
+                @Html.Raw(Model.Tell)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Mobile)
+            </dt>
+
+            <dd>
+                @Html.Raw(Model.Mobile)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+
+            <dd>
+                @Html.Raw(Model.Email)
+            </dd>
+            <hr />
+        </dl>
+    </div>
+
+    <p>
+        <a class="btn btn-social btn-danger" href="/Admin/Settings/Edit/@Model.Id">
+            <i class="fa fa-backward"></i> ویرایش
+        </a>
+        <a class="btn btn-social btn-pinterest" href="/Admin/Settings/index">
+            <i class="fa fa-backward"></i> بازگشت
+        </a>
+    </p>
+</div>

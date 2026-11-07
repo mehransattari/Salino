@@ -1,0 +1,93 @@
+﻿@model Salino.Models.Entegadat
+@{
+    ViewBag.Title = "answer";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+     انتقادات
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"><a href="/Admin/Entegadats/Index">  انتقادات</a></li>
+        <li class="active">ویرایش   انتقادات</li>
+    </ol>
+</section>
+<div class="box box-info container">
+
+
+    <br /><br /><br />
+    <div style="margin-bottom:50px;">
+        <h3 class="pull-right">ثبت نظر جدید</h3>
+        <h2 class="pull-left"> @Html.ActionLink("بازگشت", "index", "", new { @class = "btn btn-danger" })</h2>
+    </div>
+    <div class="clearfix" style="margin-bottom:50px;"></div>
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal" style="padding: 20px; box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02); -webkit-border-radius: 5px; border-radius: 5px;-moz-border-radius: 5px; background-clip: padding-box; margin-bottom: 20px; background-color: #ffffff;">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+
+            <div class="form-group">
+                @Html.Label("دیدگاه کاربر", new { @class = "col-md-2 control-label", @disabled = "disabled", @readonly = "readonly" })
+                <div class="col-md-10" style="margin-top:7px;">
+
+                    @Html.Editor("ParentContent", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("نام", new { @class = "col-md-2 control-label", @disabled = "disabled" })
+                <div class="col-md-10" style="margin-top:7px;">
+
+                    @Html.Editor("Name", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("ایمیل", new { @class = "col-md-2 control-label", @disabled = "disabled" })
+                <div class="col-md-10" style="margin-top:7px;">
+
+                    @Html.Editor("Email", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10" style="margin-top:7px;">
+
+                    @Html.Editor("Date", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("پاسخ مدیر", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TextComment, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TextComment, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="ذخیره" class="btn btn-success btn-block" />
+                </div>
+            </div>
+        </div>
+    }
+
+
+</div>
+

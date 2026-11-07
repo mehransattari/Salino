@@ -1,0 +1,83 @@
+﻿@model Salino.Models.Mojavez
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        مجوز ها
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"><a href="/Admin/Mojavezs/Index">     مجوز ها</a></li>
+        <li class="active">حذف      مجوز ها </li>
+    </ol>
+</section>
+<div class="box box-info container">
+
+
+    <h3>آیا  ازحذف   مطمئن هستید؟ </h3>
+    <div>
+
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ListKhadamat)
+            </dt>
+
+            <dd>
+                @Html.Raw(Model.ListKhadamat)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Img1)
+            </dt>
+
+            <dd>
+                <img src="~/Content/imgMojavez/@Model.Img3" alt="@Model.Img3 " class="img-thumbnail" style="border:1px solid ;width:120px;height:120px;" />
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Img2)
+            </dt>
+
+            <dd>
+                <img src="~/Content/imgMojavez/@Model.Img3" alt="@Model.Img3 " class="img-thumbnail" style="border:1px solid ;width:120px;height:120px;" />
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Img3)
+            </dt>
+
+            <dd>
+                <img src="~/Content/imgMojavez/@Model.Img3" alt="@Model.Img3 " class="img-thumbnail" style="border:1px solid ;width:120px;height:120px;" />
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+
+                        <button class="btn btn-social btn-success" type="submit">
+                            <i class="fa fa-save"></i> حذف
+                        </button>
+                        <a class="btn btn-social btn-pinterest" href="/Admin/Mojavezs/index">
+                            <i class="fa fa-backward"></i> بازگشت
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

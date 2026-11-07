@@ -1,0 +1,35 @@
+﻿@using Salino.DataLayer;
+@{
+    SalinoContext db = new SalinoContext();
+
+}
+
+
+@if (User.Identity.IsAuthenticated)
+{
+    var user = db.users.Where(u => u.Mobile == User.Identity.Name).FirstOrDefault();
+    if (user != null && user.IsActive == true)
+    {
+        if (user.Roles.RoleName == "Admin1")
+        {
+            <a class="btn btn-info" href="/Admin/Default/Index" style="background: none;box-shadow: none; line-height: normal; top: 0px; padding: -8px; font-size: 12px;width: auto;border-radius:0px">پروفایل مدیرکل</a>
+        }
+        if (user.Roles.RoleName == "Admin2")
+        {
+            <a class="btn btn-info" href="/Admin/Default/Index" style="background: none;box-shadow: none; line-height: normal; top: 0px; padding: -8px; font-size:12px;width: auto;border-radius:0px">پروفایل مدیرفاکتور</a>
+        }
+        if (user.Roles.RoleName == "User1")
+        {
+            <a class="btn btn-info" href="/PanelUser/Index" style="background: none;box-shadow: none; line-height: normal; top: 0px; padding: -8px; font-size: 12px;width: auto;border-radius:0px">پروفایل کاربری</a>
+        }
+        if (user.Roles.RoleName == "User2")
+        {
+            <a class="btn btn-info" href="/PanelUser/Index" style="background: none;box-shadow: none; line-height: normal; top: 0px; padding: -8px; font-size: 12px;width: auto;border-radius:0px">پروفایل کاربری</a>
+        }
+        if (user.Roles.RoleName == "User3")
+        {
+            <a class="btn btn-info" href="/PanelUser/Index" style="background: none;box-shadow: none; line-height: normal; top: 0px; padding: -8px; font-size: 12px;width: auto;border-radius:0px">پروفایل کاربری</a>
+        }
+    }
+
+}

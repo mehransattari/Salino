@@ -1,0 +1,218 @@
+﻿@model X.PagedList.IPagedList<Salino.Models.User>
+@using Salino.DataLayer;
+@using Salino.ToShamsi;
+@using X.PagedList.Mvc.Core
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    int counter = ViewBag.counter;
+    SalinoContext db = new SalinoContext();
+    int ShowroleId = (ViewBag.ShowroleId == 0) ? 0 : Convert.ToInt32(ViewBag.ShowroleId);
+}
+
+<section class="content-header">
+    <h1>
+        کاربران    
+    </h1>
+    <br />
+    <div class="row container">
+        <a class="btn btn-app" href="/Admin/Users/Create">
+            <i class="fa fa-hand-pointer-o"></i>  کاربر جدید
+        </a>
+
+
+        <a class="btn btn-app" href="/Admin/Users/Index">
+            <i class="fa fa-repeat"></i> به روزرسانی
+        </a>
+        <a class="btn btn-app" href="/Admin/Users/Index/?typeuser=1" style="@((ShowroleId==3)?"background-color: green;color: aliceblue;":"") ">
+            <i class="fa fa-user"></i> کاربران عادی
+        </a>
+        <a class="btn btn-app" href="/Admin/Users/Index/?typeuser=2" style="@((ShowroleId==4)?"background-color: green;color: aliceblue;":"") ">
+            <i class="fa fa-user-circle"></i> کاربران عمده
+        </a>
+        <a class="btn btn-app" href="/Admin/Users/Index/?typeuser=3" style="@((ShowroleId==5)?"background-color: green;color: aliceblue;":"") ">
+            <i class="fa fa-user-circle-o"></i> کاربران نمایندگی
+        </a>
+    </div>
+ 
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active">       <a href="/Admin/GroupProducts/Index">کاربران</a></li>
+    </ol>
+</section>
+
+<section class="content  " id="GroupProducts">
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box box-info">
+                <div class="box-header">
+                    <h3 class="box-title"> کاربران</h3>
+
+                    <div class="box-tools">
+                        @using (Html.BeginForm("Index", "Users", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <div class="input-group input-group-sm" style="width: 150px;">
+
+                                <input type="text" name="search" class="form-control pull-right" placeholder="جستجو">
+
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr>
+                                <th sty>شماره</th>
+                                <th>نام کامل</th>
+                                <th>نقش</th>
+
+                                <th>استان</th>
+                                <th>شهر</th>
+                                <th>شماره همراه</th>
+                                <th>وضعیت کاربر</th>
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr role="row" class="table-striped table-hover">
+                                    <td class="sorting_1">@counter</td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserName)
+                                    </td>
+                                    <td>
+                                        @db.roles.Where(x => x.Id == item.RoleId).FirstOrDefault().RoleTitle
+                                    </td>
+
+                                    <td>
+                                        @db.Ostans.Find(item.OstanId).ostanname
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.cityname)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Mobile)
+                                    </td>
+                                    <td>
+                                        @if (item.IsActive == true)
+                                        {
+                                            <p>فعال</p>
+                                        }
+                                        else
+                                        {
+                                            <p>غیرفعال</p>
+                                        }
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown">عملیات</button>
+                                            <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li>@Html.ActionLink("ویرایش", "Edit", new { id = item.Id }, new { @class = "btn btn-block btn-danger btn-flat", @style = "color:white" })</li>
+                                                <li>@Html.ActionLink("جزئیات", "Details", new { id = item.Id }, new { @class = "btn btn-block btn-info btn-flat", @style = "color:white" })</li>
+                                                <li>
+                                                    @Html.ActionLink("حذف", "Delete", new { id = item.Id }, new { @class = "btn btn-block btn-warning btn-flat", @style = "color:white" })
+
+                                                </li>
+                                                <li>
+                                                    @*@Html.ActionLink("فاکتورها", "Index","FactorMains", new { id = item.Id }, new { @class = "btn btn-block btn-primary btn-flat", @style = "color:white" })*@
+                                                    <a class="btn btn-block btn-primary btn-flat" data-toggle="modal" data-target="#modal-default-@item.Id" style="color:white">
+                                                        فاکتورها
+                                                    </a>
+
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                                counter++;
+
+                                <!-- The Modal -->
+
+
+                                <div class="modal fade" id="modal-default-@item.Id">
+                                    <div class="modal-dialog model-xl">
+                                        <div class="modal-content" style="width: 803px;">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+
+                                                    <div class="col-sm-2">نام کامل</div>
+                                                    <div class="col-sm-2">شماره سفارش</div>
+                                                    <div class="col-sm-2">شماره پرداخت</div>
+                                                    <div class="col-sm-2">وضعیت پرداخت</div>
+                                                    <div class="col-sm-2"></div>
+                                                </div>
+
+                                                <hr />
+                                                @foreach (var item1 in db.FactorMains.Where(x => x.UserId == item.Id && x.Paymentstatus == "100").OrderByDescending(x => x.DateCreate).Take(10))
+                                                {
+
+
+                                                    <div class="row" style="border: 1px solid; padding: 7px; background: beige;
+                                                              box-shadow: 0 0 5px 0 black;">
+
+
+                                                        <div class="col-sm-2">@item1.Username</div>
+
+                                                        <div class="col-sm-2">@Html.DisplayFor(modelItem => item1.PaymentNumber)</div>
+
+                                                        <div class="col-sm-2">@item1.RRN</div>
+
+                                                        <div class="col-sm-2">
+                                                            @if (item1.Paymentstatus == "100")
+                                                            {
+                                                                <p style="border: 1px solid; background: green;color: white; text-align: center; width: 105px;    border-radius: 6px; box-shadow: 0 0 5px 0 #333;">پرداخت شده</p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p style="border: 1px solid; background: red;color: white; text-align: center; width: 105px;border-radius: 6px; box-shadow: 0 0 5px 0 #333;">پرداخت نشده</p>
+                                                            }
+
+                                                        </div>
+
+
+
+                                                    </div>
+                                                    <br />
+                                                   
+
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div><!-- /.modal-content -->
+
+
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+                <div class="container">
+                    @Html.PagedListPager(Model, page => Url.Action("index", new { page }))
+                </div>
+
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+
+
+</section>

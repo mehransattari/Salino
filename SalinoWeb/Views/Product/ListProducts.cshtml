@@ -1,0 +1,210 @@
+﻿@*@model  List<Salino.Models.Product>*@
+@model X.PagedList.IPagedList<Salino.Models.Product>
+@using X.PagedList.Mvc.Core
+@using Salino.DataLayer;
+@{
+    ViewBag.Title = "ShowProducts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    SalinoContext db = new SalinoContext();
+    int countProducts =(int) ViewBag.CountProducts;
+    int pagecurrent =(int) ViewBag.pagecurrent;
+    pagecurrent++;
+    int groupId = ViewBag.groupId ?? 0;
+    //var loadInfoUrl = Url.Action(actionName: "ShowInfoProducts", controllerName: "Product");
+}
+<style>
+    .nice-select .option {
+        text-align: right;
+    }
+
+    .buttoninfoProducts {
+        margin-bottom: 9px;
+        margin-top: 40px;
+    }
+
+        .buttoninfoProducts span {
+            width: 40%;
+            box-shadow: 0 0 10px 0 black;
+        }
+    .pagination {
+        display:block!important;
+    }
+</style>
+@*<script src="~/Scripts/jquery-1.10.2.min.js"></script>*@
+
+<div class="container" style="direction:rtl;">
+
+
+    <div class="proall">
+        <!--=========breadcrumb==========================================================================-->
+        <nav aria-label="breadcrumb" style="direction:rtl;font-family: IRANSans;text-align-last:center ; text-align-last: center;
+                   box-shadow: 0 0 11px 0 #131212; background: #f89721e6;  box-shadow: 0 0 19px 0 #ed2124 inset;  ">
+            <ol class="breadcrumb" style="background: none;    display: block;">
+                <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+                <li class="breadcrumb-item active" aria-current="page" style="color: #212529;">محصولات</li>
+                <li class="breadcrumb-item active" aria-current="page" style="color: #212529;">@ViewBag.Grouptitle</li>
+                @if (@ViewBag.TextSearch != null)
+                {
+                    <li class="breadcrumb-item active" aria-current="page" style="color: #212529;">@ViewBag.TextSearch</li>
+
+                }
+            </ol>
+        </nav>
+        <!--=========Search==============================================================================-->
+        <div>
+            <div class="row" style="margin-top: 50px; margin-right: auto;">
+
+                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
+                    <form method="post" action="/Product/ListProducts/">
+                        <p class="code">انتخاب براساس کد:</p>
+
+                        <input type="text" class="inputcode" name="search_CodeKala" />
+                        <input type="text" hidden name="Id" value="@groupId" />
+                   
+                        <button v-on:click="ChangePriceGifCart()" type="submit" class="btnsearchListProduct" style="width: 44px; background: none; border: none;cursor:pointer;    margin-top: 2px;">
+                            <i class="fa fa-search" style="font-size:14px"></i>
+                        </button>
+                    </form>
+
+                </div>
+                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
+                    <form method="post" action="/Product/SearchByMonasebat/">
+                        @if (db.Monasebats.Count() != 0)
+                        {
+                            <p class="monasebat"> محصولات مناسبتی:</p>
+                            <input type="text" hidden name="groupId" value="@groupId" />
+                            @Html.DropDownList("MonasebatId", null, "انتخاب کنید...", htmlAttributes: new { @class = "form-control inputmonasebat", @style = "height: 35px;color: black; ", Name = "search" })
+                            <button v-on:click="ChangePriceGifCart()" type="submit" class="btnsearchListProduct" style="width: 38px; background: none; border: none;cursor:pointer;    margin-top: 2px;">
+                                <i class="fa fa-search" style="font-size:14px"></i>
+                            </button>
+                        }
+
+                    </form>
+
+                </div>
+
+            </div>
+            <div class="row" style="margin-top: 7px;">
+                <div class="col-md-12 col-lg-6  col-sm-12 col-xs-12">
+                    <form method="post" action="/Product/SearchByColorKala">
+                        <p class="color">انتخاب براساس رنگ:</p>
+                        @Html.DropDownList("ColorId", null, "انتخاب کنید...", htmlAttributes: new { @class = "form-control inputmonasebat", @style = "height: 35px;color: black; ", Name = "ColorId" })
+                        <input type="text" hidden name="groupId" value="@groupId" />
+                        <button type="button" class="btnsearchListProduct" style="width: 44px; background: none; border: none;cursor:pointer;    margin-top: 2px;">
+                            <i class="fa fa-search" style="font-size:14px"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!--=========Products==============================================================================-->
+        <div class="products container">
+            <hr />
+            <!--=========Partail  ShowInfoProducts===================================================-->
+            <div id="_showInfoProducts">
+                @{ await Html.RenderPartialAsync("ShowInfoProducts", Model); }
+            </div>
+            <div class="container">
+
+                @*@Html.PagedListPager(Model, page => Url.Action("ListProducts", new { page = pagecurrent, groupId = groupId }))*@
+                @Html.PagedListPager(
+             Model,
+             page => Url.Action("ListProducts",
+                                  new { page = page }),
+                                  new PagedListRenderOptions { 
+                                      LinkToFirstPageFormat = "اولین",
+                                      LinkToPreviousPageFormat = "قبلی",
+                                      LinkToNextPageFormat = "بعدی", 
+                                      LinkToLastPageFormat = "آخرین" ,
+                                     MaximumPageNumbersToDisplay=4
+                                  }
+             )
+                <div id="MoreInfoDiv">
+
+                </div>
+                <!--=========ButtonInfoProducts================================================================-->
+                @*<div align="center" class="buttoninfoProducts">
+            <span id="moreInfoButton" class="btn ">نمایش بیشتر...</span>
+        </div>*@
+                <div id="ProgressDiv" align="center" style="display: none">
+                    <br />
+                    <img src="@Url.Content("~/Content/img/loadingAnimation.gif")" alt="loading..." />
+                </div>
+
+            </div>
+    </div>
+</div>
+
+@section scripts
+{
+
+    <script src="~/Scripts/jquery.InfiniteScroll.js"></script>
+
+    @*<script type="text/javascript">
+            $(document).ready(function () {
+                $("#moreInfoButton").InfiniteScroll({
+                    moreInfoDiv: '#MoreInfoDiv',
+                    progressDiv: '#ProgressDiv',
+                    loadInfoUrl: '/Product/ShowInfoProducts?page='+ @(pagecurrent++)+'&groupId='+@(groupId) ,
+                    loginUrl: '/login',
+                    errorHandler: function () {
+                        alert('خطایی رخ داده است');
+                    },
+                    completeHandler: function () {
+                        // اگر قرار است روی اطلاعات نمایش داده شده پردازش ثانوی صورت گیرد
+                    },
+                    noMoreInfoHandler: function () {
+                        alert('اطلاعات بیشتری یافت نشد');
+
+                    }
+                });
+            });
+        </script>*@
+    @*<script>
+
+        var pageindex = 2;
+
+        var NoMoredata = false;
+
+        var inProgress = false;
+
+        $(window).scroll(function () {
+
+            if ($(window).scrollTop() >400 && !NoMoredata && !inProgress) {
+
+
+
+                inProgress = true;
+
+                $("#ProgressDiv").show();
+
+                $.post("@Url.Action("InfiniteScroll","Product")", { "pageindex": pageindex ,"groupId":@groupId},
+
+                    function (data) {
+
+                        pageindex = pageindex + 1;
+
+                        NoMoredata = data.NoMoredata;
+
+                        $("#_showInfoProducts").append(data.HTMLString);
+
+                        $("#ProgressDiv").hide();
+
+                        inProgress = false;
+
+                    }
+
+                    );
+
+            }
+
+        });
+
+    </script>*@
+
+}
+
+

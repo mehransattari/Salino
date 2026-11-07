@@ -1,0 +1,145 @@
+﻿
+@model X.PagedList.IPagedList<Salino.Models.Ticket>
+@using X.PagedList.Mvc.Core
+@using Salino.DataLayer;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    int counter = @ViewBag.counter;
+    SalinoContext db = new SalinoContext();
+}
+
+
+<section class="content-header">
+    <h1>
+        تیکت ها
+
+        <a class="btn btn-app" href="/Admin/Tickets/Index">
+            <i class="fa fa-repeat"></i> به روزرسانی
+        </a>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"> <a href="/Admin/Tickets/Index">     تیکت ها</a> </li>
+    </ol>
+</section>
+
+<section class="content  " id="GroupProducts">
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box box-info">
+                <div class="box-header">
+                    <h3 class="box-title">     تیکت ها</h3>
+
+                    <div class="box-tools">
+                        @using (Html.BeginForm("Index", "Tickets", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <div class="input-group input-group-sm" style="width: 150px;">
+
+                                <input type="text" name="search" class="form-control pull-right" placeholder="جستجو">
+
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr>
+                                <th>شماره</th>
+
+                                <th>
+                                    نام کاربر
+                                </th>
+                                <th>
+موبایل
+                                </th>
+                                <th>
+                                    عنوان
+                                </th>
+
+                                <th>
+                                    پاسخ
+                                </th>
+                                <th>
+                                    تاریخ ایجاد
+                                </th>
+
+
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                        <tr role="row" class="table-striped table-hover">
+                            <td class="sorting_1">@counter</td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.UserName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.Mobile)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TitleTicket)
+                            </td>
+
+                            <td>
+                                @if (item.OkAnswer == true)
+                                {
+                                    <p>بله</p>
+                                }
+                                else
+                                {
+                                    <p>خیر</p>
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Createdate)
+                            </td>
+
+
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown">عملیات</button>
+                                    <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li>@Html.ActionLink("ویرایش", "Edit", new { id = item.Id }, new { @class = "btn btn-block btn-danger btn-flat", @style = "color:white" })</li>
+                                        <li>@Html.ActionLink("جزئیات", "Details", new { id = item.Id }, new { @class = "btn btn-block btn-info btn-flat", @style = "color:white" })</li>
+                                        <li>
+                                            @Html.ActionLink("حذف", "Delete", new { id = item.Id }, new { @class = "btn btn-block btn-warning btn-flat", @style = "color:white" })
+
+                                        </li>
+                                        <li>
+                                            @Html.ActionLink("پاسخ", "answer", new { id = item.Id }, new { @class = "btn btn-block btn-success btn-flat", @style = "color:white" })
+                                        </li>
+
+                                    </ul>
+                                </div>
+
+                            </td>
+
+                        </tr>
+                                counter++;
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+                <div class="container">
+                    @Html.PagedListPager(Model, page => Url.Action("index", new { page }))
+                </div>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+
+</section>

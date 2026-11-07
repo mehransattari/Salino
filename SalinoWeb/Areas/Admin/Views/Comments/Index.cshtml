@@ -1,0 +1,175 @@
+﻿
+@model X.PagedList.IPagedList<Salino.Models.Comments>
+@using X.PagedList.Mvc.Core
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    int counter = 1;
+}
+
+
+<section class="content-header">
+    <h1>نظرات
+           
+        <a class="btn btn-app" href="/Admin/Comments/Index">
+            <i class="fa fa-repeat"></i> به روزرسانی
+        </a>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"> <a href="/Admin/Comments/Index"> نظرات</a> </li>
+    </ol>
+</section>
+
+<section class="content  " id="GroupProducts">
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box box-info">
+                <div class="box-header">
+                    <h3 class="box-title"> نظرات</h3>
+
+                    <div class="box-tools">
+                        @using (Html.BeginForm("Index", "Comments", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <div class="input-group input-group-sm" style="width: 150px;">
+
+                                <input type="text" name="search" class="form-control pull-right" placeholder="جستجو">
+
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr>
+                                <th>شماره</th>
+                                <th>
+                                    @Html.DisplayName("کد محصول")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("نام کاربر")
+                                </th>
+                              
+                                <th>
+                                    @Html.DisplayName("تاریخ ایجاد")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("وضعیت نمایش")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("پاسخ")
+                                </th>
+                             
+
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr role="row" class="table-striped table-hover">
+                                    <td class="sorting_1">@counter</td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.product.CodeKala)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>                                   
+                                   
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Createdate)
+                                    </td>
+                                    <td>
+                                   @if (item.IsShow == true)
+                                   {
+                                    <p>بله</p>
+                                   }
+
+                                   else
+                                   {
+                                    <p>خیر</p>
+                                   }
+                               
+
+                             
+                                    </td>
+                                    <td>
+                                        @if (item.OkAnswer == true)
+                                        {
+                                            <p>داده شده</p>
+                                        }
+
+                                        else
+                                        {
+                                            <p>داده نشده</p>
+                                        }
+
+                                    </td>
+
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown">عملیات</button>
+                                            <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li>@Html.ActionLink("ویرایش", "Edit", new { id = item.Id }, new { @class = "btn btn-block btn-danger btn-flat", @style = "color:white" })</li>
+                                                <li>@Html.ActionLink("جزئیات", "Details", new { id = item.Id }, new { @class = "btn btn-block btn-info btn-flat", @style = "color:white" })</li>
+                          
+                                                <li>
+                                                    @Html.ActionLink("پاسخ", "answer", new { id = item.Id }, new { @class = "btn btn-block btn-success btn-flat", @style = "color:white" })
+                                                </li>
+
+                                            </ul>
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                                counter++;
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+    <style>
+        .pagep1 {
+            display: inline-block;
+            margin-top: 50px;
+            margin-right: 0;
+        }
+
+            .pagep1 a {
+                color: black;
+                float: left;
+                padding: 8px 16px;
+                text-decoration: none;
+                transition: background-color .3s;
+                border: 1px solid #ddd;
+            }
+
+                .pagep1 a.active {
+                    background-color: darkgray;
+                    color: blue;
+                    border: 1px solid #4CAF50;
+                }
+
+                .pagep1 a:hover:not(.active) {
+                    background-color: darkgray;
+                }
+    </style>
+    <div class="pagep1 container ">
+        @Html.PagedListPager(Model, page => Url.Action("index", new { page }))
+    </div>
+</section>

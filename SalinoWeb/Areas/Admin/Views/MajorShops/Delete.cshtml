@@ -1,0 +1,84 @@
+﻿@model Salino.Models.MajorShop
+@using Salino.ToShamsi
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        خرید عمده
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"><a href="/Admin/MajorShops/Index"> خرید عمده</a></li>
+        <li class="active">حذف خرید عمده </li>
+    </ol>
+</section>
+<div class="box box-info container">
+
+
+    <h3>آیا  ازحذف   مطمئن هستید؟ </h3>
+    <div>
+
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.MinSelectedProduct)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MinSelectedProduct)
+            </dd>
+            <hr />
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Count)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Count)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.FarbicId)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FarbicType.tiltle)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Createdate)
+            </dt>
+            <dd>
+                @Model.Createdate.ToString().ToShamsi()
+            </dd>
+            <hr />
+
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+
+                        <button class="btn btn-social btn-success" type="submit">
+                            <i class="fa fa-save"></i> حذف
+                        </button>
+                        <a class="btn btn-social btn-pinterest" href="/Admin/MajorShops/index">
+                            <i class="fa fa-backward"></i> بازگشت
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

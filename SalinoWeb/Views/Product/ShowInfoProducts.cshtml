@@ -1,0 +1,115 @@
+﻿
+@model X.PagedList.IPagedList<Salino.Models.Product>
+@using X.PagedList.Mvc.Core
+
+@*@model List<Salino.Models.Product>*@
+@using Salino.DataLayer;
+@{
+
+    int counter = 1;
+    SalinoContext db = new SalinoContext();
+    int proid = 0;
+}
+<style>
+    .groupname {
+        height: 35px;
+        width: 80px;
+        background-color: black;
+        float: left;
+        margin-left: -80px;
+        margin-top: -53px;
+        text-align: center;
+        color: white;
+        padding: 5px;
+        color: white;
+        text-align: right;
+    }
+    @@media screen and (max-width: 769px) {
+        .groupname {
+            height: 19px;
+            width: 29px;
+            background-color: #212529;
+            float: left;
+            margin-left: 54px;
+            margin-top: -84px;
+            text-align: center;
+            color: white;
+            /* FONT-SIZE: xx-small; */
+            TEXT-ALIGN: right;
+            font-size: 7px;
+        }
+    }
+</style>
+<div class="container" id="listproduct">
+    <div class="row " style="justify-content:center">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 col-lg-4 col-4 productDesktop " style="margin-top:20px;cursor: pointer; ">
+
+                <a href="/Product/DetailProduct/@item.Id">
+                    <img class="left" src="~/Content/imgpro/@item.ImgMain" />
+                    @*<img class="left" src="~/Content/img/images.jpg" />*@
+                </a>
+
+
+                <div class="pricecode">
+                    <div class="codemeleft">
+                        کد  : @item.CodeKala
+                    </div>
+                    <div class="pricemeleft">
+                        @if (db.FarbicTypeProducts.Where(x => x.ProductId == item.Id).FirstOrDefault() != null)
+                        {
+                            <span>   قیمت   :</span>
+                            @db.FarbicTypeProducts.Where(x => x.ProductId == item.Id).FirstOrDefault().FarbicTypes.PriceMain.ToString("#,0")
+
+                        }
+                        else
+                        {
+                            <span>ناموجود</span>
+                        }
+
+                    </div>
+                    <div class="groupname">
+                        <span>
+                            @item.GroupProduct.GroupTitle
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div @*v-on:click="MoveTodetail(@item.Id)"*@ onclick="window.location.href='/Product/DetailProduct/'+@item.Id" class="col-md-4  col-lg-4 col-4  productMobile " style="margin-top:15px; background-image: url('/Content/imgpro/@item.ImgMainMob');cursor: pointer; ">
+                <a href="/Product/DetailProduct/@item.Id">
+                    <div class="pricecode">
+
+                        <div class="codemeleft">
+                            کد  : @item.CodeKala
+                        </div>
+                        <div class="pricemeleft">
+                            @if (db.FarbicTypeProducts.Where(x => x.ProductId == item.Id).FirstOrDefault() != null)
+                            {
+                                <span>   قیمت   :</span>
+                                @db.FarbicTypeProducts.Where(x => x.ProductId == item.Id).FirstOrDefault().FarbicTypes.PriceMain.ToString("#,0")
+
+                            }
+                            else
+                            {
+                                <span>ناموجود</span>
+                            }
+
+                        </div>
+                        <div class="groupname">
+                            <span>
+                                @item.GroupProduct.GroupTitle
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            proid = item.Id;
+        }
+    </div>
+
+
+</div>
+

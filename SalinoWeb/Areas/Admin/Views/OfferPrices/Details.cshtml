@@ -1,0 +1,51 @@
+﻿@model Salino.Models.OfferPrice
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        تخفیف چندمی به بعد
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"> <a href="/Admin/OfferPrices/Index"> تخفیف اولین خرید</a></li>
+        <li class="active">جزئیات   تخفیف چندمی به بعد @Model.Price</li>
+    </ol>
+</section>
+
+<div class="box box-info container">
+    <div>
+        <h4>جزئیات  تخفیف  @Model.Price</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Price)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.AsNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AsNumber)
+            </dd>
+            <hr />
+        </dl>
+    </div>
+    <p>
+        <a class="btn btn-social btn-danger" href="/Admin/OfferPrices/Edit/@Model.Id">
+            <i class="fa fa-backward"></i> ویرایش
+        </a>
+        <a class="btn btn-social btn-pinterest" href="/Admin/OfferPrices/index">
+            <i class="fa fa-backward"></i> بازگشت
+        </a>
+    </p>
+</div>

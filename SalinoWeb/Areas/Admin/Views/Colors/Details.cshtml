@@ -1,0 +1,44 @@
+﻿@model Salino.Models.Color
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        رنگ ها
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"> <a href="/Admin/Colors/Index">         رنگ ها</a></li>
+        <li class="active">جزئیات رنگ @Model.color</li>
+    </ol>
+</section>
+
+<div class="box box-info container">
+    <div>
+        <h4>جزئیات  رنگ  @Model.color</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.color)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.color)
+            </dd>
+           
+            <hr />
+        </dl>
+    </div>
+    <p>
+        <a class="btn btn-social btn-danger" href="/Admin/Colors/Edit">
+            <i class="fa fa-backward"></i> ویرایش
+        </a>
+        <a class="btn btn-social btn-pinterest" href="/Admin/Colors/index">
+            <i class="fa fa-backward"></i> بازگشت
+        </a>
+    </p>
+</div>

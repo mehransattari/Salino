@@ -1,0 +1,72 @@
+﻿@model Salino.Models.MonasebatProducts
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        محصولات مناسبتی
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"><a href="/Admin/MonasebatProducts/Index">            محصولات مناسبتی</a></li>
+        <li class="active">حذف محصول مناسبتی </li>
+    </ol>
+</section>
+<div class="box box-info container">
+
+
+    <h3>آیا  ازحذف   مطمئن هستید؟ </h3>
+    <div>
+
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                مناسبت
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Monasebats.MonasebatTitle)
+            </dd>
+            <hr />
+
+            <dt>
+           محصول
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Products.CodeKala)
+            </dd>
+            <hr />
+         
+      
+
+
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+
+                        <button class="btn btn-social btn-success" type="submit">
+                            <i class="fa fa-save"></i> حذف
+                        </button>
+                        <a class="btn btn-social btn-pinterest" href="/Admin/MonasebatProducts/index">
+                            <i class="fa fa-backward"></i> بازگشت
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

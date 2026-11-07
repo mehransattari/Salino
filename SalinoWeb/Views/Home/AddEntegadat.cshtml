@@ -1,0 +1,87 @@
+﻿@model Salino.Models.Entegadat
+
+@{
+    ViewBag.Title = "انتقادات-پیشنهادات";
+        ViewData["Des"] = "salinotbz.انتقادات-پیشنهادات سایت فروشگاه سالینو ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+
+
+<div class="container reg " style="font-family: IRANSans;"id="Entegad">
+    <nav aria-label="breadcrumb" style="direction:rtl;font-family: IRANSans;text-align-last:center ; text-align-last: center;
+    box-shadow: 0 0 11px 0 #131212; background: #f89721e6;  box-shadow: 0 0 19px 0 #ed2124 inset;  ">
+        <ol class="breadcrumb" style="background: none;    display: block;">
+            <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+            <li class="breadcrumb-item active" aria-current="page" style="color: #212529;text-align:center">انتقادات وپیشنهادات</li>
+        </ol>
+
+    </nav>
+    <section class="privacy-page-content-area" style="border: 1px solid; padding: 12px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+             @using (Html.BeginForm())
+             {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    <h4 style="text-align:center;direction:rtl;font-family: IRANSans">انتقادات وپیشنهادات</h4>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" ,@style= "text-align: right;" })
+                        <div class="col-md-10"style="direction:rtl">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align: right;" })
+                        <div class="col-md-10"style="direction:rtl">
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TextComment, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align: right;" })
+                        <div class="col-md-10"style="direction:rtl">
+                            @Html.EditorFor(model => model.TextComment, new { htmlAttributes = new { @class = "form-control" ,@rows=6} })
+                            @Html.ValidationMessageFor(model => model.TextComment, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="ذخیره" class="btn btn-success btn-block" />
+                        </div>
+                   
+                    </div>
+                    @if (@ViewBag.message != null)
+                    {
+
+                        <div class="alert alert-success alert-dismissible"style="text-align:center;direction:rtl;font-family: IRANSans">
+                            <a href="#" class="close "style="display: contents;" data-dismiss="alert" aria-label="close">&times;</a>
+                            @ViewBag.message
+                        </div>
+                    }
+                  
+                </div>
+            
+
+             }
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>

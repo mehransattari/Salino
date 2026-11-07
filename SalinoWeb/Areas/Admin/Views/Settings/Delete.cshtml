@@ -1,0 +1,122 @@
+﻿@model Salino.Models.Setting
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        تنظیمات
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"><a href="/Admin/GroupProducts/Index">     تنظیمات</a></li>
+        <li class="active">حذف تنظیمات </li>
+    </ol>
+</section>
+<div class="box box-info container">
+
+
+    <h3>آیا  ازحذف تنظیمات مطمئن هستید؟ </h3>
+    <div>
+
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.imageSrc)
+            </dt>
+
+            <dd>
+                <img src="~/Content/imgsetting/@Model.imageSrc" alt="@Model.imageSrc " class="img-responsive img-thumbnail" style="border:1px solid ;width:120px;height:120px;" />
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.imageSrcMain)
+            </dt>
+
+            <dd>
+                <img src="~/Content/imgsetting/@Model.imageSrcMain" alt="@Model.imageSrcMain " class="img-responsive img-thumbnail" style="border:1px solid ;width:120px;height:120px;" />
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.DecAboutMe)
+            </dt>
+
+            <dd>
+                @Html.Raw(Model.DecAboutMe)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.DecContactUs)
+            </dt>
+
+            <dd>
+                @Html.Raw(Model.DecContactUs)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Questions)
+            </dt>
+
+            <dd>
+                @Html.Raw(Model.Questions)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+
+            <dd>
+                @Html.Raw(Model.Address)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Tell)
+            </dt>
+
+            <dd>
+                @Html.Raw(Model.Tell)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Mobile)
+            </dt>
+
+            <dd>
+                @Html.Raw(Model.Mobile)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+
+            <dd>
+                @Html.Raw(Model.Email)
+            </dd>
+            <hr />
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+
+                        <button class="btn btn-social btn-success" type="submit">
+                            <i class="fa fa-save"></i> حذف
+                        </button>
+                        <a class="btn btn-social btn-pinterest" href="/Admin/Settings/index">
+                            <i class="fa fa-backward"></i> بازگشت
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

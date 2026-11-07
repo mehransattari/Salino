@@ -1,0 +1,103 @@
+﻿@model Salino.Models.User
+@{
+     ViewBag.Title = "اطلاعات-کاربری";
+    ViewData["Des"] = "salinotbz. اطلاعات کاربری  سایت فروشگاه سالینو ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Salino.DataLayer;
+@{ 
+    SalinoContext db = new SalinoContext();
+
+}
+
+
+
+<div class="container" style="direction: rtl;">
+    <div style="margin-top:70px;">
+
+
+        <nav aria-label="breadcrumb" style="direction:rtl;font-family: IRANSans;text-align-last:center ; text-align-last: center;
+                   box-shadow: 0 0 11px 0 #131212; background: #f89721e6;  box-shadow: 0 0 19px 0 #ed2124 inset;  ">
+            <ol class="breadcrumb" style="background: none;    display: block;">
+                <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+                <li class="breadcrumb-item"><a href="/PanelUser/Index">پنل کاربری</a></li>
+                <li class="breadcrumb-item active" aria-current="page" style="color: #212529;"> اطلاعات شخصی</li>
+
+            </ol>
+        </nav>
+        <div class="row personInfoD" style="margin-top:50px;padding: 17px;">
+            @await Html.PartialAsync("_HeaderPanelUser")
+            
+            <div class="col-sm-9 scrollspy-example" data-spy="scroll" data-target="#spy" style="">
+                <div style="border:1px solid;height: 394px;padding:25px;" class="personInfo">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="alert alert-danger text-center">
+                                مشتری گرامی درهنگام ویرایش آدرس دقت فرمایید  آدرسی که برای فاکتور قبلی درج شده قابل ویرایش نمی باشد
+                            </p>
+                        </div>
+                    </div>
+                    <section class="content-header">
+                        <h1 style="margin-bottom:15px;text-align:center;font-family: IRANSans;">
+                            مشخصات کاربر
+
+                        </h1>
+                        <hr />
+                    </section>
+
+                    <form class="needs-validation" novalidate>
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label for="validationCustom01">@Html.DisplayNameFor(model => model.UserName)</label>
+                                <input type="text" class="form-control" id="validationCustom01" placeholder="First name" value="@Html.DisplayFor(model => model.UserName)" readonly>
+
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="validationCustom02">موبایل</label>
+                                <input type="text" class="form-control" id="validationCustom02" placeholder="Last name" value="@Model.Mobile" readonly>
+
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="validationCustom01">استان</label>
+                                <input type="text" class="form-control" id="validationCustom01" placeholder="First name" value="@db.Ostans.Where(x=>x.Id==@Model.OstanId).FirstOrDefault().ostanname" readonly>
+
+                            </div>
+
+
+
+
+                            <div class="col-md-6 mb-3">
+                                <label for="validationCustom02">شهر</label>
+                                <input type="text" class="form-control" id="validationCustom02" placeholder="Last name" value="@Model.cityname" readonly>
+
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="validationCustom01">آدرس</label>
+
+                                <textarea class="form-control" readonly>
+                                    @Model.StreetAddress
+                                </textarea>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="validationCustom02">کدپستی</label>
+                                <input type="text" class="form-control" id="validationCustom02" placeholder="Last name" value="@Model.PostalCode" readonly>
+
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-12 mb-3">
+
+                            <a class="btn btn-social btn-danger" href="/PanelUser/EditPersonalInformation/@Model.Id">
+                                <i class="fa fa-backward"></i> ویرایش
+                            </a>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

@@ -1,0 +1,80 @@
+﻿@model Salino.Models.Ticket
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        تیکت ها
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"> <a href="/Admin/Tickets/Index">         تیکت ها</a></li>
+        <li class="active"> ویرایش     تیکت  : @Model.TitleTicket</li>
+    </ol>
+</section>
+<div class="box box-info container">
+
+
+    @using (Html.BeginForm("Edit", "Tickets", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <h4>ویرایش     تیکت  : @Model.TitleTicket</h4>
+            <hr />
+        <div class="form-horizontal">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UserId, "نام کاربری", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @ViewBag.UserName 
+                </div>
+            </div>           
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TitleTicket, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TitleTicket, new { htmlAttributes = new { @class = "form-control", @Readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.TitleTicket, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TextTicket, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TextTicket, new { htmlAttributes = new { @class = "form-control", @Readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.TextTicket, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Createdate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Createdate, new { htmlAttributes = new { @class = "form-control",@Readonly="readonly" } })
+                    @Html.ValidationMessageFor(model => model.Createdate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.OkAnswer, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.OkAnswer)
+                    @Html.ValidationMessageFor(model => model.OkAnswer, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="ذخیره" class="btn btn-success btn-block" />
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+</div>

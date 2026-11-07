@@ -1,0 +1,197 @@
+﻿@model  List<Salino.ViewModels.Compare>
+@using Salino.ViewModels;
+@using Salino.Models;
+@using Salino.DataLayer;
+@{
+    ViewBag.Title = "ShowCompare";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int counter = 1;
+    SalinoContext db = new SalinoContext();
+    int proid = 0;
+}
+
+<style>
+        .collapsible {
+        color: white;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        outline: none;
+        font-size: 15px;
+        text-align: center;
+        background: #f89721e6;
+        box-shadow: 0 0 19px 0 #ed2124 inset;
+        }
+
+             .collapsible:hover {
+                background-color: #ed2124;
+            }
+
+        .content {
+            padding: 0 18px;
+            display: none;
+            overflow: hidden;
+            background-color: #f1f1f1;
+        }
+        .modal {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      padding-top: 100px; /* Location of the box */
+      left: 0;
+      top: 0;
+      width: 100%; /* Full width */
+      height: 100%; /* Full height */
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgb(0,0,0); /* Fallback color */
+      background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content */
+    .modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+    }
+
+    /* The Close Button */
+    .close {
+      color: #aaaaaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+    }
+</style>
+<div class="container" style="direction:rtl">
+
+
+    <div class="proall">
+        <nav aria-label="breadcrumb" style="direction:rtl;font-family: IRANSans;text-align-last:center ; text-align-last: center;
+                   box-shadow: 0 0 11px 0 #131212; background: #f89721e6;  box-shadow: 0 0 19px 0 #ed2124 inset;  ">
+            <ol class="breadcrumb" style="background: none;    display: block;">
+                <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+                <li class="breadcrumb-item active" aria-current="page" style="color: #212529;">علاقه مندی ها</li>
+
+            </ol>
+        </nav>
+
+
+        <div class="products container" id="applistproduct">
+
+            <div class="container">
+
+
+                <div class="row " id="listpro">
+                    @{
+                        List<Compare> showCompare = Session["showCompare"] as List<Compare>;
+                        List<Product> ListProduct = new List<Product>();
+                        foreach (var item in showCompare)
+                        {
+                            ListProduct.Add(item.Product);
+                        }
+
+                    }
+                    @foreach (var item in ListProduct)
+                    {
+                        <div class="col-md-4 col-lg-4 col-4 productDesktop " style="margin-top:20px;cursor: pointer; ">
+
+                            <a href="/Product/DetailProduct/@item.Id">
+                                <img class="left" src="~/Content/imgpro/@item.ImgMain" />
+                            </a>
+
+
+                            <div class="pricecode">
+                                <div class="codemeleft">
+                                    کد  : @item.CodeKala
+                                </div>
+                                <div class="pricemeleft">
+                                    قیمت  : @db.FarbicTypeProducts.Where(x => x.ProductId == item.Id).FirstOrDefault().FarbicTypes.PriceMain.ToString("#,0")
+                                </div>
+                            </div>
+                            <div style="border: 1px solid; box-shadow: 0 0 5px 0 black; text-align: right;">
+
+
+                                <button type="button" class="collapsible">توضیحات</button>
+                                <div class="content">
+                                    <p style="font-family: IRANSans">@Html.Raw(item.Description)</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div v-on:click="MoveTodetail(@item.Id)" class="col-md-4  col-lg-4 col-4 productMobile " style="margin-top:15px; background-image: url('/Content/imgpro/@item.ImgMainMob');cursor: pointer; ">
+
+                            <div class="pricecode">
+
+                                <div class="codemeleft">
+                                    کد  : @item.CodeKala
+                                </div>
+                                <div class="pricemeleft">
+                                    قیمت  : @db.FarbicTypeProducts.Where(x => x.ProductId == item.Id).FirstOrDefault().FarbicTypes.PriceMain.ToString("#,0")
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                      
+
+
+                    }
+
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/vue.js"></script>
+    <script>
+        var applist = new Vue({
+            el: "#listpro",
+            data: {
+
+            },
+            methods: {
+
+                MoveTodetail(id) {
+
+                    window.location = "/Product/DetailProduct/" + id;
+                }
+
+            }
+        })
+
+    </script>
+    <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+            });
+        }
+    </script>
+
+}

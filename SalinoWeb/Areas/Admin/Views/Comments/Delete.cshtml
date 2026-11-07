@@ -1,0 +1,93 @@
+﻿@model Salino.Models.Comments
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        نظرات
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"> <a href="/Admin/Comments/Index">      نظرات</a></li>
+        <li class="active">حذف    نظر @Model.Name</li>
+    </ol>
+</section>
+
+
+<div class="box box-info container">
+
+
+    <h3>آیا  ازحذف نظر @Model.Name مطمئن هستید؟ </h3>
+    <div>
+
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.product.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.product.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TextComment)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TextComment)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Createdate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Createdate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.IsShow)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IsShow)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+
+                        <button class="btn btn-social btn-success" type="submit">
+                            <i class="fa fa-save"></i> حذف
+                        </button>
+                        <a class="btn btn-social btn-pinterest" href="/Admin/Comments/index">
+                            <i class="fa fa-backward"></i> بازگشت
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

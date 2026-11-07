@@ -1,0 +1,73 @@
+﻿@model Salino.Models.FarbicType
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        نوع پارچه
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"> <a href="/Admin/GroupProducts/Index">     نوع پارچه</a></li>
+        <li class="active">ویرایش پارچه @Model.tiltle</li>
+    </ol>
+</section>
+
+<div class="box box-info container">
+
+
+    @using (Html.BeginForm("Edit", "FarbicTypes"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(x => x.Id)
+        <div class="form-horizontal">
+            <h4>ویرایش پارچه @Model.tiltle</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.tiltle, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.tiltle, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.tiltle, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.PriceMain, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PriceMain, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PriceMain, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsShow, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+
+                    @Html.EditorFor(model => model.IsShow)
+                    @Html.ValidationMessageFor(model => model.IsShow, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button class="btn btn-social btn-success" type="submit">
+                        <i class="fa fa-save"></i> ویرایش
+                    </button>
+                    <a class="btn btn-social btn-pinterest" href="/Admin/FarbicTypes/index">
+                        <i class="fa fa-backward"></i> بازگشت
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+</div>

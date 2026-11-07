@@ -1,0 +1,212 @@
+﻿
+@model X.PagedList.IPagedList<Salino.Models.FactorMain>
+@using X.PagedList.Mvc.Core
+@using Display;
+@using Salino.DataLayer;
+@using Salino.Models;
+@{
+
+    SalinoContext db = new SalinoContext();
+    ViewBag.Title = "فاکتور";
+    ViewData["Des"] = "salinotbz. فاکتور کاربری سایت فروشگاه سالینو ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int counter = Convert.ToInt32(ViewBag.pagecurrent);
+}
+
+
+
+
+
+<div class="container" style="direction: rtl;">
+    <div style="margin-top:70px;">
+
+
+        <nav aria-label="breadcrumb" style="direction:rtl;font-family: IRANSans;text-align-last:center ; text-align-last: center;
+                   box-shadow: 0 0 11px 0 #131212; background: #f89721e6;  box-shadow: 0 0 19px 0 #ed2124 inset;  ">
+            <ol class="breadcrumb" style="background: none;    display: block;">
+                <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+                <li class="breadcrumb-item"><a href="/PanelUser/Index">پنل کاربری</a></li>
+                <li class="breadcrumb-item active" aria-current="page" style="color: #212529;"> سفارش ها</li>
+
+            </ol>
+        </nav>
+        <div class="row personInfoD" style="margin-top:50px;padding: 17px;border:0px;">
+            @await Html.PartialAsync("_HeaderPanelUser")
+         
+            <div class="col-sm-9 scrollspy-example" data-spy="scroll" data-target="#spy" style="">
+                <div style="border:1px solid;height: 399px;padding:25px;" class="personInfo">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="alert alert-danger text-center">
+                                مشتری گرامی درهنگام ویرایش آدرس دقت فرمایید  آدرسی که برای فاکتور قبلی درج شده قابل ویرایش نمی باشد
+                            </p>
+                        </div>
+                    </div>
+                    <section class="content-header">
+                        <h1 style="margin-bottom:15px;text-align:center;font-family: IRANSans;">
+                            مشخصات کاربر
+
+                        </h1>
+
+                    </section>
+                    <div class="container table-responsive" style="height:100%">
+
+                        <table class="table table-hover  ">
+                            <tbody>
+                                <tr>
+                                    <th>شماره</th>
+                                    <th>شماره فاکتور</th>
+                                    <th>شماره سفارش</th>
+                                    <th>شماره پرداخت</th>
+                                    <th style="text-align: center;">وضعیت پرداخت</th>
+                                    <th style="text-align: center;">وضعیت سفارش</th>
+                                    <th>مبلغ نهایی</th>
+
+                                    <th>تاریخ خرید</th>
+                             
+
+                                    <th>عملیات</th>
+                                </tr>
+                                @foreach (var item in Model)
+                                {
+                                    string height = "100px";
+                                    int page = Convert.ToInt32(ViewBag.page);
+                                    int n = 4;
+                                    int result = page == 1 ? 1 * n : page * n;
+
+                                    int i = counter;
+                                    int endRow = i++;
+                                    <tr role="row" class="table-striped table-hover " style="height:125px;">
+                                        <td class="sorting_1">@counter</td>
+                                        <td class="sorting_1">@item.FactorNumber</td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PaymentNumber)
+                                        </td>
+                                        <td>
+                                            @item.RRN
+                                        </td>
+                                        <td>
+                                            @if (@item.StatusAll == StatusAllTypeFactorsEnum.Pending)
+                                            {
+                                                <p class="btn btn-info btn-sm checkbox-toggle">
+                                                    @item.StatusAll.ToDisplay()
+                                                </p>
+                                            }
+                                            @if (@item.StatusAll == StatusAllTypeFactorsEnum.Preparing)
+
+                                            {
+                                                <p class="btn btn-danger btn-sm checkbox-toggle">
+                                                    @item.StatusAll.ToDisplay()
+                                                </p>
+                                            }
+                                            @if (@item.StatusAll == StatusAllTypeFactorsEnum.Sending)
+
+                                            {
+                                                <p class="btn btn-primary btn-sm checkbox-toggle">
+                                                    @item.StatusAll.ToDisplay()
+                                                </p>
+
+                                            }
+                                            @if (@item.StatusAll == StatusAllTypeFactorsEnum.CompleteSubmission)
+
+                                            {
+                                                <p class="btn btn-success btn-sm checkbox-toggle">
+                                                    @item.StatusAll.ToDisplay()
+                                                </p>
+
+                                            }
+                                            @if (@item.StatusAll == StatusAllTypeFactorsEnum.Returns)
+
+                                            {
+                                                <p class="btn btn-info btn-sm checkbox-toggle">
+                                                    @item.StatusAll.ToDisplay()
+                                                </p>
+
+                                            }
+                                            @if (@item.StatusAll == StatusAllTypeFactorsEnum.error)
+
+                                            {
+                                                <p class="btn btn-warning btn-sm checkbox-toggle">
+                                                    @item.StatusAll.ToDisplay()
+                                                </p>
+
+                                            }
+
+                                        </td>
+                                        <td>
+                                            @if (item.Paymentstatus == "100" && db.FactorDetails.Where(x => x.FactorMainId == item.Id).FirstOrDefault() != null)
+                                            {
+                                                <p style="border: 1px solid; background: green;color: white; text-align: center; width: 75px;font-size:12px; margin: auto; border-radius: 6px; box-shadow: 0 0 5px 0 #333;">پرداخت شده</p>
+                                            }
+                                            else
+                                            {
+                                                <p style="border: 1px solid; background: red;color: white; text-align: center; width: 75px;font-size:12px;margin: auto;border-radius: 6px; box-shadow: 0 0 5px 0 #333;">پرداخت نشده</p>
+                                            }
+
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SumAllPrice)
+                                        </td>
+
+                                        <td>
+                                            @item.DateCreate
+                                        </td>
+                                    
+
+                                        <td>
+
+
+
+                                            @*@if (item.Paymentstatus == "100")
+                                            {*@
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown">عملیات</button>
+                                                    <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown">
+                                                        <span class="caret"></span>
+                                                        <span class="sr-only">Toggle Dropdown</span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li>
+                                                            <a href="/PanelUser/DetailFactorMain/@item.Id" class="" style="color: black !important; border: 1px solid; border-radius: 3px; padding: 4px;text-align:center;width:90px">
+                                                               جزئیات
+                                                            </a>
+                                                        </li>
+
+                                                        <li>
+                                                            <a href="/PanelUser/FactorDetailShow/@item.Id" class="" style="color: black !important; border: 1px solid; border-radius: 3px; padding: 4px;text-align:center;width:90px">
+                                                                زیر فاکتور ها
+                                                            </a>
+                                                        </li>
+
+                                                        <li>
+                                                            <a href="/PanelUser/ReportFactorsPrint/@item.Id" class="" style="color: black !important;    border: 1px solid;  border-radius: 3px;  padding: 4px;text-align:center;width:90px">
+                                                                پرینت
+                                                            </a>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+                                            
+
+                                        </td>
+
+                                    </tr>
+                                    counter++;
+
+                                }
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+
+                    <div class="container">
+                        @Html.PagedListPager(Model, page => Url.Action("FactorMainShow", new { page }))
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

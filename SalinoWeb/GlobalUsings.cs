@@ -1,0 +1,10 @@
+global using System.Net;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Mvc.Rendering;
+global using Microsoft.EntityFrameworkCore;
+global using X.PagedList;
+global using X.PagedList.Extensions;
+global using SalinoMvc5.Compat;
+global using HttpPostedFileBase = Microsoft.AspNetCore.Http.IFormFile;

@@ -1,0 +1,70 @@
+﻿@model Salino.Models.GroupProduct
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        گروه بندی محصولات
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"><a href="/Admin/GroupProducts/Index">     گروه بندی محصولات</a></li>
+        <li class="active">جزئیات گروه @Model.GroupTitle</li>
+    </ol>
+</section>
+<div class="box box-info container">
+
+    <div>
+        <h4>جزئیات گروه @Model.GroupTitle</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.GroupTitle)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.GroupTitle)
+            </dd>
+            <hr />
+
+            <dt>
+                @Html.DisplayNameFor(model => model.GroupNotShow)
+            </dt>
+
+            <dd>
+                @if (Model.GroupNotShow == true)
+                {
+                    <p>بله</p>
+                }
+                else
+                {
+                    <p>خیر</p>
+                }
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.imagepath)
+            </dt>
+
+            <dd>
+                <img src="~/Content/imggroup/@Model.imagepath" alt="@Model.GroupTitle " width="150" height="150" class="img-responsive img-thumbnail" style="border:1px solid ;" />
+            </dd>
+            <hr />
+         
+
+        
+        </dl>
+    </div>
+
+    <p>
+        <a class="btn btn-social btn-danger" href="/Admin/GroupProducts/Edit/@Model.Id">
+            <i class="fa fa-backward"></i> ویرایش
+        </a>
+        <a class="btn btn-social btn-pinterest" href="/Admin/GroupProducts/index">
+            <i class="fa fa-backward"></i> بازگشت
+        </a>
+    </p>
+</div>

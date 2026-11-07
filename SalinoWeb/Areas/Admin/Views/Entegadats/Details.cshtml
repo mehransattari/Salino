@@ -1,0 +1,85 @@
+﻿@model Salino.Models.Entegadat
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        انتقادات
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"><a href="/Admin/Entegadats/Index"> انتقادات</a></li>
+        <li class="active"> انتقادات</li>
+    </ol>
+</section>
+<div class="box box-info container">
+
+    <div>
+        <h4>جزئیات   انتقاداتا </h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Parent.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Parent.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TextComment)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TextComment)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Date)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Date)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.OkAnswer)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.OkAnswer)
+            </dd>
+
+        </dl>
+    </div>
+
+    <p>
+        <a class="btn btn-social btn-danger" href="/Admin/Entegadats/Edit/@Model.Id">
+            <i class="fa fa-backward"></i> ویرایش
+        </a>
+        <a class="btn btn-social btn-pinterest" href="/Admin/Entegadats/index">
+            <i class="fa fa-backward"></i> بازگشت
+        </a>
+    </p>
+</div>

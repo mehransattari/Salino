@@ -1,0 +1,117 @@
+﻿@model Salino.Models.User
+@{
+    ViewBag.Title = "login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    #CaptchaImage{
+    width: 100%;
+    height: 99px;
+    }
+    #CaptchaInputText{
+   width: 66%;
+       text-align: left;
+    height: 36px;
+    }
+</style>
+<script src="~/Content/sweetalert/sweetalert.min.js"></script>
+<div class="container reg " style="font-family: IRANSans;">
+
+
+
+    <nav aria-label="breadcrumb" style="direction:rtl;font-family: IRANSans;text-align-last:center ; text-align-last: center;
+              box-shadow: 0 0 11px 0 #131212; background: #f89721e6;  box-shadow: 0 0 19px 0 #ed2124 inset;  ">
+        <ol class="breadcrumb" style="background: none;    display: block;">
+            <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+            <li class="breadcrumb-item active" aria-current="page" style="color: #212529;">ورود</li>
+        </ol>
+
+    </nav>
+
+
+    <div class="login" style="direction:rtl">
+
+
+
+        @using (Html.BeginForm("login", "User"))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="row">
+                    <div class="form-group col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                        @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label col-md-3", @style = "display: flex;" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control",@style= "font-size: 15px;" } })
+                            @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger " })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                        @Html.LabelFor(model => model.UserPassword, htmlAttributes: new { @class = "control-label col-md-3", @style = "display: flex;" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @class = "form-control", @type = "password", @style = "font-size: 15px;" } })
+                            @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12 col-lg-12col-sm-12 col-xs-12">
+                        <script src='https://www.google.com/recaptcha/api.js'></script>
+                        @Html.Label("کدامنیتی", htmlAttributes: new { @class = "control-label col-md-3", @style = "display: flex;" })
+                 
+
+                   
+                          <div class="col-md-9"style="text-align: center;">
+                              @Html.Captcha("Refresh", "حروف تصویر را واردکنید. ", 4, "لطفا کد امنیتی راوارد کنید!", true)
+                        
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="form-group col-md-12 col-lg-12 col-sm-12 col-xs-12" style="margin-top: 36px;">
+                        @Html.Label(" ", htmlAttributes: new { @class = "control-label col-md-3", @style = "display: flex;" })
+                        <div class="col-md-9">
+                            <input type="submit" value="ورود" class="btn btn-block  btnregister" />
+                            @if (ViewBag.MsgPassLogin != null)
+                            {
+                                <div class="alert alert-danger" role="alert" style="text-align: center;">
+                                    @ViewBag.MsgPassLogin
+
+                                </div>
+                            }
+                            @*@if (ViewBag.msgSuccess != null)
+                            {
+                                <script>
+                                    swal("موفق", "ورود با موفقیت انجام شد", "success");
+
+                                    // Your delay in milliseconds
+                                    var delay = 3000;
+                                    setTimeout(function () { window.location = "/"; }, delay);
+                                </script>
+                            }*@
+                        </div>
+                    </div>
+                </div>
+
+                <a href="~/User/Register" class="loginLittleUnderRegister" style="text-align: right; ">
+                    <p style="color: red; border: 1px solid black; width: 58px;
+             text-align: center;border-radius: 5px;">ثبت نام</p>
+                </a>
+                <a href="~/User/ForgetPassword" class="loginLittleUnderRegister" style="text-align: right; ">
+                    <p style="color: red; border: 1px solid black; width: 109px;
+             text-align: center;border-radius: 5px;">فراموشی رمزعبور</p>
+                </a>
+            </div>
+
+
+        }
+    </div>
+
+</div>

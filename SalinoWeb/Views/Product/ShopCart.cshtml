@@ -1,0 +1,708 @@
+﻿@model IEnumerable<Salino.ViewModels.ShopCartItem>
+@using Salino.ViewModels;
+@using Salino.DataLayer;
+@{
+    ViewBag.Title = "ShopCart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    SalinoContext db = new SalinoContext();
+    var offerdetail = db.OfferPrices.OrderByDescending(x => x.Createdate).FirstOrDefault();
+    //var major = db.MajorShops.FirstOrDefault();
+    List<ShopCartItem> ShopCartItem = Session["shopcart"] as List<ShopCartItem>;
+    List<AllShopCart> AllShopCart = Session["AllShopCart"] as List<AllShopCart>;
+    int SumAllPrices = 0;
+
+    int countProduct = 0;
+    var senprice = db.SendPrices.OrderByDescending(x => x.Id).FirstOrDefault();
+
+}
+
+
+
+<script src="~/Content/sweetalert/sweetalert.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link href="~/Content/shopcartstyle.css" rel="stylesheet" />
+
+
+<style>
+    .table > tbody > tr > td, .table > tfoot > tr > td {
+        vertical-align: middle;
+    }
+
+    .nice-select {
+        display: none !important;
+    }
+
+    .typeSendpost {
+        display: block !important;
+        height: 40px !important;
+        width: 192px !important;
+    }
+
+    @@media screen and (max-width: 768px) {
+        .typeSendpost {
+            display: block !important;
+            height: 40px !important;
+            width: 229px !important;
+        }
+    }
+</style>
+<div class="container shopcart" style="margin-top: 263px;" id="ShopCart">
+
+    <nav aria-label="breadcrumb" style="direction:rtl;font-family: IRANSans;text-align-last:center ; text-align-last: center;
+            box-shadow: 0 0 11px 0 #131212; background: #f89721e6;  box-shadow: 0 0 19px 0 #ed2124 inset;  ">
+        <ol class="breadcrumb" style="background: none;    display: block;">
+            <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+
+            <li class="breadcrumb-item active" aria-current="page" style="color: #212529;">سبدخرید </li>
+        </ol>
+    </nav>
+    <h1 style="text-align:center;font-family: IRANSans;">سبدخرید</h1>
+ @if (db.OfferPrices.Count() >1)
+    {
+        <div class="row "dir="rtl">
+            <div class="col-md-12">
+                <p class="alert alert-info text-center text-red">
+                    <i class="fa fa-gift"></i>
+                    <span>
+                        اگر تعداد جنس انتخاب شده از
+                    </span>
+                    <span>
+                        <b>
+                            @((db.OfferPrices.FirstOrDefault(x=>x.AsNumber!=0).AsNumber) -1) عدد
+                        </b>
+                    </span>
+                    <span>
+                        بیشتر باشد مقدار مبلغ
+                    </span>
+                    <span>
+                        <b>
+                            @(db.OfferPrices.FirstOrDefault(x => x.AsNumber != 0).Price.ToString("#,0تومان"))
+                        </b>
+                    </span>
+                    <span>
+                        از سبد خرید تان کم خواهدشد.
+                    </span>
+                    <i class="fa fa-gift"></i>
+                </p>
+            </div>
+        
+        </div>
+    }
+
+    <div class="DetailProduct" id="detailpro">
+
+
+        <div class="shopcartDesktop" style="margin-top: 5px;border: 1px solid;box-shadow: 0 0 16px 0 black;">
+            <table id="cart" class="table table-hover table-condensed tblshopcart table-responsive no-padding" style="direction: rtl;">
+                <thead>
+                    <tr style="box-shadow: 0 0 8px 0 #212529;">
+                        <th style="width:10%;font-size: initial;text-align:center;box-shadow: 0 0 7px 0 #212529;">تصویر</th>
+                        <th style="width:12%;font-size: initial;text-align:center;box-shadow: 0 0 7px 0 #212529;">کدمحصول</th>
+                        <th style="width:5%;font-size: initial;text-align:center;box-shadow: 0 0 7px 0 #212529;">قیمت</th>
+                        <th style="width:8%;font-size: initial;text-align:center;box-shadow: 0 0 7px 0 #212529;">تعداد</th>
+                        <th style="width:17%;font-size: initial;text-align:center;box-shadow: 0 0 7px 0 #212529;" class="text-center">جمع    </th>
+                        <th style="width:20%;font-size: initial;text-align:center;box-shadow: 0 0 7px 0 #212529;">عملیات</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                        <tr style="box-shadow: rgba(255,255,255,.15) 0px 0px 73px 0px inset;height: 154px;">
+                            <!--تصویر----------------------------------------->
+                            <td>
+                                <img src="/Content/imgpro/@item.Imgpath" alt="..." class="img-responsive img-thumbnail" style="box-shadow: 0 0 16px 0 black;text-align: center;" id="ImagPath" />
+
+                            </td>
+
+                            <!--توضیحات محصول----------------------------------------->
+                            <td data-th="Product" style="text-align: center;" class="codekala">
+                                <div style="background: white; border: 1px solid; border-radius: 10px; padding: 5px; padding-bottom: 0px;box-shadow: 0 0 6px 0 black;margin-right: -6px;">
+                                    <p style="">
+                                        گروه : @db.groupProducts.Find(item.GroupId).GroupTitle
+
+                                    </p>
+                                    <hr />
+                                    <p style="">
+                                        کد :   @db.Products.Find(item.ProductID).CodeKala
+
+                                    </p>
+
+
+                                    <p style="">
+                                        جنس : @db.FarbicTypes.Find(item.FarbictypeId).tiltle
+
+                                    </p>
+                                </div>
+                            </td>
+
+                            <!--قیمت واحد-------------------------------------------------->
+                            <td data-th="Price" style="font-size: initial;text-align: center;">
+                                <input readonly style="text-align:center;text-align: center;
+                                      box-shadow: 0 0 12px 0 black;"
+                                       value="@db.FarbicTypes.Find(item.FarbictypeId).PriceMain.ToString("#,0تومان")" />
+                            </td>
+
+                            <!--تعداد-------------------------------------------------->
+                            <td data-th="Quantity" style="font-size: initial;text-align: center;">
+                                <form action="/Product/RefreshShopCart">
+                                    <input style="font-size: initial;text-align:center; box-shadow: 0 0 12px 0 #ccc; margin-top: 17px;"
+                                           type="number" class="form-control text-center" value="@item.Count" min="1" name="Count" id="count">
+
+                                    <input hidden value="@item.CodeKala" name="CodeKala" />
+                                    <input hidden value="@item.FarbictypeId" name="FarbictypeId" />
+                                    <input hidden value="@item.FarbicTypeProductId" name="FarbicTypeProductId" />
+                                    <input hidden value="@item.GroupId" name="GroupId" />
+                                    <input hidden value="@item.Farbictypeprice" name="Farbictypeprice" />
+                                    <input hidden value="@item.ProductID" name="productId" />
+                                    <input hidden value="@item.sumproduct" name="sumproduct" />
+                                    <button type="submit" class="" style="width: 44px; background: none; border: none;cursor:pointer;    margin-top: 5px;">
+                                        <i class="fa fa-refresh" style="font-size:14px"></i>
+                                    </button>
+
+                                </form>
+                            </td>
+
+                            <!--جمع کل-------------------------------------------------->
+                            <td data-th="Subtotal" class="text-center" style="font-size: initial;text-align: center;">
+                                <input readonly style="text-align:center;text-align: center;
+                                     box-shadow: 0 0 12px 0 black;" value="@item.sumproduct.ToString(" #,0 تومان")" />
+
+                            </td>
+
+                            <!--عملیات-------------------------------------------------->
+                            <td class="" data-th="">
+                                <a href="/Product/DeleteFromShopCart/@item.FarbicTypeProductId" class="btn btn-danger btnrefresh"
+                                   style="font-size: medium; font-family: IRANSans; border-radius: 11px;    border: 1px solid #212529; box-shadow: 0 0 11px 0 black;">
+                                    حذف
+                                    <i class="fa fa-remove"></i>
+                                </a>
+                            </td>
+
+                        </tr>
+
+                        SumAllPrices += item.sumproduct;
+                        countProduct += item.Count;
+                        Session["SumAllPrices"] = SumAllPrices;
+
+                    }
+                </tbody>
+
+
+                <tfoot>
+
+                    <tr style="box-shadow: 0 0 10px 0 #212529;">
+
+                        <td style="box-shadow: 0 0 7px 0 #212529;"></td>
+                        <!--نوع ارسال----------------------------------------->
+                        <td style="box-shadow: 0 0 7px 0 #212529;">
+
+                            <p style="box-shadow: black 0px 0px 14px 0px; background: #ccff0096; border: 1px solid #212529; text-align: center;direction: ltr;">.نوع ارسال را انتخاب نمائید </p>
+                            @if (senprice != null)
+                            {
+                                if (AllShopCart.FirstOrDefault().CountAllShopCart >= senprice.AsNumber && senprice.AsNumber != 0)
+                                {
+                                    <p style="width: 142px; border: 1px solid #212529;
+                                        text-align: center;  background: red;  color: aliceblue;
+                                        border-radius: 5px;  margin-right: 17px;">ارسال رایگان</p>
+
+
+                                }
+                                else
+                                {
+                                    <select v-model="sendtypeId" id="typeSendpost" name="typeSendpost" class="form-control typeSendpost"
+                                            v-on:change="ChangePriceSenTyprprice(this.value)">
+                                        <option disabled value="">انتخاب کنید....</option>
+                                        @foreach (var item in db.TypeSendPosts.Where(x => x.PriceHaml != "0").ToList())
+                                        {
+                                            <option value="@item.Id">@item.NameHaml</option>
+                                        }
+                                    </select>
+
+                                }
+                            }
+                            else
+                            {
+                                    <select v-model="sendtypeId" id="typeSendpost" name="typeSendpost" class="form-control typeSendpost"
+                                            v-on:change="ChangePriceSenTyprprice(this.value)">
+
+                                        <option disabled value="">انتخاب کنید....</option>
+                                        @foreach (var item in db.TypeSendPosts.Where(x => x.PriceHaml != "0").ToList())
+                                        {
+                                            <option value="@item.Id">@item.NameHaml</option>
+                                        }
+                                    </select>
+                            }
+
+
+
+
+                            <!--disabled-->
+                            <div class="nice-select form-control" tabindex="0" style="">
+
+                            </div>
+                            <p style="width: 142px; border: 1px solid rgb(33, 37, 41);  text-align: center; background: rgba(255,255,255,.15); color: #ff3547;
+                                            border-radius: 5px; margin-right: 17px;
+                                            box-shadow: 0 0 4px 0 #212529 ;    margin-top: 39px;">{{priceSendtype}}تومان</p>
+
+                        </td>
+
+                        <!--کدتخفیف----------------------------------------->
+                        <td style="box-shadow: rgb(33, 37, 41) 0px 0px 7px 0px;">
+                            @if (db.giftcards.Count() != 0)
+                            {
+                                <p style="box-shadow: black 0px 0px 14px 0px; background: rgba(204, 255, 0, 0.59); border: 1px solid rgb(33, 37, 41); text-align: center;">اگر کد تخفیف داریدواردنمائید.</p>
+
+                                <input name="gifcartinput" v-model="gifcartinput" type="text" placeholder="کدتخفیف..." style="width: 66%;    color: gray; height: 38px; font-size: 12px;    padding: 7px;">
+
+                                <button v-on:click="ChangePriceGifCart()" type="button" style="width: 44px; background: none; border: none; cursor: pointer; margin-top: 5px;">
+                                    <i class="fa fa-refresh" style="font-size: 14px;"></i>
+                                </button>
+
+                                <p style="width: 142px; border: 1px solid rgb(33, 37, 41); text-align: center;
+                                      background: rgba(255, 255, 255, 0.15); color: rgb(255, 53, 71); border-radius: 5px; margin-right: 17px;
+                                     box-shadow: rgb(33, 37, 41) 0px 0px 4px 0px; margin-top: 28px;">{{pricegifcard}}تومان</p>
+                            }
+                        </td>
+
+                        <!--تعداد کل----------------------------------------->
+                        <td style="box-shadow: 0 0 7px 0 #212529;">
+                            <p style="margin-top: -67px;box-shadow: black 0px 0px 14px 0px; background: #ccff0096; border: 1px solid #212529; text-align: center;">تعدادکل</p>
+                            <p style="font-size: medium;font-family: IRANSans;text-align:center">
+                                @countProduct عدد
+
+                            </p>
+                        </td>
+
+                        <!--جمع کل----------------------------------------->
+                        <td class="" style="box-shadow: 0 0 7px 0 #212529;">
+
+                            <p style="box-shadow: black 0px 0px 14px 0px; background: #ccff0096; border: 1px solid #212529;   text-align: center;">جمع کل</p>
+                            <p style="text-align: center; font-size: 18px;">    {{sumAllPrices | numeral('0,0')}}   تومان   </p>
+
+
+
+                            <p style="width: 142px; border: 1px solid rgb(33, 37, 41);  text-align: center; background: rgba(255,255,255,.15); color: #ff3547;
+                                            border-radius: 5px; margin-right: 17px;
+                                            box-shadow: 0 0 4px 0 #212529 ;">تخفیف{{pricegifcard | numeral('0,0')}}تومان ارسال{{priceSendtype | numeral('0,0')}}تومان</p>
+                        </td>
+
+                        <!--ثبت نهایی----------------------------------------->
+                        <td style="box-shadow: 0 0 7px 0 #212529;">
+                            <form action="/Payment/Payment">
+                                <input hidden v-model="SumAllPrices" value="SumAllPrices" name="sumAllPrices">
+                                <input hidden value="@countProduct" name="countProduct">
+                                <input hidden v-model="gifcartinput" value="gifcartinput" name="gifcart">
+                                <input hidden v-model="sendtypeId" value="sendtypeId" name="sendtypeId">
+
+                                @if (User.Identity.IsAuthenticated && Session["shopcart"] != null)
+                                {
+                                    var mobile = User.Identity.Name.ToString();
+                                    var user = db.users.Where(x => x.Mobile == mobile).FirstOrDefault();
+                                    if (user.StreetAddress == null || user.UserName == null)
+                                    {
+                                        <a href="/PanelUser/EditPersonalInformation?OfShopCart=1"  id="btnrefresh" class="cart-button" style="font-size: medium;font-family: IRANSans;    direction: rtl;">   <i class="fa fa-sign-in"></i>تکمیل اطلاعات کاربری </a>
+
+                                    }
+                                    else
+                                    {
+                                        <button v-bind:disabled="isDisabled" type="submit" id="btnrefresh" class="btn btn-info btn-block btnrefresh" style="font-size: medium;font-family: IRANSans;"> ثبت نهایی  <i class="fa fa-angle-double-left"></i></button>
+
+                                    }
+                                }
+                                else
+                                {
+                                    <a href="/User/RegisterDisposable" id="btnrefresh" class="cart-button" style="font-size: medium;font-family: IRANSans;    direction: rtl;">   <i class="fa fa-sign-in"></i>ابتداوارد شوید </a>
+                                }
+
+                            </form>
+                            <p class="text-center text-danger bg-info"> {{msgisDisabled}}</p>
+                        </td>
+
+                    </tr>
+
+
+                </tfoot>
+
+
+
+            </table>
+        </div>
+        <div class="shopcartMobile" style="margin-top: 5px;border: 1px solid;box-shadow: 0 0 16px 0 black;">
+
+            <div class="cart">
+
+
+                <ul>
+                    @foreach (var item in Model)
+                    {
+                    <li class="cart-item" style="background: #f8f9fa;color: black; height: 158px;">
+
+
+                        @*تصویر*@
+                        <span class="cart-item-pic" style="margin-right: -72px;">
+                            <img src="/Content/imgpro/@item.Imgpath">
+                        </span>
+
+                        @*عنوان وکد دکالا*@
+                        <p style="text-align:right;font-size: 11px;">
+                            @db.groupProducts.Find(item.GroupId).GroupTitle
+                            -
+                            @db.Products.Find(item.ProductID).CodeKala
+                        </p>
+
+                        @* وجنس*@
+                        <p>
+                            @db.FarbicTypes.Find(item.FarbictypeId).tiltle
+                        </p>
+
+
+
+                        <div class="cart-item-desc" style="margin-top: 3px;">
+
+                            @*تعداد*@
+                            <div style="color: black;  margin-left: -89px;">
+                                @*<input style="font-size: initial;text-align:center; box-shadow: 0 0 12px 0 #ccc; margin-top: 17px;width:50px;    width: 31px;
+                height: 25px;    margin-left: 157px;"
+                      type="number" class="form-control text-center" value="@item.Count" min="1" name="Count">*@
+                                <form action="/Product/RefreshShopCart">
+                                    <input style="font-size: initial;text-align:center; box-shadow: 0 0 12px 0 #ccc; margin-top: 17px;width:77px;
+                                                height: 25px;margin-left:220px;"
+                                           type="number" class="form-control text-center" value="@item.Count" min="1" name="Count">
+
+                                    <input hidden value="@item.CodeKala" name="CodeKala" />
+                                    <input hidden value="@item.FarbictypeId" name="FarbictypeId" />
+                                    <input hidden value="@item.FarbicTypeProductId" name="FarbicTypeProductId" />
+                                    <input hidden value="@item.GroupId" name="GroupId" />
+                                    <input hidden value="@item.Farbictypeprice" name="Farbictypeprice" />
+                                    <input hidden value="@item.ProductID" name="productId" />
+                                    <input hidden value="@item.sumproduct" name="sumproduct" />
+                                    <button type="submit" class="" style="width: 44px; background: none; border: none;cursor:pointer;margin-top: 5px;color: black;margin-left: 232px;">
+                                        <i class="fa fa-refresh" style="font-size:14px"></i>
+                                    </button>
+
+                                </form>
+
+                            </div>
+                            @*قیمت*@
+                            <p style="margin-top: -71px;">
+                                @db.FarbicTypes.Find(item.FarbictypeId).PriceMain.ToString(" #,0 تومان")
+                            </p>
+                        </div>
+
+
+                        @*جمع کالا*@
+                        <span class="cart-item-price" style="color: black;right: 136px; margin-top: -17px;  padding: 5px;
+                                box-shadow: 0 0 5px 0 black;">
+                            جمع  :    @item.sumproduct.ToString(" #,0 تومان")
+                        </span>
+                        <a href="/Product/DeleteFromShopCart/@item.FarbicTypeProductId" class="btn btn-danger btnrefresh"
+                           style="        font-size: medium;
+        font-family: IRANSans;
+        border-radius: 11px;
+        border: 1px solid #212529;
+        box-shadow: 0 0 11px 0 black;
+        float: right;
+        margin-right: -76px;
+">
+                            حذف
+                            <i class="fa fa-remove"></i>
+                        </a>
+
+                    </li>
+                    }
+                </ul>
+
+                <!--نوع ارسال----------------------------------------->
+                <div class="cart-bottom" style="direction:rtl">
+                    <p style="text-align: right;direction: ltr;"> .  نوع ارسال را انتخاب نمائید *</p>
+                    @if (senprice != null)
+                    {
+                        if (AllShopCart.FirstOrDefault().CountAllShopCart >= senprice.AsNumber && senprice.AsNumber != 0)
+                        {
+                            <p style="width: 142px; border: 1px solid #212529;
+                                        text-align: center;  background: red;  color: aliceblue;
+                                        border-radius: 5px;  margin-right: 17px;">ارسال رایگان</p>
+
+
+                        }
+                        else
+                        {
+                <select v-model="sendtypeId" id="typeSendpost" name="typeSendpost" class="form-control typeSendpost"
+                        v-on:change="ChangePriceSenTyprprice(this.value)">
+                    <option disabled value="">انتخاب کنید....</option>
+                    @foreach (var item in db.TypeSendPosts.Where(x => x.PriceHaml != "0").ToList())
+                    {
+                        <option value="@item.Id">@item.NameHaml</option>
+                    }
+                </select>
+                         
+
+                        }
+                    }
+                    else
+                    {
+                <select v-model="sendtypeId" id="typeSendpost" name="typeSendpost" class="form-control typeSendpost"
+                        v-on:change="ChangePriceSenTyprprice(this.value)">
+                    <option disabled value="">انتخاب کنید....</option>
+                    @foreach (var item in db.TypeSendPosts.Where(x => x.PriceHaml != "0").ToList())
+                    {
+                        <option value="@item.Id">@item.NameHaml</option>
+                    }
+                </select>
+
+                        
+                    }
+
+
+
+
+                    <!--disabled-->
+                    <div class="nice-select form-control" tabindex="0" style="">
+                        <span class="current" style="">انتخاب کنید...</span>
+                        <ul class="list">
+                            <li data-value="" class="option selected focus">انتخاب کنید...</li>
+                            <li data-value="1" class="option">پسن پیشتاز 900000</li>
+                            <li data-value="2" class="option">پست سفارشی(20,000تومان)</li>
+                        </ul>
+                    </div>
+                    <p style="width:100%; text-align: center; background: rgba(255,255,255,.15); color: #ff3547;
+                                            border-radius: 5px;
+                                               margin-top: 5px;">    {{priceSendtype}}   تومان</p>
+
+                </div>
+
+                <!--کدتخفیف----------------------------------------->
+                <div class="cart-bottom" style="direction: rtl;">
+
+                    @if (db.giftcards.Count() != 0)
+                    {
+
+                        <p style="text-align: right;">* اگر کد تخفیف داریدواردنمائید .</p>
+                        <input v-model="gifcartinput" name="gifcartinput" style="width: 82%;    color: gray; height: 38px;direction: rtl;border:none;    padding: 7px;     font-size: 12px;" type="text" placeholder="کدتخفیف..." />
+
+
+                        <button v-on:click="ChangePriceGifCart()" type="button" class="" style="width: 44px; background: none; border: none;cursor:pointer;    margin-top: 5px;">
+                            <i class="fa fa-refresh" style="font-size:14px;color: black;"></i>
+                        </button>
+
+                        <p style="width: 100%; text-align: center; background: rgba(255, 255, 255, 0.15);
+                                  color: rgb(255, 53, 71); border-radius: 5px;
+                                    margin-top: 5px;">{{pricegifcard}} تومان</p>
+
+                    }
+
+                </div>
+
+
+                <!--ثبت نهایی----------------------------------------->
+                <div class="cart-bottom">
+                    <hr />
+                    <p style="color:black;text-align: center;">تخفیف : {{pricegifcard}} تومان ,  ارسال : {{priceSendtype}} تومان </p>
+                    <p style="color:black;text-align: center;">تعداد کل  : @countProduct , جمع کل  : {{sumAllPrices}}   تومان  </p>
+
+                    @*<a href="#" class="cart-button">Continue</a>*@
+
+                <form action="/Payment/Payment" method="post">
+                    <input hidden v-model="SumAllPrices" value="SumAllPrices" name="sumAllPrices">
+                    <input hidden value="@countProduct" name="countProduct">
+                    <input hidden v-model="gifcartinput" value="gifcartinput" name="gifcart">
+                    <input hidden v-model="sendtypeId" value="sendtypeId" name="sendtypeId">
+
+                    @if (User.Identity.IsAuthenticated && Session["shopcart"] != null)
+                    {
+                        var mobile = User.Identity.Name.ToString();
+                        var user = db.users.Where(x => x.Mobile == mobile).FirstOrDefault();
+                        if (user.StreetAddress == null || user.UserName == null )
+                        {
+                <a href="/PanelUser/EditPersonalInformation?OfShopCart=1" id="btnrefresh" class="cart-button" style="font-size: medium;font-family: IRANSans;    direction: rtl;">   <i class="fa fa-sign-in"></i>تکمیل اطلاعات کاربری </a>
+
+                        }
+                        else
+                        {
+                            <button v-bind:disabled="isDisabled" type="submit" id="btnrefresh" class="btn btn-info btn-block btnrefresh" style="font-size: medium;font-family: IRANSans;"> ثبت نهایی  <i class="fa fa-angle-double-left"></i></button>
+
+                        }
+                    }
+                    else
+                    {
+                        <a href="/User/RegisterDisposable" id="btnrefresh" class="cart-button" style="font-size: medium;font-family: IRANSans;    direction: rtl;">   <i class="fa fa-sign-in"></i>ابتداوارد شوید </a>
+                    }
+
+                </form>
+                    <p class="text-center text-danger bg-info"> {{msgisDisabled}}</p>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+
+
+@section scripts{
+    <script src="~/Scripts/vue.js"></script>
+    <script>
+        var applist = new Vue({
+            el: "#ShopCart",
+            data: {
+                sendtypeId: '',
+                gifcartinput:0,
+                resultDiscount: 0,
+                SumAllPrices: '@SumAllPrices',
+                sumAllPrices: '@SumAllPrices',
+                pricegifcard: 0,
+                priceSendtype: 0,
+                msgisDisabled: ""
+
+
+            },
+            methods: {
+                //________________________________________________________________________________________
+                //تغییر قیمت با کد تخفیف
+                ChangePriceGifCart() {
+                    vm = this;
+                    $.ajax({
+                        url: "/Product/GifCart",
+                        type: "Post",
+                        data:
+                        {
+                            count: $("#count").val(),
+                            gifcartinput: vm.gifcartinput,
+                            SumAllPrices: '@SumAllPrices'
+                        }
+                    }).done(function (result) {
+                        if (result != 0) {
+                            vm.pricegifcard = Number('@SumAllPrices' - result);
+
+                            if (vm.pricegifcard != 0 && vm.priceSendtype != 0) {
+
+                                vm.SumAllPrices = Number(Number('@SumAllPrices') + Number(vm.priceSendtype));
+                                vm.SumAllPrices -= Number(vm.pricegifcard);
+                                vm.sumAllPrices = vm.SumAllPrices;
+
+                            }
+                            else if (vm.priceSendtype != 0) {
+                                vm.SumAllPrices = Number(Number('@SumAllPrices') + Number(vm.priceSendtype));
+                                vm.sumAllPrices = vm.SumAllPrices;
+                            }
+                            else if (vm.pricegifcard != 0) {
+                                vm.SumAllPrices = Number(Number('@SumAllPrices') - Number(vm.pricegifcard));
+                                vm.sumAllPrices = vm.SumAllPrices;
+                            }
+                            else {
+                                vm.SumAllPrices = result;
+                                vm.sumAllPrices = vm.SumAllPrices;
+                            }
+
+
+
+                        }
+
+
+                    });
+                },
+                //________________________________________________________________________________________
+
+
+
+                //تغییر قیمت با انتخاب نوع ارسال________________________________
+                ChangePriceSenTyprprice(id) {
+                    vm = this;
+                    $.ajax({
+                        url: "/Product/SendType",
+                        type: "Post",
+                        data:
+                        {
+                            sendtypeId: vm.sendtypeId,
+                            SumAllPrices: '@SumAllPrices',
+                            countProduct: '@countProduct'
+                        }
+                    }).done(function (result) {
+                        if (result != 0) {
+                            debugger
+                            vm.priceSendtype = Number(result - '@SumAllPrices');
+                            if (vm.pricegifcard != 0 && vm.priceSendtype != 0) {
+                                vm.SumAllPrices = Number(Number('@SumAllPrices') + Number(vm.priceSendtype));
+                                vm.SumAllPrices -= Number(vm.pricegifcard);
+                                vm.sumAllPrices = vm.SumAllPrices;
+                            }
+                            else if (vm.priceSendtype != 0) {
+                                vm.SumAllPrices = Number(Number('@SumAllPrices') + Number(vm.priceSendtype));
+                                vm.sumAllPrices = vm.SumAllPrices;
+                            }
+                            else if (vm.pricegifcard != 0) {
+                                vm.SumAllPrices = Number(Number('@SumAllPrices') - Number(vm.pricegifcard));
+                                vm.sumAllPrices = vm.SumAllPrices;
+                            }
+                            else {
+                                vm.SumAllPrices = result;
+                                vm.sumAllPrices = vm.SumAllPrices;
+                            }
+
+                        }
+                    });
+                }
+                //________________________________________________________________________________________
+
+
+            },
+            //watch روی یه متغییر بگوش میشینه و هر وقت تغییر کرد اون کاری رو که براش مشخص میکنید انجام میده
+            watch: {
+                SumAllPrices: function (newValue) {
+                    //سه رقم جدا سازی قیمت با ویو
+                    const result = newValue.replace(/\D/g, "")
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    Vue.nextTick(
+                        () => this.sumAllPrices = result);
+                }
+
+            },
+            mounted() {
+                this.sumAllPrices = this.sumAllPrices.replace(/\D/g, "")
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                this.sumAllPrices = this.SumAllPrices;
+
+            },
+            computed: {
+                //____________________________________________________________________
+                //خاموش کردن ثبت نهایی تا زمانی که نوع ارسال انتخاب نشود
+                isDisabled: function () {
+
+
+                    if (Number('@AllShopCart.FirstOrDefault().CountAllShopCart') >= Number('@senprice.AsNumber') && Number('@senprice.AsNumber')!=0) {
+                        this.msgisDisabled = "";
+                        return false;
+
+                    }
+                    else {
+
+
+                        if (this.sendtypeId != 0) {
+                            this.msgisDisabled = "";
+                            return false;
+
+                        }
+                        else {
+                            this.msgisDisabled = "لطفا نوع ارسال را انتخاب کنید";
+                            return true;
+                        }
+
+
+                    }
+
+                },
+                //____________________________________________________________________
+
+
+            }
+
+        });
+
+    </script>
+
+}

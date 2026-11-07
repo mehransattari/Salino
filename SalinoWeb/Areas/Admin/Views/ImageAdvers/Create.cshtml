@@ -1,0 +1,154 @@
+﻿@model Salino.Models.ImageAdver
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        تصاویرتبلیغاتی
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active">تصاویرتبلیغاتی</li>
+        <li class="active">تصاویرتبلیغاتی جدید</li>
+    </ol>
+</section>
+<div class="box box-info container">
+
+
+    @using (Html.BeginForm("Create", "ImageAdvers", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>تصویرتبلیغاتی جدید</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+           
+                @Html.Label("405*500 تصویرسمت چپ بالا", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                  
+                    @Html.DropDownList("GroupIdTopLeft", null, "انتخاب کنید...", htmlAttributes: new { @class = "form-control", @style = "height: 35px;" })
+                    @Html.ValidationMessageFor(model => model.GroupIdTopLeft, "", new { @class = "text-danger" })
+               
+                    <input  type="file" name="file" onchange="readURL1(this);" />
+                    <img id="img1" src="~/Content/tn_WallpaperGram.IR_1561882027_z90271.jpg" alt="your image" style="height:auto;width:auto;" class="img-responsive img-thumbnail" />
+                    @section scripts{
+                    <script>
+                        function readURL1(input) {
+                            if (input.files && input.files[0]) {
+                                var reader = new FileReader();
+
+                                reader.onload = function (e) {
+                                    $('#img1')
+                                        .attr('src', e.target.result);
+                                };
+
+                                reader.readAsDataURL(input.files[0]);
+                            }
+                        }
+                    </script>
+                        }
+                </div>
+            </div>
+        
+            <hr />
+            <div class="form-group">
+             
+                @Html.Label("250*450  تصویرسمت چپ پایین", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+               
+                    @Html.DropDownList("GroupIdBottomLeft", null, "انتخاب کنید...", htmlAttributes: new { @class = "form-control", @style = "height: 35px;" })
+                    @Html.ValidationMessageFor(model => model.GroupIdBottomLeft, "", new { @class = "text-danger" })
+                    <input type="file" name="file2" onchange="readURL2(this);" />
+                    <img id="img2" src="~/Content/tn_WallpaperGram.IR_1561882027_z90271.jpg" alt="your image" style="height:auto;width:auto;" class="img-responsive img-thumbnail" />
+                    <script>
+                        function readURL2(input) {
+                            if (input.files && input.files[0]) {
+                                var reader = new FileReader();
+
+                                reader.onload = function (e) {
+                                    $('#img2')
+                                        .attr('src', e.target.result);
+                                };
+
+                                reader.readAsDataURL(input.files[0]);
+                            }
+                        }
+                    </script>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+              
+                @Html.Label(" 250*450  تصویرسمت راست بالا", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                
+                    @Html.DropDownList("GroupIdTopRight", null, "انتخاب کنید...", htmlAttributes: new { @class = "form-control", @style = "height: 35px;" })
+                    @Html.ValidationMessageFor(model => model.GroupIdTopRight, "", new { @class = "text-danger" })
+                    <input type="file" name="file3" onchange="readURL3(this);" />
+                    <img id="img3" src="~/Content/tn_WallpaperGram.IR_1561882027_z90271.jpg" alt="your image" style="height:auto;width:auto;" class="img-responsive img-thumbnail" />
+                    <script>
+                        function readURL3(input) {
+                            if (input.files && input.files[0]) {
+                                var reader = new FileReader();
+
+                                reader.onload = function (e) {
+                                    $('#img3')
+                                        .attr('src', e.target.result);
+                                };
+
+                                reader.readAsDataURL(input.files[0]);
+                            }
+                        }
+                    </script>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+            
+                @Html.Label("405*500  تصویرسمت راست پایین", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                  
+                    @Html.DropDownList("GroupIdBottomRight", null, "انتخاب کنید...", htmlAttributes: new { @class = "form-control", @style = "height: 35px;" })
+                    @Html.ValidationMessageFor(model => model.GroupIdBottomRight, "", new { @class = "text-danger" })
+                    <input type="file" name="file4" onchange="readURL4(this);" />
+                    <img id="img4" src="~/Content/tn_WallpaperGram.IR_1561882027_z90271.jpg" alt="your image" style="height:auto;width:auto;" class="img-responsive img-thumbnail" />
+                    <script>
+                        function readURL4(input) {
+                            if (input.files && input.files[0]) {
+                                var reader = new FileReader();
+
+                                reader.onload = function (e) {
+                                    $('#img4')
+                                        .attr('src', e.target.result);
+                                };
+
+                                reader.readAsDataURL(input.files[0]);
+                            }
+                        }
+                    </script>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+
+                    <button class="btn btn-social btn-success" type="submit">
+                        <i class="fa fa-save"></i> ذخیره
+                    </button>
+                    <a class="btn btn-social btn-pinterest" href="/Admin/ImageAdvers/index">
+                        <i class="fa fa-backward"></i> بازگشت
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+    }
+
+</div>

@@ -1,0 +1,66 @@
+﻿@model Salino.Models.Social
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        شبکه اجتماعی
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active">   شبکه اجتماعی</li>
+        <li class="active"> @Model.SocialName جزئیات </li>
+    </ol>
+</section>
+<div class="box box-info container">
+    <div>
+        <h4> @Model.SocialName  جزئیات</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.SocialName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SocialName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SocialIcon)
+            </dt>
+
+            <dd>
+                <img src="~/Content/imgsocial/@Model.SocialIcon" alt="@Model.SocialIcon " class="img-responsive img-thumbnail" style="border:1px solid ;width:120px;height:120px;" />
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SocialLink)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SocialLink)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NotShow)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.NotShow)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        <a class="btn btn-social btn-danger" href="/Admin/Socials/Edit/@Model.Id">
+            <i class="fa fa-backward"></i> ویرایش
+        </a>
+        <a class="btn btn-social btn-pinterest" href="/Admin/Socials/index">
+            <i class="fa fa-backward"></i> بازگشت
+        </a>
+    </p>
+</div>

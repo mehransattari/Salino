@@ -1,0 +1,121 @@
+﻿
+
+
+@model List<Salino.Models.Product>
+@using Salino.DataLayer;
+@{
+
+    int counter = 1;
+    SalinoContext db = new SalinoContext();
+    int proid = 0;
+}
+<div class="container" id="listproduct">
+    <div class="row " style="justify-content:center">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 col-lg-4 col-4 productDesktop " style="margin-top:20px;cursor: pointer; ">
+
+                <a href="/Product/DetailProduct/@item.Id">
+                    <img class="left" src="~/Content/imgpro/@item.ImgMain" />
+                </a>
+
+
+                <div class="pricecode">
+                    <div class="codemeleft">
+                        کد  : @item.CodeKala 
+                    </div>
+                    <div class="pricemeleft">
+                        @if (db.FarbicTypeProducts.Where(x => x.ProductId == item.Id).FirstOrDefault() != null)
+                        {
+                            <span>   قیمت   :</span>
+                            @db.FarbicTypeProducts.Where(x => x.ProductId == item.Id).FirstOrDefault().FarbicTypes.PriceMain.ToString("#,0")
+
+                        }
+                        else
+                        {
+                            <span>ناموجود</span>
+                        }
+
+                    </div>
+                </div>
+            </div>
+
+            <div @*v-on:click="MoveTodetail(@item.Id)"*@ onclick="window.location.href='/Product/DetailProduct/'+@item.Id"    class="col-md-4  col-lg-4 col-4  productMobile " style="margin-top:15px; background-image: url('/Content/imgpro/@item.ImgMainMob');cursor: pointer; ">
+                <a href="/Product/DetailProduct/@item.Id">
+                    <div class="pricecode">
+
+                        <div class="codemeleft">
+                            کد  : @item.CodeKala 
+                        </div>
+                        <div class="pricemeleft">
+                            @if (db.FarbicTypeProducts.Where(x => x.ProductId == item.Id).FirstOrDefault() != null)
+                            {
+                                <span>   قیمت   :</span>
+                                @db.FarbicTypeProducts.Where(x => x.ProductId == item.Id).FirstOrDefault().FarbicTypes.PriceMain.ToString("#,0")
+
+                            }
+                            else
+                            {
+                                <span>ناموجود</span>
+                            }
+
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            proid = item.Id;
+        }
+    </div>
+
+
+    @*<div v-for="(pro,key) in product" :key="key" class="col-md-4 col-lg-4 col-4 productDesktop " style="margin-top:20px;cursor: pointer; ">
+
+            <a >
+                <img class="left"  :src="'/Content/imgpro/'+pro.ImgMain"/>
+            </a>
+
+
+
+
+            <div class="pricecode">
+                <div class="codemeleft">
+                    کد  : {{pro.CodeKala}}
+
+                </div>
+                <div class="pricemeleft">
+                    قیمت  : @db.FarbicTypeProducts.Where(x => x.ProductId == pro.Id).FirstOrDefault().FarbicTypes.PriceMain.ToString("#,0")
+                </div>
+
+            </div>
+        </div>*@
+</div>
+
+
+<script src="~/Scripts/vue.js"></script>
+<script>
+        var applist = new Vue({
+            el: "#listproduct",
+            data: {
+                product: []
+           
+            },
+            methods: {
+
+                MoveTodetail(id) {
+                    
+                    window.location = "/Product/DetailProduct/"+id;
+                }
+            },
+            mounted() {
+                fetch(' /api/Products')
+
+                    .then((res) => res.json())
+
+                    .then(data => {
+                        this.product = data;
+                    });
+            }
+        })
+
+</script>

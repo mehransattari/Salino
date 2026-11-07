@@ -1,0 +1,36 @@
+﻿@using Salino.DataLayer;
+@{
+    
+    SalinoContext db = new SalinoContext();
+
+}
+<div class="cta-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="cta-content bg-img background-overlay" style="margin-bottom:100px;">
+                    <div class="h-100 d-flex align-items-center justify-content-end">
+                        <div class="cta--text">
+
+                            <div class="row" style="margin-right:0;margin-left:0;background-color: white;">
+                                @if (db.imgadvr.Count() != 0)
+                                {
+                                    @await Component.InvokeAsync("ImageAdvr")
+                                }
+                                @if (db.ImageOffers.Count() != 0)
+                                {
+                                    @await Component.InvokeAsync("ImageOffer")
+                                }
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

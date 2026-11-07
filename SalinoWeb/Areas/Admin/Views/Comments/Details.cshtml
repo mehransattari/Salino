@@ -1,0 +1,76 @@
+﻿@model Salino.Models.Comments
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        نظرات
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"> <a href="/Admin/Comments/Index">نظرات</a></li>
+        <li class="active">جزئیات نظر @Model.Name</li>
+    </ol>
+</section>
+
+<div class="box box-info container">
+    <div>
+        <h4>جزئیات نظر @Model.Name</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.product.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.product.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TextComment)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TextComment)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Createdate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Createdate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.IsShow)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IsShow)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        <a class="btn btn-social btn-danger" href="/Admin/Comments/Edit/@Model.Id">
+            <i class="fa fa-backward"></i> ویرایش
+        </a>
+        <a class="btn btn-social btn-pinterest" href="/Admin/Comments/index">
+            <i class="fa fa-backward"></i> بازگشت
+        </a>
+    </p>
+</div>

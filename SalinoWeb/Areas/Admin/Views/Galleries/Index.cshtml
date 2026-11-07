@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Salino.Models.Gallery>
+@using Salino.DataLayer;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    int counter = 1;
+    SalinoContext db = new SalinoContext();
+    int proId = Convert.ToInt32(Session["id"]);
+}
+
+
+
+
+
+<section class="content-header">
+    <h1>
+   گالری مربوط به کالای  @db.Products.Find(proId).CodeKala
+        <a class="btn btn-app" href="/Admin/Galleries/Create">
+            <i class="fa fa-hand-pointer-o"></i> تصویر جدید
+        </a>
+    
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li><a href="/Admin/Products/Index"><i class="fa fa-dashboard"></i> محصولات</a></li>
+        <li class="active"><a href="/Admin/Galleries/Index">  گالری مربوط به کالای  @db.Products.Find(proId).CodeKala</a></li>
+    </ol>
+</section>
+
+<section class="content  " id="applistMonasebat">
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box box-info">
+
+                <div class="box-header">
+                    <h3 class="box-title">  گالری مربوط به کالای  @db.Products.Find(proId).CodeKala</h3>
+
+               
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Product.CodeKala)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ImgPath)
+                                </th>
+                                <th></th>
+
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr role="row" class="table-striped table-hover">
+                                  
+                                    <td class="sorting_1">@counter</td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Product.CodeKala)
+                                    </td>
+                                    
+
+                                    <td>
+                                        <img src="~/Content/ImgGallery/@item.ImgPath" alt="@item.ImgPath " class="img-thumbnail" style="border:1px solid ;width:120px;height:120px;" />
+                                    </td>
+                                 
+
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown">عملیات</button>
+                                            <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li>@Html.ActionLink("ویرایش", "Edit", new { id = item.Id }, new { @class = "btn btn-block btn-danger btn-flat", @style = "color:white" })</li>
+                                                @*<li>@Html.ActionLink("جزئیات", "Details", new { id = item.Id }, new { @class = "btn btn-block btn-info btn-flat", @style = "color:white" })</li>*@
+                                                <li>
+                                                    @Html.ActionLink("حذف", "Delete", new { id = item.Id }, new { @class = "btn btn-block btn-warning btn-flat", @style = "color:white" })
+
+                                                </li>
+                                           
+
+                                            </ul>
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                                counter++;
+                            }
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+
+         
+                <!-- /.box-body -->
+           
+
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+
+</section>

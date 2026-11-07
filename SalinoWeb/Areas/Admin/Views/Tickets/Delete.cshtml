@@ -1,0 +1,92 @@
+﻿@model Salino.Models.Ticket
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        تیکت ها
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"> <a href="/Admin/Tickets/Index">      تیکت ها</a></li>
+        <li class="active">حذف    تیکت  @Model.TitleTicket</li>
+    </ol>
+</section>
+
+
+<div class="box box-info container">
+
+
+    <h3>آیا  ازحذف تیکت @Model.TitleTicket مطمئن هستید؟ </h3>
+    <div>
+
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Parent.TitleTicket)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Parent.TitleTicket)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.User.UserName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.User.UserName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TitleTicket)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TitleTicket)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TextTicket)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TextTicket)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Createdate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Createdate)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+
+                        <button class="btn btn-social btn-success" type="submit">
+                            <i class="fa fa-save"></i> حذف
+                        </button>
+                        <a class="btn btn-social btn-pinterest" href="/Admin/Tickets/index">
+                            <i class="fa fa-backward"></i> بازگشت
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,108 @@
+﻿@using Salino.DataLayer;
+@{
+    SalinoContext db = new SalinoContext();
+    var setting = db.Settings;
+}
+<style>
+    .zarinpal img {
+        height: 100px;
+    }
+
+    a {
+        color: black;
+    }
+</style>
+<footer class="footer_area clearfix" style="background-image: url('/Content/img/Layer5.png');">
+    <div class="container">
+        <div class="row" style="direction:rtl">
+            <div class="" style="margin:auto">
+
+                @if (setting.Count() != 0)
+                {
+                    <a href="/">   <img style="" src="~/Content/imgsetting/@setting.FirstOrDefault().imageSrc" /></a>
+                }
+                else
+                {
+                    <a href="/">  <img style="" src="~/Content/img/Layer6.png" /></a>
+                }
+
+
+            </div>
+        </div>
+
+        @await Component.InvokeAsync("Social")
+
+        <hr>
+        <div class="row mt-5">
+            <div class="col-md-10 col-lg-offset-2 " style="margin: auto;margin-top: 20px;">
+
+                <div class="col-md-2 col-sm-2 col-xs-2 text-center" style="border: 1px solid black; border-radius: 6px; margin: auto 5px;background: antiquewhite;margin-top: 5px;padding: 2px;">
+
+                    <a href="/User/login">    ورود    <i class="fa fa-sign-in "></i>  </a>
+                </div>
+                <div class="col-md-2 col-sm-2 col-xs-2 text-center" style="border: 1px solid black; border-radius: 6px; margin: auto 5px;background: antiquewhite; margin-top: 5px;padding: 2px;">
+
+                    <a href="/User/Register">ثبت نام  <i class="fa fa-user-plus "></i> </a>
+                </div>
+                <div class="col-md-2 col-sm-2 col-xs-2  text-center" style="border: 1px solid black; border-radius: 6px;margin: auto 5px;background: antiquewhite;margin-top: 5px;padding: 2px;">
+
+                    <a href="/Home/Mojavez">  خدمات ومجوز ها  <i class="fa fa-newspaper-o"></i> </a>
+                </div>
+                <div class="col-md-2 col-sm-2 col-xs-2 text-center" style="border: 1px solid black; border-radius: 6px;margin: auto 5px;background: antiquewhite; margin-top: 5px;padding: 2px;">
+                    <a href="/Home/AddEntegadat">انتقادات وپیشنهادات <i class="fa fa-sticky-note"></i> </a>
+                </div>
+                <div class="col-md-2 col-sm-2 col-xs-2  text-center" style="border: 1px solid black; border-radius: 6px;margin: auto 5px;background: antiquewhite; margin-top: 5px;padding: 2px;">
+                    <a href="/Home/Gavanin"> قوانین ومقررات    <i class="fa fa-balance-scale"></i> </a>
+
+                </div>
+
+            </div>
+            <div class="col-md-12 col-12" style="margin: auto;">
+                <!-----ZarinPal------------>
+                <div class="col-md-12 " style="margin-top: 20px;    text-align: center;">
+                    <div class="zarinpal">
+                        <script src="https://cdn.zarinpal.com/trustlogo/v1/trustlogo.js" type="text/javascript" style="height:100px;"></script>
+                        <a target="_blank" href="https://trustseal.enamad.ir/?id=149197&amp;Code=jet8lja9NmKjqUGrYaMc">
+                            @*<img src="https://Trustseal.eNamad.ir/logo.aspx?id=149197&amp;Code=jet8lja9NmKjqUGrYaMc" alt="" style="cursor:pointer" id="jet8lja9NmKjqUGrYaMc">*@
+                            <img src="~/Content/enamad.png" />
+                        </a>
+                        <img src="~/Content/logo.png" />
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p class="text-right " style="margin-top:20px;">
+                    شرکت برنامه نویسی اپتا
+                    :  به مدیریت
+
+                    <a href="http://mehransattary.ir" title="رزومه شخصی مهران ستاری"><b>مهندس مهران ستاری</b> </a>‌
+                    و
+                    <a href="#" rel="nofollow"> <b>مهندس مهدی رجبی</b>  </a>‌
+
+
+
+                </p>
+                  <p class="text-right " dir="rtl">
+                  لینک مفید :
+
+                    <a href="https://pezeshknab.ir/Products/DetailsProduct/7" title="فشارسنج امرن m3">
+					  <b>فشارسنج بازویی امرن m3</b>
+
+					</a>‌
+                    
+
+
+
+                </p>
+            </div>
+        </div>
+    </div>
+
+   
+</footer>

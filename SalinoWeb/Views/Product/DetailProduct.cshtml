@@ -1,0 +1,650 @@
+﻿@model Salino.Models.Product
+@using Salino.DataLayer;
+@using Salino.ViewModels;
+@{
+    ViewBag.Title = "DetailProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    SalinoContext db = new SalinoContext();
+
+    var offerdetail = db.OfferPrices.OrderByDescending(x => x.Createdate).FirstOrDefault();
+    var FarbicProducts = db.FarbicTypeProducts.Where(x => x.ProductId == Model.Id).ToList();
+    var FarbicTypes = db.FarbicTypes;
+    int selectedfarbictype = 0;
+    int countAll = 0;
+
+    if (Session["AllShopCart"] != null)
+    {
+
+        countAll = ViewBag.CountAll;
+    }
+  
+
+}
+
+<link href="~/Content/lib/light-carousel.css" rel="stylesheet" />
+<script src="~/Content/sweetalert/sweetalert.js"></script>
+<link href="~/Content/alertifyjs/alertify.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<style>
+    [v-cloak] {
+        display: none;
+    }
+
+    .swal-text {
+        text-align: right;
+    }
+
+    .countscart {
+        border: 1px solid;
+        margin: 5px;
+        font-size: 19px;
+        width: 22px;
+        height: 22px;
+        font-size: 19px;
+    }
+
+    .caption {
+        display: none;
+    }
+
+    .thumbnails li {
+        width: 20%;
+    }
+
+
+    @@media screen and (max-width: 767px) {
+        .thumbnails li {
+            width: 32%;
+            padding: 3px;
+        }
+
+        .preview {
+            margin-bottom: 2px;
+        }
+    }
+</style>
+
+
+<link href="~/Content/animate.css" rel="stylesheet" />
+<script src="~/Content/sweetalert/sweetalert.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+<div class="container reg " style="font-family: IRANSans;">
+    <nav aria-label="breadcrumb" style="direction:rtl;font-family: IRANSans;text-align-last:center ; text-align-last: center;
+    box-shadow: 0 0 11px 0 #131212; background: #f89721e6;  box-shadow: 0 0 19px 0 #ed2124 inset;  ">
+        <ol class="breadcrumb" style="background: none;    display: block;">
+            <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+            @if (Model!=null)
+            {
+                <li class="breadcrumb-item"> <a href="/Product/ListProducts/@Model.GroupId">@db.groupProducts.Find(Model.GroupId).GroupTitle</a></li>
+
+            }
+            <li class="breadcrumb-item active" aria-current="page" style="color: #212529;"> @Model.CodeKala </li>
+        </ol>
+    </nav>
+   <div class="DetailProduct" id="detailpro" v-cloak>
+            <div class="container" style="padding-top: 20px;">
+                <div class="card">
+                    <div class="">
+                        <div class="wrapper row">
+                            <!-----------تصویر--------------->
+
+
+                            <div class="preview col-md-9  ">
+                                <div class="">
+
+                                    <div class="container">
+                                        <div class="sample1  ">                                        
+                                                <!-----------درصورت بودن گالری--------------->
+                                                @if (db.Galleries.Where(x => x.ProductId == Model.Id).Count() != 0)
+                                                {
+
+                                                    <div class="carousel" style="margin-top: 27px;">
+                                                        <div class="preview-pic tab-content">
+                                                            <div class="tab-pane active" id="pic-1">
+                                                                <ul>
+                                                                    <li class="current ">
+                                                                        <img src="~/Content/imgpro/@Model.Imgdetail" data-zoom-image="/Content/imgpro/@Model.Imgdetail" alt="" class="detailproImg" />
+                                                                        <img src="~/Content/imgpro/@Model.ImgdetailMob" data-zoom-image="/Content/imgpro/@Model.Imgdetail" alt="" class="detailproMobImg" />
+
+                                                                    </li>
+
+                                                                    @foreach (var item in db.Galleries.Where(x => x.ProductId == Model.Id).Take(4).ToList())
+                                                                    {
+                                                                        <li class="">
+                                                                            <img src="~/Content/ImgGallery/@item.ImgPath" data-zoom-image="/Content/ImgGallery/@item.ImgPath" alt="" class="detailproImg" />
+                                                                            <img src="~/Content/ImgGallery/@item.ImgPath" data-zoom-image="/Content/ImgGallery/@item.ImgPath" alt="" class="detailproMobImg" />
+                                                                        </li>
+
+                                                                    }
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="thumbnails ">
+                                                        <ul>
+                                                            <li class="selected  ">
+                                                                <div style="width: 100px; height: 100px;" class="detailproImg">
+                                                                    <img src="~/Content/imgpro/@Model.Imgdetail" style="width: 100px; height: 100px;" />
+                                                                </div>
+                                                                <div style="width: 50px; height: 50px;" class="detailproMobImg">
+                                                                    <img src="~/Content/imgpro/@Model.ImgdetailMob" style="width: 50px; height: 50px;" />
+                                                                </div>
+                                                            </li>
+
+                                                            @foreach (var item in db.Galleries.Where(x => x.ProductId == Model.Id).Take(4).ToList())
+                                                            {
+                                                                <li class="">
+                                                                    <div style="width: 100px; height: 100px;" class="detailproImg">
+                                                                        <img src="~/Content/ImgGallery/@item.ImgPath" style="width: 100px; height: 100px;" />
+                                                                    </div>
+                                                                    <div style="width: 50px; height: 50px;" class="detailproMobImg">
+                                                                        <img src="~/Content/ImgGallery/@item.ImgPath" style="width: 50px; height: 50px;" />
+                                                                    </div>
+                                                                </li>
+
+                                                            }
+                                                        </ul>
+                                                    </div>
+
+                                                }
+                                                else
+                                                {
+                                                    <div class="carousel" style="margin-top: 27px;">
+                                                        <div class="preview-pic tab-content">
+                                                            <div class="tab-pane active" id="pic-1">
+                                                                <ul>
+                                                                    <li class="current ">
+                                                                        <img src="~/Content/imgpro/@Model.Imgdetail" data-zoom-image="/Content/imgpro/@Model.Imgdetail" alt="" class="detailproImg" />
+                                                                        <img src="~/Content/imgpro/@Model.ImgdetailMob" data-zoom-image="/Content/imgpro/@Model.Imgdetail" alt="" class="detailproMobImg" />
+
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="thumbnails">
+                                                        <ul>
+                                                            <li class="selected  ">
+                                                                <div style="width: 100px; height: 100px;" class="detailproImg">
+                                                                    <img src="~/Content/imgpro/@Model.ImgMainMob" style="width: 100px; height: 100px;" />
+                                                                </div>
+                                                                <div style="width: 50px; height: 50px;" class="detailproMobImg">
+                                                                    <img src="~/Content/imgpro/@Model.ImgdetailMob" style="width: 50px; height: 50px;" />
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                }                                          
+                                            </div>
+                                    </div>
+                                </div>
+                                <input hidden value="@Model.ImgMain" id="imgpath" />
+                            </div>
+
+
+
+                            <div class="details col-md-3">
+
+                                <div class="rating">
+                              
+                                    <p class="codepro  codedetail">کدمحصول : @Model.CodeKala -  @Model.GroupProduct.GroupTitle</p>
+                                    <transition appear enter-active-class="animated swing" leave-active-class="animated swing" mode="out-in">
+                                        <p v-if="showprice" class="pricepro   pricedetail">قیمت : {{selectedChanged | numeral('0,0')}} تومان @*.ToString("#,0 تومان")*@ </p>
+                                        <p v-show="showprice1" class="pricepro   pricedetail">قیمت : {{selectedChanged | numeral('0,0')}} تومان @*.ToString("#,0 تومان")*@ </p>
+
+                                    </transition>
+                                    <input type="text" readonly name="priceDetail" value="selected" v-model="selected" hidden id="priceproduct" />
+                                
+                                </div>
+
+                                <div class="rating typefarbic">
+                                    انتخاب نوع پارچه
+                                    <hr />
+                                    <div class="form-group col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                        <div class="col-md-12 ">
+                                            @if (db.FarbicTypeProducts.Where(x => x.ProductId == Model.Id) != null)
+                                            {
+                                                foreach (var item1 in db.FarbicTypeProducts.Where(x => x.ProductId == Model.Id).ToList())
+                                                {
+                                                    foreach (var item in db.FarbicTypes.Where(x => x.Id == item1.FarbicTypeId && x.IsShow == true).ToList())
+                                                    {
+                                                        <div class="form-check-inline " style="">
+                                                            <div class="farbictype " style="margin-bottom:12px;">
+                                                             
+                                                                 <input type="radio" id="@item.Id" name="FarbicTypes"
+                                                                   value="@Convert.ToInt32(FarbicTypes.SingleOrDefault(x => x.Id == item.Id).PriceMain)"
+
+                                                                   style="height: 20px;" v-model="selected" v-on:click="changeSum()"
+                                                                   v-on:change="changeselectedCurrent()">
+                                                                 <input hidden type="text" value="selected" v-model="selected" class="Farbictypeprice" />
+                                                                 <label for="huey">@item.tiltle : @item.PriceMain.ToString("#,0تومان")</label>
+                                                                                                                   
+
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>            
+                                <div class="rating cartDetailPro">
+                                    <span v-on:click="plus" class="fa fa-2x fa-plus-square" style="font-size: 20px;"> </span>
+                                    <span class="fa countscart">
+                                        <input hidden type="number" Value="counter" name="countcart" v-model="counter" id="countproduct" />
+                                        {{counter}}
+                                    </span>
+                                    <span v-on:click="mines" class="fa fa-2x fa-minus-square" style="font-size: 20px;">  </span>
+
+                                    @{
+                                        List<ShopCartItem> shopcartMajor = Session["shopcartMajor"] as List<ShopCartItem>;
+                                    }
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        if (db.users.Where(x => x.Mobile == User.Identity.Name).FirstOrDefault() != null)
+                                        {
+
+
+                                            if (db.users.Where(x => x.Mobile == User.Identity.Name).FirstOrDefault().RoleId == 4 || db.users.Where(x => x.Mobile == User.Identity.Name).FirstOrDefault().RoleId == 5)
+                                            {
+                                                @*<input type="submit" v-on:click="AddToShopCart(@Model.Id)" value="ثبت در سبد خرید" class="btn   btnregister btncartDetailpro" />*@
+
+                                                <a v-on:click="messageErrorIsMajor()">
+                                                    <p class="insertShopCard" style="margin-top: 6px;margin-top: 6px; box-shadow: 0 0 5px 0 black; border-radius: 3px;width: 131px;
+                                            margin-right: 22px;background: #f89721b0;">ثبت در سبد خرید</p>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a v-on:click="AddToShopCart(@Model.Id)">
+                                                    <p class="insertShopCard" style="margin-top: 6px;margin-top: 6px; box-shadow: 0 0 5px 0 black; border-radius: 3px;width: 131px;
+                                               margin-right: 22px;background: #f89721b0;">ثبت در سبد خرید</p>
+                                                </a>
+                                            }
+                                        }
+
+
+
+                                    }
+                                    else
+                                    {
+                                        <a v-on:click="AddToShopCart(@Model.Id)">
+                                            <p class="insertShopCard" style="margin-top: 6px;margin-top: 6px; box-shadow: 0 0 5px 0 black; border-radius: 3px;width: 131px;
+                                               margin-right: 22px;background: #f89721b0;">ثبت در سبد خرید</p>
+                                        </a>
+                                    }
+
+                                    <p>
+
+
+                                        <transition appear enter-active-class="animated swing" leave-active-class="animated swing" mode="out-in">
+
+                                    <p v-if="showpricesum" class="sumpricedetailpro"> صورتحساب :  <span class="fa " style="font-family: IRANSans;"> {{sum | numeral('0,0')}} تومان  </span></p>
+                                    <p v-show="showpricesum1" class="sumpricedetailpro"> صورتحساب :  <span class="fa " style="font-family: IRANSans;"> {{sum | numeral('0,0')}} تومان  </span></p>
+
+                                    </transition>
+                               
+
+
+
+
+                                    <input readonly hidden type="text" value="sum" id="sumproduct" v-model="sum" style="text-align: center;" />
+
+                                </div>
+                                <hr />
+                                @*<input type="submit" value="ادامه خرید" class="btn   btnregister" />*@
+
+                                <a href="/Product/ShopCart" class="btn   btnregister">
+                                    <p style="margin-top: 6px;">ادامه خرید</p>
+                                </a>
+
+                                @if (Session["shopcart"] == null)
+                                {
+                                    if (db.MajorShops.Count() != 0 && User.Identity.IsAuthenticated)
+                                    {
+                                        if (db.users.Where(x => x.Mobile == User.Identity.Name).FirstOrDefault().RoleId == 4 ||
+                                            db.users.Where(x => x.Mobile == User.Identity.Name).FirstOrDefault().RoleId == 5)
+                                        {
+                                            <a href="/Product/Majorshopping" class="btn   btnregister">
+                                                <p style="margin-top: 6px;">خریدعمده</p>
+                                            </a>
+                                        }
+
+                                    }
+
+                                }
+                                else
+                                {
+                                    if (User.Identity.IsAuthenticated)
+                                    {
+                                        if (db.MajorShops.Count() != 0 && db.users.Where(x => x.Mobile == User.Identity.Name).FirstOrDefault().RoleId == 4 ||
+                                            db.users.Where(x => x.Mobile == User.Identity.Name).FirstOrDefault().RoleId == 5)
+                                        {
+                                            <a href="/Product/Majorshopping" class="btn   btnregister"><p style="margin-top: 6px;">خریدعمده</p></a>
+                                        }
+                                    }
+                                }
+                                <a v-on:click="AddCompare(@Model.Id)" class="btn   btnregister"><p style="margin-top: 6px;">ثبت در علاقه مندی ها</p></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-3" style="direction: rtl;">
+
+                <br>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#home" style="font-family: IRANSans">توضیحات</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#menu1" style="font-family: IRANSans">نظرات</a>
+                    </li>
+
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div id="home" class="container tab-pane active" style="text-align: right;">
+                        <br>
+                        <div class="row bootstrap snippets">
+                            <div class="col-md-12  col-sm-12">
+                                <div class="comment-wrapper">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            <h3 style="font-family: IRANSans">توضیحات</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <p style="font-family: IRANSans">@Html.Raw(Model.Description)</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div id="menu1" class="container tab-pane fade" style="text-align: right;">
+                        <br>
+
+                        @*-----comments----------*@
+
+                        @await Component.InvokeAsync("Comment", new { id = Model.Id })
+
+
+                        @*-----End-comments----------*@
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div> 
+ </div>
+
+
+
+    @section scripts{
+
+        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+        <script src="~/Scripts/alertify.min.js"></script>
+        <script src="~/Scripts/vue.js"></script>
+        <script>
+        var detailpro = new Vue({
+            el: "#detailpro",
+
+            data: {
+                CodeKala: '@Model.CodeKala',
+                GroupId: '@Model.GroupId',
+                counter: 1,
+                minvalue: 0,
+                selected: number = @(db.FarbicTypes.OrderBy(x=>x.PriceMain).FirstOrDefault().PriceMain),              
+                selectedStart: number = 0,
+                selectedChanged: number = 0,
+                sum: number = 0,
+                showprice: true,
+                showprice1: false,
+                showpricesum: true,
+                showpricesum1: false,
+                countOfferPrice: 1,
+                selectedCurrent: number = 0,
+                selectedColor: number=0
+
+
+            },
+
+            methods: {
+                plus: function () {
+
+                    if (this.selected != 0) {
+
+                        this.counter += 1;
+                        this.showpricesum = !this.showpricesum;
+                        this.showpricesum1 = !this.showpricesum1;
+
+                        if (this.counter == 1) {
+                            this.selectedStart = this.selected;
+                        }
+
+                        if (Number('@countAll') + this.counter >= Number('@offerdetail.AsNumber') && Number('@countAll') != 0) {
+
+                            this.selectedChanged = (Number(this.selectedStart)) - (Number('@offerdetail.Price'));
+                            this.sum += this.selectedChanged;
+                        }
+
+                        else {
+
+                            if (this.counter == Number('@offerdetail.AsNumber')) {
+                                swal("تبریک ورود به جشنواره سالینو !", ". بیش از  @offerdetail.AsNumber  خرید کردید وبه جشنواره سالینو وارد شدید ");
+
+                                    this.selectedChanged =
+                                        (Number(this.selectedStart)) - (Number('@offerdetail.Price'));
+                            }
+                            if(this.counter < Number('@offerdetail.AsNumber')) {
+                                    this.selectedChanged = (Number(this.selectedStart));
+                            }
+                            debugger
+                            this.sum += this.selectedChanged;
+                        }
+
+
+                    }
+
+                    else {
+                        swal(".لطفا نوع پارچه را انتخاب نمایید")
+                    }
+
+                },
+                mines: function () {
+
+
+                    if (this.counter > this.minvalue) {
+                        if (this.selected != 0) {
+
+                            this.counter -= 1;
+                            this.showpricesum = !this.showpricesum;
+                            this.showpricesum1 = !this.showpricesum1;
+
+
+                            if (Number('@countAll') + this.counter + 1 >= Number('@offerdetail.AsNumber') && Number('@countAll') != 0) {
+                                this.sum -= this.selectedChanged;
+                            }
+
+
+                            else {
+                                if (this.counter + 1 === Number('@offerdetail.AsNumber')) {
+                                    swal("!متاسفیم ", "شماازجشنواره خارج شدید.");
+                                }
+
+
+                                this.sum -= (Number(this.selectedChanged))  ;
+                                if (this.counter + 1 == Number('@offerdetail.AsNumber')) {
+                                    this.selectedChanged +=  (Number('@offerdetail.Price'));
+                                }
+
+                            }
+
+                        }
+                    }
+
+
+                },
+                changeSum: function () {
+                    this.sum = 0;
+                    this.counter = 0;
+                    this.showprice = !this.showprice;
+                    this.showprice1 = !this.showprice1;
+
+
+                },
+                changeselectedCurrent() {
+                  this.selectedCurrent = this.selected;
+                    this.plus();
+                },
+                AddToShopCart(id) {
+                    if (this.counter != 0) {
+
+                            vm = this;
+                           $.ajax({
+                            url: "/Product/AddToShopCart/" + id,
+                            type: "Post",
+                            data:
+                                {
+                                    //priceproduct: $('#priceproduct').val(),
+                                    Farbictypeprice: vm.selectedCurrent,
+                                      countproduct: vm.counter,
+                                     sumproduct: vm.sum,
+                                    ImagPath: $('#imgpath').val(),
+                                    GroupId: vm.GroupId,
+                                    CodeKala: vm.CodeKala
+
+                                }
+                        }).done(function () {
+                            //swal("ثبت در سبد خرید", ".کالای مورد نظر با موفقیت ثبت گردید ", "success");
+
+                            alertify.set('notifier', 'position', 'bottom-left');
+                            alertify.success('.کالای مورد نظر با موفقیت ثبت گردید ');
+
+
+                            if (this.counter === Number('@offerdetail.AsNumber')) {
+
+
+                                alertify.success('.شما وارد جشنواره شدید ');
+                            }
+                            @*alertify.success("حاصل جمع :" + vm.sum + "تومان", 5, function () { window.location = "/Product/DetailProduct/@Model.Id"; });*@
+
+                            @*alertify.notify("حاصل جمع :" + vm.sum + "تومان", 'success', 5, function () { window.location = "/Product/DetailProduct/@Model.Id"; });*@
+                            alertify.success("حاصل جمع :" + vm.sum + "تومان");
+                            var delay = 100;
+                            setTimeout(function () { window.location = "/Product/DetailProduct/@Model.Id"; }, delay);
+                        });
+
+
+
+                    }
+                    else {
+                        swal(".لطفا نوع پارچه وتعداد را انتخاب نمایید")
+
+                    }
+                },
+                AddCompare(id) {
+                    vm = this;
+                    $.ajax({
+                        url: "/Product/AddToCompare/" + id,
+                        type: "Post",
+
+                    }).done(function () {
+                        swal("ثبت در علاقه مندی ها", " کدکالا :  " + '* @Model.CodeKala *' + " با موفقیت در علاقه مندی ها ثبت گردید ", "success");
+
+                    });
+                },
+                messageErrorIsMajor() {
+                    swal("مشتری عمده محترم", "  شمامشتری عمده میباشید از قسمت خرید عمده طرح های خود را ثبت کنید ", "error");
+
+                },
+                messageErrorIsUser() {
+                    swal("مشتری  محترم", "  شمامشتری عادی میباشید به این قسمت دسترسی ندارید ", "error");
+                }
+            },
+
+            computed: {
+                selectedCurrent: function () {
+                    return Number(this.selectedCurrent) = this.selected;
+
+                }
+            },
+            created() {
+                this.selectedStart = this.selected;
+                this.selectedCurrent = this.selected;
+                this.selectedChanged = this.selected;
+                this.sum += this.selectedStart;
+
+            }
+        });
+
+        </script>
+        <script>
+        $(function () {
+            var message = '@TempData["SuccessEdit"]';
+            if (message != '') {
+                alertify.alert(message);
+            }
+        });
+        </script>
+
+    }
+    @{
+        int productId = Convert.ToInt32(Session["ProductId"]);
+    }
+
+    @if (TempData["successmsgComment"] != null)
+    {
+
+        <script>
+            swal("موفق", "نظر شما با موفقیت ثبت گردید.", "success");
+
+
+        </script>
+    }
+    @if (TempData["errormsgComment"] != null)
+    {
+        <script>
+            swal("خطا", "لطفا موارد مورد نیازقسمت نظرات را وارد کنید.", "error");
+
+
+        </script>
+    }
+    @*//Slider*@
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="~/Content/lib/jquery.light-carousel.js"></script>
+    <script>
+        $('.sample1').lightCarousel();
+
+    </script>
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-36251023-1']);
+        _gaq.push(['_setDomainName', 'jqueryscript.net']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+    </script>
+
+
+
+

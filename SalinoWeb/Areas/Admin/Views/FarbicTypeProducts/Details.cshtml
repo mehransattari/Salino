@@ -1,0 +1,49 @@
+﻿@model Salino.Models.FarbicTypeProducts
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        پارچه محصولات
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"> <a href="/Admin/FarbicTypeProducts/Index">     نوع پارچه</a></li>
+        <li class="active">جزئیات  پارچه محصولات @Model.FarbicTypes.tiltle _  @Model.Products.CodeKala</li>
+    </ol>
+</section>
+
+<div class="box box-info container">
+    <div>
+        <h4>جزئیات  پارچه محصولات @Model.FarbicTypes.tiltle _  @Model.Products.CodeKala</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+      پارچه
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FarbicTypes.tiltle)
+            </dd>
+            <hr />
+            <dt>
+             محصول
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Products.CodeKala)
+            </dd>
+            <hr />
+        </dl>
+    </div>
+    <p>
+        <a class="btn btn-social btn-danger" href="/Admin/FarbicTypeProducts/Edit">
+            <i class="fa fa-backward"></i> ویرایش
+        </a>
+        <a class="btn btn-social btn-pinterest" href="/Admin/FarbicTypeProducts/index">
+            <i class="fa fa-backward"></i> بازگشت
+        </a>
+    </p>
+</div>

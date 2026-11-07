@@ -1,0 +1,71 @@
+﻿@model Salino.Models.ImageMain
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        تصویراصلی
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active">تصویراصلی</li>
+        <li class="active">حذف تصویر @Model.SliderTitle</li>
+    </ol>
+</section>
+
+<div class="box box-info container">
+    <div>
+        <h3>آیا  ازحذف تصویر @Model.SliderTitle مطمئن هستید؟ </h3>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.SliderTitle)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SliderTitle)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.SliderIMG)
+            </dt>
+
+            <dd>
+                <img src="~/Content/imgmain/@Model.SliderIMG" alt="@Model.SliderTitle " width="150" height="150" class="img-responsive img-thumbnail" style="border:1px solid ;" />
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.SliderIMGMob)
+            </dt>
+
+            <dd>
+                <img src="~/Content/imgmain/@Model.SliderIMGMob" alt="@Model.SliderIMGMob " width="150" height="150" class="img-responsive img-thumbnail" style="border:1px solid ;" />
+            </dd>
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+
+                        <button class="btn btn-social btn-success" type="submit">
+                            <i class="fa fa-save"></i> حذف
+                        </button>
+                        <a class="btn btn-social btn-pinterest" href="/Admin/ImageMains/index">
+                            <i class="fa fa-backward"></i> بازگشت
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

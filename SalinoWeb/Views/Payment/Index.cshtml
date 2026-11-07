@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="container shopcart " style="margin-top: 263px;" id="payment">
+        <nav aria-label="breadcrumb" style="direction:rtl;font-family: IRANSans;text-align-last:center ; text-align-last: center;
+            box-shadow: 0 0 11px 0 #131212; background: #f89721e6;  box-shadow: 0 0 19px 0 #ed2124 inset;  ">
+            <ol class="breadcrumb" style="background: none;    display: block;">
+                <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+                @if (Session["shopcartMajor"] == null)
+                {
+                    <li class="breadcrumb-item"><a href="/Product/ShopCart">سبدخرید</a></li>
+                }
+                else
+                {
+                    <li class="breadcrumb-item"><a href="/Product/Majorshopping">سبدخرید</a></li>
+                }
+
+       
+                <li class="breadcrumb-item active" aria-current="page" style="color: #212529;">تایید نهایی سفارشات</li>
+                <li class="breadcrumb-item active" aria-current="page" style="color: #212529;">پرداخت</li>
+            </ol>
+        </nav>
+        <div class="main container" style="direction: rtl;padding: 20px; box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02); -webkit-border-radius: 5px; border-radius: 5px;-moz-border-radius:5px; background-clip: padding-box; margin-bottom: 20px; background-color: #ffffff;font-family:Iransans;    border: 1px solid;">
+            <div align="center">
+            </div>
+            <table class="tbl" style="font-family:IRANSans; margin:auto auto">
+          
+
+                <tr>
+                    <td>
+                        <p style="font-size:20px">
+                            @ViewBag.Message
+                            @(ViewBag.Redirect??"")
+                            @(ViewBag.Redirect1??"")
+                        </p>
+                       
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        @{
+                            int price = Convert.ToInt32(ViewBag.sum);
+                            TempData["PriceAll"] = price;
+                        }
+                        <input hidden value="@price"name="price"id="price"/>
+                        <p style="margin-top:50px;font-size:21px;border:1px solid;text-align:center;padding: 8px;
+                            border-radius: 13px; background-color: cornsilk;">مبلغ پرداختی  :@price.ToString("#,0 تومان") </p>
+
+                    </td>
+               
+
+                </tr>
+            
+                <tr>
+                    <td style="font-family:IRANSans; ">
+                        <div class="row">
+                        <input hidden value="2" name="typeBank"/>
+                            <div class="col-12" style="box-shadow:0 0 5px 0 black;font-size:13px;border-radius: 7px;">
+
+                                <img src="~/Content/logo.png" style="width: 186px;height: 135px;padding: 20px;text-align:center"/>
+                                <p>
+                                    بانک پارسیان  
+                                </p> 
+                              
+                            </div>
+                            <div class="col-2">
+
+                            </div>
+             
+                        </div>
+                    
+
+                    </td>
+                </tr>
+            </table>
+            <input style="margin-top:50px;font-size:20px;" class="btn btn-success btn-block" type="submit" value="پرداخت" />
+        
+        </div>
+    </div>
+
+   
+
+ }
+

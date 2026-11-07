@@ -1,0 +1,58 @@
+﻿@model Salino.Models.FarbicType
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        نوع پارچه
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"> <a href="/Admin/GroupProducts/Index">     نوع پارچه</a></li>
+        <li class="active">جزئیات پارچه @Model.tiltle</li>
+    </ol>
+</section>
+
+<div class="box box-info container">
+    <div>
+        <h4>جزئیات پارچه @Model.tiltle</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.tiltle)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.tiltle)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.PriceMain)
+            </dt>
+
+            <dd>
+                @Model.PriceMain.ToString("#,0تومان")
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.IsShow)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IsShow)
+            </dd>
+            <hr />
+        </dl>
+    </div>
+    <p>
+        <a class="btn btn-social btn-danger" href="/Admin/FarbicTypes/Edit/@Model.Id">
+            <i class="fa fa-backward"></i> ویرایش
+        </a>
+        <a class="btn btn-social btn-pinterest" href="/Admin/FarbicTypes/index">
+            <i class="fa fa-backward"></i> بازگشت
+        </a>
+    </p>
+</div>

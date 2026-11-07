@@ -1,0 +1,33 @@
+﻿@model Salino.Models.ImageAdver
+@using Salino.DataLayer;
+@{
+    SalinoContext db = new SalinoContext();
+  
+}
+
+@if(Model!=null)
+{
+
+
+
+    <div class="img1  ">
+        <a href="/Product/ListProducts/@Model.GroupIdTopLeft">
+            <img src="~/Content/imgadvr/@Model.Img3" />
+        </a>
+    </div>
+    <div class="img2 ">
+        <a href="/Product/ListProducts/@Model.GroupIdTopRight">
+            <img src="~/Content/imgadvr/@Model.Img1" />
+        </a>
+    </div>
+    <div class="img3 ">
+        <a href="/Product/ListProducts/@Model.GroupIdBottomLeft">
+            <img src="~/Content/imgadvr/@Model.Img4" />
+        </a>
+    </div>
+    <div class="img4 ">
+        <a href="/Product/ListProducts/@Model.GroupIdBottomRight">
+            <img src="~/Content/imgadvr/@Model.Img2" />
+        </a>
+    </div>
+}

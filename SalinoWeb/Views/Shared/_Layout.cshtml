@@ -1,0 +1,246 @@
+﻿
+<!DOCTYPE html>
+
+<html lang="fa">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="@ViewData["Des"]">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta property="og:type" content="فروشگاه">
+    <meta property="og:title" content="فروشگاه سالینو">
+    <meta property="og:description" content="فروشگاه روسری سالینو">
+    <meta property="og:image" content="http://salinotbz.ir/Content/imgsetting/Group-setting-417767-Group-setting-263669-Layer4.png">
+    <meta property="og:url" content="http://salinotbz.ir">
+    <meta property="og:site_name" content="http://salinotbz.ir">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="MSytPrfDffI3TeYdvc7Du0H3SNLkmIKcTbvK_RfBMSY" />
+    <title>@ViewBag.Title</title>
+    <link rel="canonical" href="http://salinotbz.ir" />
+
+    <link rel="icon" href="/Content/img/core-img/favicon.ico">
+    <link href="~/Content/bootstrap-rtl.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/css/core-style.css">
+    <link rel="stylesheet" href="~/Content/style.css">
+    <link href="~/Content/mdb.min.css" rel="stylesheet" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KF2GBDT');</script>
+<!-- End Google Tag Manager -->
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-081D8P64PD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-081D8P64PD');
+</script>
+</head>
+
+<body class="" style="font-family: IRANSans">
+<meta name="google-site-verification" content="MSytPrfDffI3TeYdvc7Du0H3SNLkmIKcTbvK_RfBMSY" />
+
+    <!-----------Style-------------------------->
+    @await Html.PartialAsync("_Style")
+    <style>
+
+        /*========shopcart========================================*/
+
+
+        .header-cart-phone h2, a {
+            color: black !important;
+        }
+
+        .fixed-ShopCart {
+            position: fixed;
+            bottom: 2px;
+            left: 15px;
+            width: 96px;
+            z-index: 100;
+            color: #212529 !important;
+            font-size: 10px;
+            background-color: white;
+        }
+
+        .displaynone-fixed-ShopCart {
+            display: none;
+        }
+
+        .shopcartmenuname {
+            color: white !important;
+        }
+
+        /*============home====================================*/
+        .fixed-home {
+            position: fixed;
+            bottom: 2px;
+            left: 122px;
+            width: 96px;
+            z-index: 100;
+            color: #212529 !important;
+            font-size: 10px;
+            background-color: white;
+        }
+
+        .displaynone-fixed-home {
+            display: none;
+        }
+
+        .homemenuname {
+            color: white !important;
+        }
+        /*=========panelUser=======================================*/
+        .fixed-login {
+            position: fixed;
+            bottom: 2px;
+            left: 227px;
+            width: 142px;
+            z-index: 100;
+            color: #212529 !important;
+            font-size: 10px;
+            background-color: white;
+        }
+
+        .displaynone-fixed-login {
+            display: none;
+        }
+
+        .loginmenuname {
+            color: white !important;
+        }
+        /*=========Auth=======================================*/
+        .fixed-Auth {
+            position: fixed;
+            bottom: 2px;
+            left: 227px;
+            width: 142px;
+            z-index: 100;
+            color: #212529 !important;
+            font-size: 10px;
+            background-color: white;
+        }
+
+        .displaynone-fixed-Auth {
+            display: none;
+        }
+
+        .Authmenuname {
+            color: white !important;
+        }
+    </style>
+
+
+    @*@await Html.PartialAsync("_loading")*@
+    <!-- Keep the Page Content Here.-->
+    <!-----------Menu-------------------------->
+    @await Component.InvokeAsync("Menu")
+
+
+    <!-----------RenderBody-------------------------->
+    <div class="body mt-200">
+        @RenderBody()
+    </div>
+    <div id="cg-ShopCart-below">
+
+    </div>
+
+    <div id="cg-home-below">
+
+    </div>
+
+
+   
+        <div id="cg-login-below">
+
+        </div>
+
+
+            <div id="cg-login-Auth">
+
+            </div>
+     
+
+
+
+        <!-----------Footer-------------------------->
+        @await Html.PartialAsync("_Footer")
+
+
+
+
+        <!-----------Scripts-------------------------->
+        @await Html.PartialAsync("_Scripts")
+
+
+        @RenderSection("scripts", false)
+
+    @{ 
+        string Auth = User.Identity.IsAuthenticated.ToString();
+    }
+        <script src="~/Content/js/jquery/jquery-2.2.4.min.js"></script>
+        <script>
+            var $a = $.noConflict(true);
+            $a(window).scroll(function () {
+                if ($a(window).scrollTop() >= 25) {
+                    var h1 = document.getElementById("cg-ShopCart-below");
+                    h1.insertAdjacentHTML("afterend", "<a href='/Product/ShopCart'  class='btn btn-view-cart inverse cg-ShopCart-below'>سبد خرید <i class='fa fa-shopping-cart'></i></a>");
+                    $a('.cg-ShopCart-below').addClass('fixed-ShopCart');
+
+                    var h2 = document.getElementById("cg-home-below");
+                    h2.insertAdjacentHTML("afterend", "<a href='/'  class='btn btn-view-cart inverse cg-home-below'> <i class='fa fa-home'></i> خانه</a>");
+                    $a('.cg-home-below').addClass('fixed-home');
+
+
+
+             
+            
+                    if (('@Auth') == 'True') {
+                        var h4 = document.getElementById("cg-login-Auth");
+                        h4.insertAdjacentHTML("afterend", "<a href='/PanelUser/Index'  class='btn btn-view-cart inverse cg-login-Auth'> <i class='fa fa-user'></i> پنل کاربری</a>");
+                        $a('.cg-login-Auth').addClass('fixed-Auth');
+                    }
+                    else {
+                        var h3 = document.getElementById("cg-login-below");
+                        h3.insertAdjacentHTML("afterend", "<a href='/User/RegisterDisposable'  class='btn btn-view-cart inverse cg-login-below'> <i class='fa fa-user'></i> ورود با کد یکبار مصرف</a>");
+                        $a('.cg-login-below').addClass('fixed-login');
+                    }
+
+
+
+                }
+                else {
+                    $a('.cg-ShopCart-below').addClass('displaynone-fixed-ShopCart');
+                    $a('.cg-ShopCart-below').removeClass('fixed-ShopCart');
+
+                    $a('.cg-home-below').addClass('displaynone-fixed-home');
+                    $a('.cg-home-below').removeClass('fixed-home');
+
+
+     
+                    if (('@Auth') == 'True') {
+                        $a('.cg-login-Auth').addClass('displaynone-fixed-Auth');
+                        $a('.cg-login-Auth').removeClass('fixed-Auth');
+                    }
+                    else {
+                        $a('.cg-login-below').addClass('displaynone-fixed-login');
+                        $a('.cg-login-below').removeClass('fixed-login');
+                    }
+
+
+                }
+            });
+        </script>
+
+
+
+    </body>
+
+</html>

@@ -1,0 +1,116 @@
+﻿@model Salino.Models.FactorDetail
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        جزئیات فاکتور @ViewBag.ShomareFactor
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"> <a href="/Admin/FactorDetails/Index">     نوع پارچه</a></li>
+        <li class="active">جزئیات فاکتور @ViewBag.ShomareFactor</li>
+    </ol>
+</section>
+
+
+<div class="box box-info container">
+
+
+    <h3>آیا  ازحذف جزئیات فاکتور @ViewBag.ShomareFactor مطمئن هستید؟ </h3>
+    <div>
+
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.FactorMain.Paymentstatus)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FactorMain.Paymentstatus)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.ProductId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ProductId)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ProductName)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.FarbicTypeId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FarbicTypeId)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.FarbicTypeName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FarbicTypeName)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.DetailCount)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DetailCount)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.DetailPrice)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DetailPrice)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.SumPrice)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SumPrice)
+            </dd>
+            <hr />
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+
+                        <button class="btn btn-social btn-success" type="submit">
+                            <i class="fa fa-save"></i> حذف
+                        </button>
+                        <a class="btn btn-social btn-pinterest" href="/Admin/FactorDetails/index/?Id=@Model.FactorMainId">
+                            <i class="fa fa-backward"></i> بازگشت
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

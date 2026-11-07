@@ -1,0 +1,104 @@
+﻿@model Salino.Models.Comments
+@using Salino.DataLayer;
+@{
+
+    SalinoContext db = new SalinoContext();
+}
+<script src="~/Content/sweetalert/sweetalert.js"></script>
+<div class="row bootstrap snippets">
+    <div class="col-md-12  col-sm-12">
+        <div class="comment-wrapper">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 style="font-family: IRANSans">نظرات</h3>
+                </div>
+                <div class="panel-body">
+                    <form action="/Product/Comment" method="post">
+                        @*@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" ,placeholder = "نام خودراواردکنید..." } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })*@
+                        <input style="font-size: 15px;" type="text" name="Name" class="form-control" placeholder="نام خودراواردکنید..." />
+                        <br />
+                        @*@Html.EditorFor(model => model.TextComment, new { htmlAttributes = new { @class = "form-control", placeholder = "متن نظر..." } })
+                            @Html.ValidationMessageFor(model => model.TextComment, "", new { @class = "text-danger" })*@
+                        <textarea name="TextComment" style="font-size: 15px;" class="form-control" placeholder="متن نظر..." rows="3"></textarea>
+                        <br>
+                        <button type="submit" class="btn btn-info pull-right">ارسال</button>
+                        <div class="clearfix"></div>
+                    </form>
+                    <hr>
+                    <ul class="media-list">
+                        @if (db.Comments.Count() != 0)
+                        {
+                            int proid = Convert.ToInt32(ViewBag.proid);
+                            foreach (var item in db.Comments.Where(x => x.ProductId == proid).ToList())
+                            {
+                                if (item.IsShow == true)
+                                {
+                                   if (item.ParentId != null)
+                                    {
+                                        <li class="media"style="padding: 0px 74px;">
+                                            <a href="#" class="pull-left">
+                                                @if (item.ParentId == null)
+                                                {
+
+                                                    <img style="height:55px;width:55px;" src="~/Content/img/Layer1.png" alt="" class="img-circle">
+                                                }
+                                                else
+                                                {
+
+                                                    <img style="height:55px;width:55px;" src="~/Content/img/Layer6.png" alt="" class="img-circle">
+                                                }
+
+                                            </a>
+                                            <div class="media-body">
+                                                <span class="text-muted pull-right">
+                                                    <small class="text-muted">@item.Createdate</small>
+                                                </span>
+                                                <strong class="text-success">@item.Name</strong>
+                                                <p>
+                                                    @item.TextComment
+                                                </p>
+                                            </div>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="media">
+                                            <a href="#" class="pull-left">
+                                                @if (item.ParentId == null)
+                                                {
+
+                                                    <img style="height:55px;width:55px;" src="~/Content/img/Layer1.png" alt="" class="img-circle">
+                                                }
+                                                else
+                                                {
+
+                                                    <img style="height:55px;width:55px;" src="~/Content/img/Layer6.png" alt="" class="img-circle">
+                                                }
+
+                                            </a>
+                                            <div class="media-body">
+                                                <span class="text-muted pull-right">
+                                                    <small class="text-muted">@item.Createdate</small>
+                                                </span>
+                                                <strong class="text-success">@item.Name</strong>
+                                                <p>
+                                                    @item.TextComment
+                                                </p>
+                                            </div>
+                                        </li>
+                                    }
+
+                                }
+
+                            }
+                        }
+
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,202 @@
+﻿@model Salino.Models.FactorMain
+@using Salino.ToShamsi
+@using Salino.DataLayer;
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    SalinoContext db = new SalinoContext();
+    int currentPage = Convert.ToInt32(ViewBag.currentPage);
+}
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        فاکتوراصلی
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"> <a href="/Admin/FactorMains/Index"> فاکتوراصلی</a></li>
+        <li class="active">جزئیات فاکتوراصلی @Model.PaymentNumber _  @Model.UserMobile</li>
+    </ol>
+</section>
+
+<div class="box box-info container">
+    <div>
+        <h4>جزئیات فاکتوراصلی @Model.PaymentNumber _  @Model.UserMobile</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.FactorNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FactorNumber)
+            </dd>
+         
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.CodeGenerator)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CodeGenerator)
+            </dd>
+            <hr />
+        
+   
+            <dt>
+                @Html.DisplayNameFor(model => model.PaymentNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PaymentNumber)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Paymentstatus)
+            </dt>
+
+            <dd>
+                @if (Model.Paymentstatus == "100")
+                {
+                    <p>پرداخت شده</p>
+                }
+                else
+                {
+                    <p>پرداخت نشده</p>
+                }
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.RRN)
+
+            </dt>
+
+            <dd>
+      
+                @Model.RRN
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Amount)
+            </dt>
+
+            <dd>
+             @Model.Amount.ToString("#,0تومان")
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.TypeSendPostName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TypeSendPostName)
+            </dd>
+            <hr />
+            <dt>
+          @*مبلغ ارسال      
+            </dt>
+
+            <dd>
+                @if (db.roles.Find(Model.RoleId).Id == 4 || db.roles.Find(Model.RoleId).Id == 5)
+                {
+                    @Convert.ToUInt32(db.SendForMajors.Find(Model.TypeSendPostId).PriceHaml).ToString("#,0تومان")
+                }
+                else
+                {
+                    @Convert.ToUInt32(db.TypeSendPosts.Find(Model.TypeSendPostId).PriceHaml).ToString("#,0تومان")
+                }            
+            </dd>
+            <hr />*@
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Discount)
+            </dt>
+
+            <dd>            
+                @Model.Discount.ToString("#,0تومان")
+            </dd>
+            <hr />
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SumAllPrice)
+            </dt>
+
+            <dd>
+                @*@Html.DisplayFor(model => model.SumAllPrice)*@
+                @Model.SumAllPrice.ToString("#,0تومان")
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.IsPay)
+            </dt>
+
+            <dd>
+                @if(Model.IsPay==true)
+                {
+                    <p>بله</p>
+                }
+                else
+                {    <p>خیر</p>
+
+                }
+      
+            </dd>
+            <hr />
+         
+            <dt>
+                @Html.DisplayNameFor(model => model.Username)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Username)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.UserMobile)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UserMobile)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.AddressUser)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AddressUser)
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.DateCreate)
+            </dt>
+
+            <dd>
+                @Model.DateCreate
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Time)
+            </dt>
+
+            <dd>
+                @Model.Time
+            </dd>
+            <hr />
+            <dt>
+                @Html.DisplayNameFor(model => model.Deliverytime)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Deliverytime)
+            </dd>
+           
+            <hr />
+        </dl>
+    </div>
+    <p>
+       
+        <a class="btn btn-social btn-pinterest" href="/Admin/FactorMains/index?page=@currentPage">
+            <i class="fa fa-backward"></i> بازگشت
+        </a>
+    </p>
+</div>

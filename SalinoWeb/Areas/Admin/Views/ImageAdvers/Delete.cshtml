@@ -1,0 +1,80 @@
+﻿@model Salino.Models.ImageAdver
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        تصاویرتبلیغاتی
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active">   تصاویرتبلیغاتی</li>
+        <li class="active">حذف  تصاویرتبلیغاتی </li>
+    </ol>
+</section>
+
+<div class="box box-info container">
+    <div>
+        <h3>آیا  ازحذف تصاویر تبلیغاتی مطمئن هستید؟ </h3>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                تصویرسمت چپ بالا
+            </dt>
+
+            <dd>
+                <img src="~/Content/imgadvr/@Model.Img1" alt="@Model.Img1 " width="150" height="150" class="img-responsive img-thumbnail" style="border:1px solid ;" />
+            </dd>
+            <hr />
+            <dt>
+                تصویرسمت چپ پایین
+            </dt>
+
+            <dd>
+                <img src="~/Content/imgadvr/@Model.Img2" alt="@Model.Img2 " width="150" height="150" class="img-responsive img-thumbnail" style="border:1px solid ;" />
+            </dd>
+            <hr />
+            <dt>
+                تصویرسمت راست بالا
+            </dt>
+
+            <dd>
+                <img src="~/Content/imgadvr/@Model.Img3" alt="@Model.Img3 " width="150" height="150" class="img-responsive img-thumbnail" style="border:1px solid ;" />
+            </dd>
+            <hr />
+            <dt>
+                تصویرسمت راست پایین
+            </dt>
+
+            <dd>
+                <img src="~/Content/imgadvr/@Model.Img4" alt="@Model.Img4 " width="150" height="150" class="img-responsive img-thumbnail" style="border:1px solid ;" />
+            </dd>
+            <hr />
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+
+                        <button class="btn btn-social btn-success" type="submit">
+                            <i class="fa fa-save"></i> حذف
+                        </button>
+                        <a class="btn btn-social btn-pinterest" href="/Admin/ImageAdvers/index">
+                            <i class="fa fa-backward"></i> بازگشت
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

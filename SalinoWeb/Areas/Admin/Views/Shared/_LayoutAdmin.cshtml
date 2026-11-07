@@ -1,0 +1,399 @@
+﻿@using Salino.DataLayer;
+@{
+
+    SalinoContext db = new SalinoContext();
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>مدیریت سالینو</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Tell the browser to be responsive to screen width -->
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="~/Areas/Admin/content/dist/css/bootstrap-theme.css">
+    <!-- Bootstrap rtl -->
+    <link rel="stylesheet" href="~/Areas/Admin/content/dist/css/rtl.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Areas/Admin/content/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="~/Areas/Admin/content/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- jvectormap -->
+    <link rel="stylesheet" href="~/Areas/Admin/content/bower_components/jvectormap/jquery-jvectormap.css">
+
+    
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/Areas/Admin/content/dist/css/AdminLTE.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="~/Areas/Admin/content/dist/css/skins/_all-skins.min.css">
+    <link href="~/Content/alertifyjs/alertify.rtl.min.css" rel="stylesheet" />
+
+
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <!-- customize adminlte -->
+    <link rel="stylesheet" href="~/Areas/Admin/content/dist/css/customize-adminlte.css">
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <style>
+        .no-padding {
+            padding-bottom: 136px !important;
+        }
+
+        .content-header {
+            margin-bottom: 15px;
+            background: rgb(244, 245, 250);
+            box-shadow: 0 0 26px 0 rgba(0,0,0,.5);
+            padding: 11px;
+            border-radius: 9px;
+        }
+
+        .btn-group {
+            width: 150px;
+        }
+        .content-wrapper{
+            min-height:1400px;
+            height:1400px;
+        }
+        .content {
+            background: aliceblue;
+        }
+
+    </style>
+    <div class="wrapper">
+
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="index.html" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini">پنل</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>مدیریت سالینو</b></span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <div class="navbar-custom-menu">
+                    <a href="/">
+                        <img src="~/Content/img/Layer4.png" style="height: 46px;width: 92px;margin-left: 52px;" />
+                    </a>
+                </div>
+
+            </nav>
+        </header>
+        <!-- right side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- Sidebar user panel -->
+                <div class="user-panel">
+
+                    <div class="user-box">
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div style="text-align: center;">
+                                <a href="/Account/Signout">@db.users.Where(x => x.Mobile == User.Identity.Name).FirstOrDefault().UserName  <span class="fa fa-user fa-2x"></span></a>
+                            </div>
+                        }
+                        <br />
+                        <ul class="list-inline" style="text-align: center;">
+
+                            <li>
+                                <a href="/User/Signout"><span class="fa fa-sign-out fa-2x" data-toggle="tooltip" data-placement="bottom" title="خروج از حساب"></span></a>
+
+                            </li>
+                            <li>
+                                <a href="/"><span class="fa fa-eye fa-2x" data-toggle="tooltip" data-placement="bottom" title="صفحه اصلی سایت"></span></a>
+                            </li>
+
+                            <li>
+                                <a href="/Admin/Default/ChangePassword"><span class="fa fa-key fa-2x" data-toggle="tooltip" data-placement="bottom" title="تغییر رمزعبور"></span></a>
+                            </li>
+
+
+                        </ul>
+                        <hr />
+
+                    </div>
+
+                </div>
+                <!-- search form -->
+                <!-- /.search form -->
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu" data-widget="tree">
+
+                    <!----------داشبرد--------------->
+                    <li class="active ">
+                        <a href="/Admin/Default/Index">
+                            <i class="fa fa-dashboard"></i> <span>داشبرد</span>
+                        </a>
+
+                    </li>
+                    <!----------کاربران--------------->
+                    <li class="">
+                        <a href="/Admin/Users/Index">
+                            <i class="fa fa-user"></i> <span>کاربران</span>
+                        </a>
+                    </li>
+                    <!----------فاکتورها--------------->
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-book"></i>
+                            <span>فاکتورها</span>
+                            <span class="pull-left-container">
+                                <span class="label label-primary pull-left">1</span>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="/Admin/FactorMains/Index"><i class="fa fa-book"></i> فاکتور اصلی</a></li>
+
+
+                        </ul>
+                    </li>
+                    <!----------گزارشات--------------->
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-file"></i>
+                            <span>گزارشات</span>
+                            <span class="pull-left-container">
+                                <span class="label label-primary pull-left">2</span>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="/Admin/Report/ReportsDays"><i class="fa fa-file"></i> گزارشات فروش روزانه</a></li>
+                            <li><a href="/Admin/Report/ReportMonth"><i class="fa fa-file"></i> گزارشات فروش ماهانه</a></li>
+
+                        </ul>
+                    </li>
+                    <!----------محصولات--------------->
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-product-hunt"></i>
+                            <span>محصولات</span>
+                            <span class="pull-left-container">
+                                <span class="label label-primary pull-left">4</span>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="/Admin/GroupProducts/Index"><i class="fa fa-product-hunt"></i> گروه بندی محصولات</a></li>
+                            <li><a href="/Admin/FarbicTypes/Index"><i class="fa fa-product-hunt"></i> نوع پارچه</a></li>
+                            <li><a href="/Admin/Colors/Index"><i class="fa fa-product-hunt"></i> رنگ ها</a></li>
+                            <li>
+                                @if (db.groupProducts.Count() != 0 && db.Colors.Count() != 0 && db.FarbicTypes.Count() != 0)
+                                {
+                                    <a href="/Admin/Products/Index"><i class="fa fa-product-hunt"></i> محصولات</a>
+                                }
+                                else
+                                {
+                                    <a style="cursor:pointer" data-toggle="modal" data-target="#modal-danger">
+                                        <i class="fa fa-product-hunt"></i>
+                                        محصولات
+                                    </a>
+
+                                }
+
+
+                            </li>
+                            @*<li><a href="/Admin/FarbicTypeProducts/Index"><i class="fa fa-product-hunt"></i> پارچه محصولات</a></li>*@
+                        </ul>
+                    </li>
+
+                    <!----------مناسبت ها--------------->
+                    <!--<li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-diamond"></i>
+                            <span>مناسبت ها</span>
+                            <span class="pull-left-container">
+                                <span class="label label-primary pull-left">2</span>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="/Admin/Monasebats/Index"><i class="fa fa-diamond"></i> مناسبت ها</a></li>
+                            <li><a href="/Admin/MonasebatProducts/Index"><i class="fa fa-diamond"></i> محصولات مناسبتی</a></li>
+
+                        </ul>
+                    </li>-->
+                    <!----------تصاویر--------------->
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-image"></i>
+                            <span>تصاویر</span>
+                            <span class="pull-left-container">
+                                <span class="label label-primary pull-left">3</span>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="/Admin/ImageMains/Index"><i class="fa fa-image"></i> تصویراصلی سایت</a></li>
+                            <li><a href="/Admin/ImageAdvers/Index"><i class="fa fa-image"></i> تصاویرتبلیغاتی</a></li>
+                            <li><a href="/Admin/ImageOffers/Index"><i class="fa fa-image"></i> تصویرتخفیف</a></li>
+                        </ul>
+                    </li>
+                  
+                    <!----------جشنواره ها--------------->
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-bomb"></i>
+                            <span>جشنواره ها</span>
+                            <span class="pull-left-container">
+                                <span class="label label-primary pull-left">4</span>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="/Admin/OfferPrices/Index"><i class="fa fa-bomb"></i> جشنواره تخفیف خریدچندمی </a></li>
+                            <li><a href="/Admin/OfferFirstShops/Index"><i class="fa fa-bomb"></i> جشنواره خرید اولی ها</a></li>
+                            <li><a href="/Admin/OfferNumberShops/Index"><i class="fa fa-bomb"></i> جشنواره مشتریان وفادار</a></li>
+                            <li><a href="/Admin/SendPrices/Index"><i class="fa fa-bomb"></i> جشنواره ارسال رایگان</a></li>
+
+                        </ul>
+                    </li>
+            
+                    <!----------  شبکه اجتماعی--------------->
+                    <li class="">
+                        <a href="/Admin/Socials/Index">
+                            <i class="fa ion-social-whatsapp"></i> <span>    شبکه اجتماعی</span>
+                        </a>
+
+                    </li>
+                    <!----------  تنظیمات--------------->
+                    <li class="">
+                        <a href="/Admin/Settings/Index">
+                            <i class="fa ion-settings"></i> <span>تنظیمات</span>
+                        </a>
+                    </li>
+                    <!----------  نظرات--------------->
+                    <li class="">
+                        <a href="/Admin/Comments/Index">
+                            <i class="fa fa-comment"></i> <span>نظرات</span>
+                        </a>
+                    </li>
+                    <!----------  تیکت ها--------------->
+                    <li class="">
+                        <a href="/Admin/Tickets/Index">
+                            <i class="fa fa-ticket"></i> <span>تیکت ها</span>
+                        </a>
+                    </li>
+                    <!---------- پیشنهادات وانتقادات--------------->
+                    <li class="">
+                        <a href="/Admin/Entegadats/Index">
+                            <i class="fa fa-commenting-o"></i> <span>پیشنهادات وانتقادات</span>
+                        </a>
+
+                    </li>
+                    <!---------- ارسال پستی--------------->
+                    <li class="">
+                        <a href="/Admin/TypeSendPosts/Index">
+                            <i class="fa fa-cart-plus"></i> <span>ارسال پستی</span>
+                        </a>
+                    </li>
+                    <!---------- مجوز ها--------------->
+                    <li class="">
+                        <a href="/Admin/Mojavezs/Index">
+                            <i class="fa fa-newspaper-o"></i> <span> مجوز ها</span>
+                        </a>
+
+                    </li>
+                    <!---------- راهنمایی ها--------------->
+                    @*<li class="">
+                        <a href="/Admin/Default/Help">
+                            <i class="fa fa-header"></i> <span> راهنمایی</span>
+                        </a>
+
+                    </li>*@
+
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" >
+            <!-- Content Header (Page header) -->
+            <!-- Main content -->
+            <section class="content">
+                @RenderBody()
+            </section>
+            <!-- /.content -->
+        </div>
+
+        <div class="control-sidebar-bg"></div>
+    </div>
+
+    <div class="modal modal-danger fade" id="modal-danger" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title">اخطار!</h4>
+                </div>
+                <div class="modal-body">
+                    <p>مدیر محترم لطفا ابتدا گروه بندی , رنگ بندی  را پر کنید سپس محصول درج نمائید.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">خروج</button>
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+
+    <script src="~/Areas/Admin/content/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- ./wrapper -->
+    <!-- jQuery 3 -->
+    <script src="~/Areas/Admin/content/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="~/Areas/Admin/content/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- FastClick -->
+    <script src="~/Areas/Admin/content/bower_components/fastclick/lib/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/Areas/Admin/content/dist/js/adminlte.min.js"></script>
+    <!-- Sparkline -->
+    <script src="~/Areas/Admin/content/bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
+    <!-- jvectormap  -->
+    <script src="~/Areas/Admin/content/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="~/Areas/Admin/content/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <!-- SlimScroll -->
+    <script src="~/Areas/Admin/content/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- ChartJS -->
+    <script src="~/Areas/Admin/content/bower_components/Chart.js/Chart.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="~/Areas/Admin/content/dist/js/pages/dashboard2.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/Areas/Admin/content/dist/js/demo.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script src="~/Scripts/alertify.min.js"></script>
+ 
+
+
+    @RenderSection("scripts", false)
+
+
+</body>
+
+</html>

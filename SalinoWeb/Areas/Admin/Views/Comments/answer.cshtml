@@ -1,0 +1,97 @@
+﻿@model Salino.Models.Comments
+
+@{
+    ViewBag.Title = "answer";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        نظرات
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"> <a href="/Admin/Comments/Index">     نظرات</a></li>
+        <li class="active"> پاسخ نظربه : @Model.Name</li>
+    </ol>
+</section>
+
+<div class="box box-info container">
+
+
+    @using (Html.BeginForm("answer", "Comments", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(x => x.Id)
+        <div class="form-horizontal" >
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.Hidden("ProductId") 
+            @Html.Hidden("ParentId")
+
+            <div class="form-group">
+                @Html.Label("محصول", new { @class = "col-md-2 control-label", @disabled = "disabled" })
+                <div class="col-md-10" style="margin-top:7px;">
+
+                    @Html.Editor("ProductName", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("دیدگاه کاربر", new { @class = "col-md-2 control-label", @disabled = "disabled", @readonly = "readonly" })
+                <div class="col-md-10" style="margin-top:7px;">
+                    @Html.Editor("ParentContent", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("نام", new { @class = "col-md-2 control-label", @disabled = "disabled" })
+                <div class="col-md-10" style="margin-top:7px;">
+
+                    @Html.Editor("Name", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+            </div>
+
+       
+            <div class="form-group">
+                @Html.LabelFor(model => model.Createdate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10" style="margin-top:7px;">
+
+                    @Html.Editor("Createdate", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("پاسخ مدیر", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TextComment, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.TextComment, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsShow, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.IsShow)
+                        @Html.ValidationMessageFor(model => model.IsShow, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="ذخیره" class="btn btn-success btn-block" />
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+</div>

@@ -1,0 +1,96 @@
+﻿@model Salino.Models.Ticket
+
+@{
+    ViewBag.Title = "answer";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+
+
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        تیکت ها
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"> <a href="/Admin/Tickets/Index">         تیکت ها</a></li>
+        <li class="active"> پاسخ     تیکت  : @Model.TitleTicket</li>
+    </ol>
+</section>
+
+<div class="box box-info container">
+
+
+    @using (Html.BeginForm("answer", "Tickets", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(x => x.Id)
+        <div class="form-horizontal">
+            <h4>پاسخ     تیکت  : @Model.TitleTicket</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    
+          
+          @Html.HiddenFor(x=>x.UserId)
+            @Html.HiddenFor(x => x.Id)
+            @Html.HiddenFor(x => x.ParentId)
+            <div class="form-group">
+                @Html.LabelFor(model => model.UserId, "کاربر", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                  <p class = "form-control">@ViewBag.username</p>  
+                   
+                </div>
+            </div>
+
+           
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.TitleTicket, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TitleTicket, new { htmlAttributes = new { @class = "form-control", @Readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.TitleTicket, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UserId, "متن تیکت", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <p class = "form-control">
+                        @ViewBag.TextTicket
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.TextTicket, "متن پاسخ ", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.TextTicket, new { htmlAttributes = new { @class = "form-control",@rows=4} })
+                    @Html.ValidationMessageFor(model => model.TextTicket, "", new { @class = "text-danger" })
+                </div>
+            </div>
+    
+            @*<div class="form-group">
+                @Html.LabelFor(model => model.OkAnswer, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.OkAnswer)
+                        @Html.ValidationMessageFor(model => model.OkAnswer, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>*@
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="ذخیره" class="btn btn-success btn-block" />
+                </div>
+            </div>
+            <a class="btn btn-social btn-pinterest" href="/Admin/Tickets/index">
+                <i class="fa fa-backward"></i> بازگشت
+            </a>
+        </div>
+    }
+
+
+
+</div>

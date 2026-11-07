@@ -1,0 +1,47 @@
+﻿@model Salino.Models.Monasebat
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<section class="content-header">
+    <h1 style="margin-bottom:15px">
+        مناسبت ها
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Default/Index"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+        <li class="active"><a href="/Admin/Monasebats/Index">       مناسبت ها</a></li>
+        <li class="active">جزئیات مناسبت @Model.MonasebatTitle</li>
+    </ol>
+</section>
+<div class="box box-info container">
+
+    <div>
+        <h4>جزئیات مناسبت @Model.MonasebatTitle</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.MonasebatTitle)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MonasebatTitle)
+            </dd>
+            <hr />
+
+          
+           
+
+        </dl>
+    </div>
+
+    <p>
+        <a class="btn btn-social btn-danger" href="/Admin/Monasebats/Edit/@Model.Id">
+            <i class="fa fa-backward"></i> ویرایش
+        </a>
+        <a class="btn btn-social btn-pinterest" href="/Admin/Monasebats/index">
+            <i class="fa fa-backward"></i> بازگشت
+        </a>
+    </p>
+</div>

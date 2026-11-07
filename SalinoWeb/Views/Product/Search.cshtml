@@ -1,0 +1,178 @@
+﻿
+
+@model  IEnumerable<Salino.Models.Product>
+
+@using Salino.DataLayer;
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int counter = 1;
+    SalinoContext db = new SalinoContext();
+    var loadInfoUrl = Url.Action(action: "PagedIndex", controller: "Product");
+
+}
+<style>
+
+   
+    
+</style>
+
+<div class="container" style="direction:rtl"id="listprosrch">
+
+
+    <div class="proall">
+        <nav aria-label="breadcrumb" style="direction:rtl;font-family: IRANSans;text-align-last:center ; text-align-last: center;
+                   box-shadow: 0 0 11px 0 #131212; background: #f89721e6;  box-shadow: 0 0 19px 0 #ed2124 inset;  ">
+            <ol class="breadcrumb" style="background: none;    display: block;">
+                <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+                <li class="breadcrumb-item active" aria-current="page" style="color: #212529;">جستجو</li>
+                <li class="breadcrumb-item active" aria-current="page" style="color: #212529;">@ViewBag.TextSearch</li>
+            </ol>
+
+        </nav>
+
+    
+        <!------جستجو---->
+        <div class="row" style="margin-top: 50px; margin-right: auto;">
+
+            <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
+                <form method="post" action="/Product/SearchByCodeKala/">
+                    <p class="code">انتخاب براساس کد:</p>
+
+                    <input type="text" class="inputcode" name="search" />
+
+
+                    <button v-on:click="ChangePriceGifCart()" type="submit" class="btnsearchListProduct" style="width: 44px; background: none; border: none;cursor:pointer;    margin-top: 2px;">
+                        <i class="fa fa-search" style="font-size:14px"></i>
+                    </button>
+                </form>
+
+            </div>
+            <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
+                <form method="post" action="/Product/SearchByMonasebat/">
+                    @if (db.Monasebats.Count() != 0)
+                    {
+                        <p class="monasebat"> محصولات مناسبتی:</p>
+
+                        @Html.DropDownList("MonasebatId", null, "انتخاب کنید...", htmlAttributes: new { @class = "form-control inputmonasebat", @style = "height: 35px;color: black; ", Name = "search" })
+                        <button v-on:click="ChangePriceGifCart()" type="submit" class="btnsearchListProduct" style="width: 39px; background: none; border: none;cursor:pointer;    margin-top: 2px;">
+                            <i class="fa fa-search" style="font-size:14px"></i>
+                        </button>
+                    }
+
+                </form>
+
+            </div>
+
+        </div>
+        <div class="row" style="margin-top: 15px;">
+            <div class="col-md-12 col-lg-6  col-sm-12 col-xs-12">
+                <form method="post" action="/Product/SearchByColorKala">
+                    <p class="color">انتخاب براساس رنگ:</p>
+                    @Html.DropDownList("ColorId", null, "انتخاب کنید...", htmlAttributes: new { @class = "form-control inputmonasebat", @style = "height: 35px;color: black;    margin-right: 27px; ", Name = "ColorId" })
+
+                    <button type="submit" class="btnsearchListProduct" style="width: 44px; background: none; border: none;cursor:pointer;    margin-top: 2px;">
+                        <i class="fa fa-search" style="font-size:14px"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="products container" id="applistproduct">
+            <hr />
+            <!------لیست محصولات---->
+            @{ await Html.RenderPartialAsync("PagedIndex", Model); }
+            <div id="MoreInfoDiv">
+            </div>
+            <div align="center" style="margin-bottom: 9px;margin-top:40px;">
+                <span id="moreInfoButton" style="width: 40%;    box-shadow: 0 0 10px 0 black;" class="btn ">نمایش بیشتر...</span>
+            </div>
+            <div id="ProgressDiv" align="center" style="display: none">
+                <br />
+                <img src="@Url.Content("~/Content/img/loadingAnimation.gif")" alt="loading..." />
+
+            </div>
+
+            @section scripts
+         {
+
+                <script src="~/Scripts/jquery.InfiniteScroll.js"></script>
+
+                <script type="text/javascript">
+        $(document).ready(function () {
+            $("#moreInfoButton").InfiniteScroll({
+                moreInfoDiv: '#MoreInfoDiv',
+                progressDiv: '#ProgressDiv',
+                loadInfoUrl: '@loadInfoUrl',
+                loginUrl: '/login',
+                errorHandler: function () {
+                    alert('خطایی رخ داده است');
+                },
+                completeHandler: function () {
+                    // اگر قرار است روی اطلاعات نمایش داده شده پردازش ثانوی صورت گیرد
+                },
+                noMoreInfoHandler: function () {
+                    alert('اطلاعات بیشتری یافت نشد');
+
+                }
+            });
+        });
+                </script>
+            }
+
+        </div>
+
+
+    </div>
+</div>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    var BlockNumber = 2;  //Infinate Scroll starts from second block
+    var NoMoreData = false;
+    var inProgress = false;
+
+    $(window).scroll(function () {
+
+        if ($(window).scrollTop() == $(document).height() - $(window).height() && !NoMoreData && !inProgress) {
+
+            inProgress = true;
+            $("#loadingDiv").show();
+
+            $.post("@Url.Action("InfinateScroll", "Product")", { "BlockNumber": BlockNumber },
+                    function (data) {
+
+                        BlockNumber = BlockNumber + 1;
+                        NoMoreData = data.NoMoreData;
+                        $("#bookListDiv").append(data.HTMLString);
+                        $("#loadingDiv").hide();
+                        inProgress = false;
+                    });
+        }
+    });
+</script>
+<script src="~/Scripts/vue.js"></script>
+<script>
+        var applist = new Vue({
+            el: "#listprosrch",
+            data: {
+           product:[]
+            },
+            methods: {
+
+                MoveTodetail(id) {
+
+                    window.location = "/Product/DetailProduct/"+id;
+                }
+            },
+            mounted() {
+                fetch(' /api/Products')
+
+                    .then((res) => res.json())
+
+                    .then(data => {
+                        this.product = data;
+                    });
+            }
+        })
+
+</script>

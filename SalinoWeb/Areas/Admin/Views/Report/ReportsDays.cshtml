@@ -1,0 +1,716 @@
+﻿
+@model  X.PagedList.IPagedList<Salino.Models.FactorMain>
+@using Salino.DataLayer;
+@using X.PagedList.Mvc.Core
+@using Salino.Models;
+@using Display;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+
+    int counter1 = 1;
+    int counter = @ViewBag.counter;
+    SalinoContext db = new SalinoContext();
+} 
+
+<link href="~/Content/DateShamsi/MdBootstrapPersianDateTimePicker/jquery.Bootstrap-PersianDateTimePicker.css" rel="stylesheet" />
+<style>
+    .popover-title {
+        padding: 8px 14px;
+        margin: 0;
+        font-size: 14px;
+        background-color: #333;
+        border-bottom: 1px solid #ebebeb;
+        border-radius: 5px 5px 0 0;
+        color: white;
+    }
+
+    .btn-default {
+        background-color: rgba(255, 255, 255, 0.15);
+        color: #444;
+        border-color: #333;
+    }
+
+    .popover.bottom {
+        margin-top: 10px;
+        font-family: iranyekan;
+    }
+
+    [data-name="md-persiandatetimepicker"] table.table td {
+        text-align: center;
+        padding: 2px;
+        font-size: 12px;
+        border: 1px solid #d2d6de;
+    }
+
+
+</style>
+@if (Model != null)
+{
+    <section class="content-header">
+        <h1>
+            گزارشات فروش روزانه
+
+        </h1>
+        <hr />
+        <div class="container-fluid" style="margin:auto;">
+            <div class="row"style=" padding: 9px; box-shadow: 0 0 5px 0 black;">
+
+
+                @using (Html.BeginForm("ReportsDays", "Report"))
+                {            
+
+                    <div class="col-md-3">
+                        <div class="col-md-12">
+                            <label class="sr-only" for="AsDate">ازتاریخ</label>
+                            <div class="input-group">
+                                <div class="input-group-addon" data-mddatetimepicker="true" data-trigger="click" data-targetselector="#AsDate" data-mdpersiandatetimepicker="" data-enabletimepicker="false" data-mdpersiandatetimepickerselecteddatetime="{&quot;Year&quot;:1398,&quot;Month&quot;:1,&quot;Day&quot;:22,&quot;Hour&quot;:0,&quot;Minute&quot;:0,&quot;Second&quot;:0}" style="cursor: pointer;background-color: rgba(255, 255, 255, 0.15);
+                             border: none;" data-original-title="" title="" data-mdpersiandatetimepickershowing="false">
+                                    <span class="fa fa-calendar fa-2x" style="cursor:pointer"></span>
+                                </div>
+                                <input name="AsDate" type="text" style="border: 1px solid blue;margin-top: 5px;" class="form-control" readonly="readonly" id="AsDate" placeholder="از تاریخ..." data-mddatetimepicker="true" data-placement="right" data-mdpersiandatetimepicker="" data-trigger="focus" data-enabletimepicker="false" data-mdpersiandatetimepickerselecteddatetime="{&quot;Year&quot;:1398,&quot;Month&quot;:1,&quot;Day&quot;:22,&quot;Hour&quot;:0,&quot;Minute&quot;:0,&quot;Second&quot;:0}" data-original-title="" title="" data-mdpersiandatetimepickershowing="true">
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- /.input group -->
+
+
+                    </div>
+                    <div class="col-md-3" style="direction: ltr;display:flex;">
+
+                        @if (Model != null)
+                        {
+                            <select class="form-control" name="statusAllTypeFactorsEnum">
+                                <option value="0">جستجو براساس حالت کلی سفارش....</option>
+                                @foreach (Salino.Models.StatusAllTypeFactorsEnum item in Enum.GetValues(typeof(Salino.Models.StatusAllTypeFactorsEnum)))
+                                {
+                                    <option value="@item"> @item.ToDisplay() </option>
+                                }
+                            </select>
+
+                        }
+                    </div>
+                    <div class="col-md-2">
+                        <button id="btn_Print" type="submit" class="btn btn-danger btn-rounded w-md waves-effect waves-light m-b-5" style="margin-top: 5px;">
+                            <span class="fa fa-search "></span>
+                            جستجو
+                        </button>
+                    </div>
+            
+                }
+            <div class="col-md-4" style="direction: ltr;">
+
+                @if (Model != null)
+                {
+                    if (ViewBag.statusAllTypeFactorsEnum != null)
+                    {
+                        using (Html.BeginForm("ReportsDaysPrint", "Report"))
+                        {
+                            StatusAllTypeFactorsEnum status = (StatusAllTypeFactorsEnum)ViewBag.statusAllTypeFactorsEnum;
+                            <input name="statusAllTypeFactorsEnum" value="@status" hidden />
+                            <input name="AsDate" value="@ViewBag.AsDate" hidden />
+                            <button type="submit"  class="btn btn-default"><i class="fa fa-print"></i> پرینت</button>
+                        }
+                    }
+                    else
+                    {
+                        <a href="~/Admin/Report/ReportsDaysPrint/?AsDate=@ViewBag.AsDate" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> پرینت</a>
+
+                    }
+
+
+                }
+            </div>
+            </div>
+            <br />
+            @if(ViewBag.statusAllTypeFactorsEnum!=null&& ViewBag.AsDate!=null)
+            {
+        
+              <div class="row" style=" padding: 9px; box-shadow: 0 0 5px 0 black;">
+                @using (Html.BeginForm("ReportsDays", "Report"))
+                {
+                  <div class="col-md-4" style="display:flex">
+                      <label class="form-control">
+                          تغییر وضعیت به حالت 
+                          <span class="fa  fa-mail-reply (alias)"></span>
+                      </label> 
+                      @if (Model != null)
+                      {
+                          StatusAllTypeFactorsEnum status = (StatusAllTypeFactorsEnum)ViewBag.statusAllTypeFactorsEnum;
+                          <input name="statusAllTypeFactorsEnum" value="@status" hidden />
+                          <input name="AsDate" value="@ViewBag.AsDate" hidden />
+                          <select class="form-control" name="change_statusAllTypeFactorsEnum">
+                              <option value="0" class="form-control">  انتخاب کنید....</option>
+                              @foreach (Salino.Models.StatusAllTypeFactorsEnum item in Enum.GetValues(typeof(Salino.Models.StatusAllTypeFactorsEnum)))
+                              {
+                                  <option value="@item"> @item.ToDisplay() </option>
+                              }
+                          </select>
+                    
+                      }
+                  </div>
+                  <div class="col-md-2">
+                      <button id="btn_Print" type="submit" class="btn btn-success btn-trans waves-effect w-md waves-success m-b-5 form-control" style="margin-top: 5px;">
+                          <span class="fa fa-search "></span>
+                          اعمال تغییر
+                      </button>
+                  </div>
+                 }
+                </div>
+
+            }
+        </div>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> مدیریت</a></li>
+            <li class="active"> <a href="/Admin/FactorMains/Index">      فاکتوراصلی</a> </li>
+        </ol>
+    </section>
+
+   if (@ViewBag.AsDate!=null && @ViewBag.AsDate!="")
+    {  
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="col-md-6 col-sm-12">
+                    <span>
+                        تعداد فاکتورها تا  تاریخ    @ViewBag.AsDate :
+                    </span>
+                    <span class="text-danger ">
+                        @ViewBag.countFactorsToAsDate عدد
+                    </span>
+                </div>
+                <br />
+                <div class="col-md-6 col-sm-12">
+                    <span>
+                        مبلغ کل فاکتور ها  تا تاریخ    @ViewBag.AsDate :
+                    </span> 
+                    <span class="text-danger ">
+                        @ViewBag.sumAllPricesFactorsToAsDate.ToString("#,0تومان")
+                    </span>
+                  
+                </div>
+            </div>
+        </div>
+
+    }
+    <div class="col-md-12" id="applist">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title"> فاکتوراصلی</h3>
+
+                <div class="box-tools">
+                    @using (Html.BeginForm("ReportsDays", "Report"))
+                    {
+                        <div class="input-group input-group-sm" style="width: 150px;">
+
+                            <input type="text" name="srch" class="form-control pull-right" placeholder="جستجو">
+
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            </div>
+
+                        </div>
+                    }
+                </div>
+
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+
+                <div class="table-responsive mailbox-messages" style="padding-bottom: 136px !important;">
+                    <div class="container">
+                        @if (Model != null)
+                        {
+                            @Html.PagedListPager(Model, page => Url.Action("ReportsDays", new { page, AsDate= (ViewBag.AsDate??"") }))
+                        }
+
+
+                    </div>
+                    <table class="table table-hover">
+                        <tbody>
+                            <tr>
+                                <th>شماره</th>
+                                <th>شماره فاکتور</th>
+                                <th>نوع مشتری</th>
+                             
+                                <th>شماره پرداخت</th>
+                                <th>وضعیت پرداخت</th>
+                                <th>مبلغ نهایی</th>
+                                <th>تاریخ خرید</th>
+                                <th>ساعت خرید</th>
+                                <th>شماره تماس گیرنده</th>
+
+                            </tr>
+                            @if (ViewBag.mesasgeSearch != null)
+                            {
+                                <tr>
+                                    <td class="text-center bg-danger">
+                                        @ViewBag.mesasgeSearch
+                                    </td>
+
+                                </tr>
+                            }
+                            @if (Model != null)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr role="row" class="table-striped table-hover">
+
+                                        <td class="sorting_1">@counter</td>
+                                        <td class="sorting_1">@item.FactorNumber</td>
+                                        <td>
+                                            @((db.roles?.Where(x => x.Id == item.RoleId).FirstOrDefault()?.RoleTitle) != null ? db.roles?.Where(x => x.Id == item.RoleId).FirstOrDefault()?.RoleTitle : "وجودندارد")
+                                        </td>
+
+                                        <td>
+                                            @item.RRN
+                                        </td>
+                                        <td>
+                                            @if (item.Paymentstatus == "100")
+                                            {
+                                                <p style="border: 1px solid; background: green;color: white; text-align: center; width: 105px;    border-radius: 6px; box-shadow: 0 0 5px 0 #333;">پرداخت شده</p>
+                                            }
+                                            else
+                                            {
+                                                <p style="border: 1px solid; background: red;color: white; text-align: center; width: 105px;border-radius: 6px; box-shadow: 0 0 5px 0 #333;">پرداخت نشده</p>
+                                            }
+
+                                        </td>
+                                        <td>
+                                            @item.SumAllPrice.ToString("#,0تومان")
+                                        </td>
+
+                                        <td>
+                                            @item.DateCreate
+                                        </td>
+                                        <td>
+                                            @item.Time
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.UserMobile)
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown">عملیات</button>
+                                                <button type="button" class="btn btn-info btn-flat dropdown-toggle" data-toggle="dropdown">
+                                                    <span class="caret"></span>
+                                                    <span class="sr-only">Toggle Dropdown</span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    @*<li>@Html.ActionLink("ویرایش", "Edit", new { id = item.Id }, new { @class = "btn btn-block btn-danger btn-flat", @style = "color:white" })</li>*@
+                                                    <li>
+                                                        <a class="btn btn-block btn-primary btn-flat" data-toggle="modal" data-target="#modal-Details-@item.Id" style="color:white">
+                                                            جزئیات
+                                                        </a>
+
+                                                    </li>
+                                                    @*<li>
+                                                            @Html.ActionLink("حذف", "Delete", new { id = item.Id }, new { @class = "btn btn-block btn-warning btn-flat", @style = "color:white" })
+
+                                                        </li>*@
+                                                    <li>
+
+                                                        <a class="btn btn-block btn-danger btn-flat" data-toggle="modal" data-target="#modal-default-@item.Id" style="color:white">
+                                                            زیرفاکتور
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        @*<a target="_blank" class="btn btn-block btn-success btn-flat" href="/Admin/FactorMains/ReportFactors/id=@item.Id&typeSend=2" style="color:white">
+                                                                چاپ سفارش
+                                                            </a>*@
+                                                        @Html.ActionLink("  چاپ سفارش", "ReportFactors", "FactorMains", new { id = item.Id, typeSend = 2, Discount = item.Discount }, new { @target = "_blank", @Class = "btn btn-block btn-success btn-flat", @Style = "color:white" })
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                            @if (@item.StatusAll == StatusAllTypeFactorsEnum.Pending)
+                                            {
+                                                <p class="btn btn-info btn-sm checkbox-toggle">
+                                                    @item.StatusAll.ToDisplay()
+                                                </p>
+                                            }
+                                            @if (@item.StatusAll == StatusAllTypeFactorsEnum.Preparing)
+
+                                            {
+                                                <p class="btn btn-danger btn-sm checkbox-toggle">
+                                                    @item.StatusAll.ToDisplay()
+                                                </p>
+                                            }
+                                            @if (@item.StatusAll == StatusAllTypeFactorsEnum.Sending)
+
+                                            {
+                                                <p class="btn btn-primary btn-sm checkbox-toggle">
+                                                    @item.StatusAll.ToDisplay()
+                                                </p>
+
+                                            }
+                                            @if (@item.StatusAll == StatusAllTypeFactorsEnum.CompleteSubmission)
+
+                                            {
+                                                <p class="btn btn-success btn-sm checkbox-toggle">
+                                                    @item.StatusAll.ToDisplay()
+                                                </p>
+
+                                            }
+                                            @if (@item.StatusAll == StatusAllTypeFactorsEnum.Returns)
+
+                                            {
+                                                <p class="btn btn-info btn-sm checkbox-toggle">
+                                                    @item.StatusAll.ToDisplay()
+                                                </p>
+
+                                            }
+                                            @if (@item.StatusAll == StatusAllTypeFactorsEnum.error)
+
+                                            {
+                                                <p class="btn btn-warning btn-sm checkbox-toggle">
+                                                    @item.StatusAll.ToDisplay()
+                                                </p>
+
+                                            }
+
+                                        </td>
+                                    </tr>
+
+                                    counter++;
+
+                                    //-----------------Modal For  زیرفاکتور----------------------------//
+                                    <div class="modal fade " id="modal-default-@item.Id">
+                                        <div class="modal-dialog model-xl  table-responsive table-hover table-striped">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                                                </div>
+                                                <div class="modal-body ">
+                                                    <div class="row">
+                                                        <div class="col-sm-1">#</div>
+                                                        <div class="col-sm-2"> 	وضعیت پرداخت</div>
+                                                        <div class="col-sm-2">کدکالا </div>
+                                                        <div class="col-sm-2">نوع پارچه </div>
+                                                        <div class="col-sm-1">تعداد</div>
+                                                        <div class="col-sm-2">مبلغ واحد </div>
+                                                        <div class="col-sm-2">مبلغ کل </div>
+                                                    </div>
+
+                                                    <hr />
+                                                    @foreach (var item1 in db.FactorDetails.Where(x => x.FactorMainId == item.Id).ToList())
+                                                    {
+
+
+                                                        <div class="row" style="border: 1px solid; padding: 7px; background: beige;
+                                                                      box-shadow: 0 0 5px 0 black;">
+
+                                                            <div class="col-sm-1">@counter1</div>
+                                                            <div class="col-sm-2">
+                                                                @if (item.Paymentstatus == "100" && db.FactorDetails.Where(x => x.FactorMainId == item.Id).FirstOrDefault() != null)
+                                                                {
+                                                                    <p style="border: 1px solid; background: green;color: white;
+                                                                        text-align: center; width: 77px; font-size: 11px;border-radius: 6px;
+                                                                        box-shadow: 0 0 5px 0 #333;">پرداخت شده</p>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <p style="border: 1px solid; background: red;color: white;
+                                                                        text-align: center; width: 77px;font-size: 11px;border-radius: 6px;
+                                                                        box-shadow: 0 0 5px 0 #333;">پرداخت نشده</p>
+                                                                }
+
+                                                            </div>
+                                                            @if (db.Products.Any(x => x.Id == item1.ProductId))
+                                                            {
+                                                                <div class="col-sm-2">@db.Products.Where(x => x.Id == item1.ProductId).FirstOrDefault().CodeKala </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="col-sm-2"></div>
+                                                            }
+                                                            @if (@item1.FarbicTypeName != null)
+                                                            {
+                                                                <div class="col-sm-2">
+                                                                    @item1.FarbicTypeName
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="col-sm-2"></div>
+                                                            }
+
+                                                            <div class="col-sm-1">@item1.DetailCount</div>
+
+                                                            <div class="col-sm-2">
+                                                                @item1.DetailPrice.ToString("#,0تومان")
+
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                @item.SumAllPrice.ToString("#,0تومان")
+
+                                                            </div>
+
+
+                                                        </div>
+                                                        <br />
+                                                        counter1++;
+
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    //----------------Modal For  جزئیات--------------------------------//
+                                    <div class="modal fade" id="modal-Details-@item.Id">
+                                        <div class="modal-dialog model-xl">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="box box-info container">
+                                                        <div>
+                                                            <h4>جزئیات فاکتوراصلی @item.PaymentNumber _  @item.UserMobile</h4>
+                                                            <hr />
+                                                            <dl class="dl-horizontal">
+                                                                <dt>
+                                                                    شماره فاکتور
+
+                                                                </dt>
+
+                                                                <dd>
+                                                                    @Html.DisplayFor(model => item.FactorNumber)
+                                                                </dd>
+
+                                                                <hr />
+                                                                <dt>
+                                                                    کد مرسوله
+                                                                </dt>
+
+                                                                <dd>
+                                                                    @Html.DisplayFor(model => item.CodeGenerator)
+                                                                </dd>
+                                                                <hr />
+
+
+                                                                <dt>
+                                                                    شماره سفارش
+                                                                </dt>
+
+                                                                <dd>
+                                                                    @Html.DisplayFor(model => item.PaymentNumber)
+                                                                </dd>
+                                                                <hr />
+                                                                <dt>
+                                                                    وضعیت پرداخت
+
+
+                                                                </dt>
+
+                                                                <dd>
+                                                                    @if (item.Paymentstatus == "100")
+                                                                    {
+                                                                        <p>پرداخت شده</p>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <p>پرداخت نشده</p>
+                                                                    }
+                                                                </dd>
+                                                                <hr />
+                                                                <dt>
+                                                                    شماره پرداخت
+                                                                </dt>
+
+                                                                <dd>
+
+                                                                    @item.RRN
+                                                                </dd>
+                                                                <hr />
+                                                                <dt>
+                                                                    نام ارسال
+
+                                                                </dt>
+
+                                                                <dd>
+                                                                    @Html.DisplayFor(model => item.TypeSendPostName)
+                                                                </dd>
+                                                                <hr />
+                                                                <dt>
+                                                                    مبلغ ارسال
+                                                                </dt>
+
+                                                                <dd>
+                                                                    @if (db.roles.Find(item.RoleId)?.Id == 4 || db.roles.Find(item.RoleId)?.Id == 5)
+                                                                    {
+                                                                        if (db.SendForMajors.Any(x => x.Id == item.TypeSendPostId))
+                                                                        {
+                                                                            @Convert.ToUInt32(db.SendForMajors.Find(item.TypeSendPostId).PriceHaml).ToString("#,0تومان")
+
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <p>نوع ارسال حذف شده  @item.TypeSendPostName</p>
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+
+                                                                        if (db.TypeSendPosts.Any(x => x.Id == item.TypeSendPostId))
+                                                                        {
+                                                                            @Convert.ToUInt32(db.TypeSendPosts.Find(item.TypeSendPostId).PriceHaml).ToString("#,0تومان")
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <p>نوع ارسال حذف شده  @item.TypeSendPostName</p>
+                                                                        }
+                                                                    }
+                                                                </dd>
+                                                                <hr />
+                                                                <dt>
+                                                                    قیمت واحد
+                                                                </dt>
+
+                                                                <dd>
+
+
+                                                                    @item.Amount.ToString("#,0تومان")
+                                                                </dd>
+                                                                <hr />
+                                                                <dt>
+                                                                    تخفیف
+                                                                </dt>
+
+                                                                <dd>
+                                                                    @Html.DisplayFor(model => item.Discount)
+                                                                </dd>
+                                                                <hr />
+                                                                <dt>
+                                                                    مبلغ نهایی
+                                                                </dt>
+
+                                                                <dd>
+
+                                                                    @item.SumAllPrice.ToString("#,0تومان")
+                                                                </dd>
+                                                                <hr />
+                                                                <dt>
+                                                                    پرداخت شده
+
+                                                                </dt>
+
+                                                                <dd>
+                                                                    @if (item.IsPay == true)
+                                                                    {
+                                                                        <p>پرداخت شده</p>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <p>پرداخت نشده</p>
+                                                                    }
+                                                                </dd>
+
+                                                                <hr />
+                                                                <dt>
+                                                                    نام گیرنده
+
+                                                                </dt>
+
+                                                                <dd>
+                                                                    @Html.DisplayFor(model => item.Username)
+                                                                </dd>
+                                                                <hr />
+                                                                <dt>
+                                                                    شماره تماس گیرنده
+                                                                </dt>
+
+                                                                <dd>
+                                                                    @Html.DisplayFor(model => item.UserMobile)
+                                                                </dd>
+                                                                <hr />
+                                                                <dt>
+                                                                    آدرس تحویل گیرنده
+                                                                </dt>
+
+                                                                <dd>
+                                                                    @Html.DisplayFor(model => item.AddressUser)
+                                                                </dd>
+                                                                <hr />
+                                                                <dt>
+                                                                    تاریخ خرید
+
+                                                                </dt>
+
+                                                                <dd>
+                                                                    @item.DateCreate
+                                                                </dd>
+                                                                <hr />
+                                                                <dt>
+                                                                    زمان خرید
+
+                                                                </dt>
+
+                                                                <dd>
+                                                                    @item.Time
+                                                                </dd>
+
+
+
+                                                                <hr />
+                                                            </dl>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <template>
+                                    @ViewBag.mesasgeSearch
+                                </template>
+                            }
+                        </tbody>
+                    </table>
+
+                    <!-- /.table -->
+                </div>
+                <!-- /.mail-box-messages -->
+            </div>
+            <!-- /.box-body -->
+
+        </div>
+        <!-- /. box -->
+    </div>
+
+
+}
+
+
+
+    @section scripts{
+
+        <script src="~/Content/DateShamsi/MdBootstrapPersianDateTimePicker/jalaali.js"></script>
+        <script src="~/Content/DateShamsi/MdBootstrapPersianDateTimePicker/jquery.Bootstrap-PersianDateTimePicker.js"></script>
+        <script>
+            $("#AsDate").MdPersianDateTimePicker({
+                TargetSelector: '#AsDate',
+                EnglishNumber: true
+            });
+            $("#TaDate").MdPersianDateTimePicker({
+                TargetSelector: '#TaDate',
+                EnglishNumber: true
+            });
+        </script>
+    }
+

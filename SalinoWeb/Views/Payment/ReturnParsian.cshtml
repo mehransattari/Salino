@@ -1,0 +1,85 @@
+﻿
+
+@{
+
+    ViewBag.Title = "برگشت از خرید";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+   
+}
+
+
+
+
+
+<style>
+    .textmessage {
+        font-size: 17px;
+        box-shadow: 0 0 6px 0 black;
+        padding: 3px 20px;
+        color: #212529;
+        border-radius: 6px;
+        border: 1px solid #303030;
+        background: #ffd23f;
+    }
+</style>
+
+<div class="container shopcart " style="margin-top: 50px;" id="payment">
+    <nav aria-label="breadcrumb" style="direction:rtl;font-family: IRANSans;text-align-last:center ; text-align-last: center;
+            box-shadow: 0 0 11px 0 #131212; background: #f89721e6;  box-shadow: 0 0 19px 0 #ed2124 inset;  ">
+        <ol class="breadcrumb" style="background: none;    display: block;">
+            <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+            @if (Session["shopcartMajor"] == null)
+            {
+                <li class="breadcrumb-item"><a href="/Product/ShopCart">سبدخرید</a></li>
+            }
+            else
+            {
+                <li class="breadcrumb-item"><a href="/Product/Majorshopping">سبدخرید</a></li>
+            }
+
+
+            <li class="breadcrumb-item active" aria-current="page" style="color: #212529;">تایید نهایی سفارشات</li>
+            <li class="breadcrumb-item active" aria-current="page" style="color: #212529;">پرداخت</li>
+        </ol>
+    </nav>
+    <div class="main container" style="direction: rtl;padding: 20px; box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02); -webkit-border-radius: 5px; border-radius: 5px;-moz-border-radius:5px; background-clip: padding-box; margin-bottom: 20px; background-color: #ffffff;font-family:Iransans; border: 1px solid;">
+        <div align="center">
+        </div>
+        <table class="tbl " style="font-family:IRANSans; margin:auto auto;width:100%;">
+            <tr>
+                <td class="text-center">
+                    <img src="~/Content/logo.png" style="background-repeat:no-repeat;height:107px;width:196px;    margin-bottom: 45px;" />
+               
+
+                </td>
+            </tr>
+
+            <tr>
+                <td style="border: 1px solid; box-shadow: 0 0 12px 0 black; padding: 12px;text-align: right; background: beige;">
+                    <p><span>شماره پیگیری : </span> </p>
+                    <p class="textmessage" style="margin-right: 5px;"> @ViewBag.PaymentNumber </p>                   
+                    <p><span>وضعیت پرداخت :</span></p>
+                    <p class="textmessage" style="margin-right: 5px;">@ViewBag.Status   </p>
+                    <p><span>شماره مرجع :</span></p>
+                    <p class="textmessage" style="margin-right: 5px;">@ViewBag.RRN   </p>
+                    <p><span>قیمت پرداختی :</span></p>
+                    <p class="textmessage" style="margin-right: 5px;">@ViewBag.amountAsString  ریال   </p>
+                    <p><span>شماره کارت کاربر :</span></p>
+                    <p class="textmessage" style="margin-right: 5px;">@ViewBag.CardNumberMasked   </p>
+                    <p>token:  @ViewBag.token</p>
+                    <p class="alert alert-info">
+                        @ViewBag.Message
+                    </p>
+                    <a class="btn  btn-dark btn-block btn-lg" href="/">
+                       صفحه اصلی سالینو
+                        <i class="fa fa-home"></i>
+                    </a>
+
+                  
+                </td>
+            </tr>
+        
+        </table>
+
+    </div>
+</div>

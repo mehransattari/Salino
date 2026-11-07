@@ -1,0 +1,118 @@
+﻿
+
+@{
+    ViewBag.Title = "صفحه-اصلی-پنل-کاربری";
+    ViewData["Des"] = "salinotbz. صفحه اصلی پنل کاربری سایت فروشگاه سالینو ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    .scrollspy-example {
+        position: relative;
+        height: auto;
+        overflow: auto;
+    }
+    .hero-widget { text-align: center; padding-top: 20px; padding-bottom: 20px; }
+.hero-widget .icon { display: block; font-size: 96px; line-height: 96px; margin-bottom: 10px; text-align: center; }
+.hero-widget var { display: block; height: 64px; font-size: 64px; line-height: 64px; font-style: normal; }
+.hero-widget label { font-size: 17px; }
+.hero-widget .options { margin-top: 10px; }
+
+    @@media screen and (max-width: 746px) {
+     .personInfo {
+    border: 1px solid !important;
+    height: auto !important;
+    padding: 25px !important;
+    margin-top: 13px !important;
+}
+
+        .personInfoD {
+            margin-bottom: 200px;
+        }
+
+        #spy {
+            height: 306px  !important;
+        }
+    }
+</style>
+
+<div class="container" style="direction: rtl;">
+    <div style="margin-top:70px;">
+
+
+        <nav aria-label="breadcrumb" style="direction:rtl;font-family: IRANSans;text-align-last:center ; text-align-last: center;
+                   box-shadow: 0 0 11px 0 #131212; background: #f89721e6;  box-shadow: 0 0 19px 0 #ed2124 inset;  ">
+            <ol class="breadcrumb" style="background: none;    display: block;">
+                <li class="breadcrumb-item"><a href="/">صفحه اصلی</a></li>
+                <li class="breadcrumb-item"><a href="/PanelUser/Index">پنل کاربری</a></li>
+ 
+
+            </ol>
+        </nav>
+        <div class="row personInfoD" style="margin-top:50px;padding: 17px;">
+          @await Html.PartialAsync("_HeaderPanelUser")       
+            <div class="col-sm-9 scrollspy-example" data-spy="scroll" data-target="#spy" style="">
+                <div class="container">
+                    <div style="border:1px solid;height: 390px;padding:25px;" class="personInfo">
+                        <div class="row">
+                            <div class="col-md-12">
+<p class="alert alert-danger text-center" >
+مشتری گرامی درهنگام ویرایش آدرس دقت فرمایید  آدرسی که برای فاکتور قبلی درج شده قابل ویرایش نمی باشد 
+</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="hero-widget well well-sm">
+                                    <div class="icon">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                    <div class="text">
+
+                                        <label class="text-muted">اطلاعات شخصی</label>
+                                    </div>
+                                    <br />
+                                    <div class="options">
+                                        <a href="/PanelUser/PersonalInformation" class="btn btn-default btn-lg"><i class="glyphicon glyphicon-star"></i> کلیک کن</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="hero-widget well well-sm">
+                                    <div class="icon">
+                                        <i class="fa fa-cart-plus"></i>
+                                    </div>
+                                    <div class="text">
+
+                                        <label class="text-muted">سفارشات</label>
+                                    </div><br />
+                                    <div class="options">
+                                        <a href="/PanelUser/FactorMainShow" class="btn btn-default btn-lg"><i class="glyphicon glyphicon-star"></i> کلیک کن</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="hero-widget well well-sm">
+                                    <div class="icon">
+                                        <i class="fa fa-comment"></i>
+                                    </div>
+                                    <div class="text">
+
+                                        <label class="text-muted">تیکت ها</label>
+                                    </div><br />
+                                    <div class="options">
+                                        <a href="/PanelUser/TicketsIndex" class="btn btn-default btn-lg"><i class="glyphicon glyphicon-star"></i> کلیک کن</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

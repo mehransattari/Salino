@@ -6,5 +6,5 @@
     cause the file to be unrecognizable by the program.
 -->
 <GenericObjectDataSource DisplayName="ClientSaleResponseData" Version="1.0" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
-   <TypeInfo>SalinoMvc5.ir.shaparak.pec.ClientSaleResponseData, Web References.ir.shaparak.pec.Reference.cs.dll, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
+   <TypeInfo>SalinoMvc5.ir.shaparak.pec.ClientSaleResponseData</TypeInfo>
 </GenericObjectDataSource>
